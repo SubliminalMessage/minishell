@@ -1,0 +1,45 @@
+
+
+
+rl_clear_history
+, rl_redisplay
+
+readline 			-> Reads a line  from STDIN (with editing capabilities) and returns a malloc()-ed string without '\n'
+rl_replace_line 	-> Replace the contents of 'rl_line_buffer' with 'text'
+rl_on_new_ine 		-> Tell the update functions that we have moved onto a new (empty) line
+rl_clear_history 	-> Clear the history list by deleting all of the entries
+rl_redisplay 		-> Change what's displayed on the screen to reflect the current contents of 'rl_line_buffer'.
+add_history 		->  Place string at the end of the history list. The associated data field (if any) is set to NULL. If the maximum number of history entries has been set using stifle_history(), and the new number of history entries would exceed that maximum, the oldest history entry is removed.
+
+
+
+
+printf, malloc, free, write, access, open, read,
+close, fork, wait, waitpid, wait3, wait4, signal,
+sigaction, kill, exit
+
+getcwd				-> Returns a string containing the Current Working Directory of the Binary
+chdir				-> Changes the Current Working Directory of the binary (alias to cd)
+
+// Other:
+stat,
+lstat, fstat, unlink, execve, dup, dup2, pipe,
+opendir, readdir, closedir, strerror, perror,
+isatty, ttyname, ttyslot, ioctl, getenv, tcsetattr,
+tcgetattr, tgetent, tgetflag, tgetnum, tgetstr,
+tgoto, tputs
+
+
+
+
+
+/*
+	DUDAS
+*/
+
+echo $RANDOM
+echo $LINENO
+cd - (nada más iniciar bash / minishell)
+
+Parsear 'env' a una linked list para hacer los builtins 'export' y 'unset' ???
+

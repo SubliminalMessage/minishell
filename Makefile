@@ -3,7 +3,8 @@
 ### ---   ---   ---         ---   ---   --- ###
 
 CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra -lreadline -lncurses #-g3 -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -g3 -fsanitize=address
+READLINE_FLAGS = -lreadline
 
 ### ---   ---   ---         ---   ---   --- ###
 #               PROJECT PATHS                 #
@@ -45,7 +46,7 @@ BLUE	= '\033[1;34m'
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(SRC_OBJS)
-	$(CC) $(CFLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	@make -C $(LIBFT_PATH)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
+/*   Updated: 2022/05/02 15:51:35 by dangonza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -8,6 +20,8 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+#include <structures.h>
 
 // Colors:
 # define RED "\033[1;31m"
