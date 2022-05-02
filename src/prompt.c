@@ -6,11 +6,12 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:18 by dangonza          #+#    #+#             */
-/*   Updated: 2022/05/02 15:44:19 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/05/02 16:44:43 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
 /*
 
     Prompt structure:
