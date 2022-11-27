@@ -2,3 +2,4 @@
 *.gch
 minishell
 *.DS_Store
+.vscode/

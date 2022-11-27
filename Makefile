@@ -3,7 +3,7 @@
 ### ---   ---   ---         ---   ---   --- ###
 
 CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra #-g3 -fsanitize=address
 READLINE_FLAGS = -lreadline
 
 ### ---   ---   ---         ---   ---   --- ###
@@ -22,7 +22,7 @@ LIBFT				= $(LIBFT_PATH)/libft.a
 NAME		= minishell
 
 SRC_FILES	= 	main.c \
-				prompt.c
+				parsing/prompt.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
@@ -50,6 +50,7 @@ $(NAME): $(LIBFT) $(SRC_OBJS)
 
 $(LIBFT):
 	@make -C $(LIBFT_PATH)
+	@echo LIBFT DONE
 
 bin/%.o: src/%.c
 	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "
@@ -68,3 +69,6 @@ fclean: clean
 	@make fclean -C $(LIBFT_PATH)
 
 re: fclean all
+
+norm:
+	norminette */*.c */*.h

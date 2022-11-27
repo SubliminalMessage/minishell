@@ -62,7 +62,7 @@ all: $(NAME)
 
 $(NAME): $(SRC_OBJS)
 	@echo $(PURPLE)"[Creating $(NAME) ]"$(WHITE)
-	@ar -rcs $(NAME) $(SRC_OBJS) $(HEADER)
+	@ar -rcs $(NAME) $(SRC_OBJS)
 
 bin/%.o: %.c
 	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "

@@ -23,7 +23,7 @@
 
 #include <structures.h>
 
-// Colors:
+// Colors: https://www.darklaunch.com/print-terminal-colors.html
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
 # define PURPLE "\033[1;35m"
@@ -33,12 +33,16 @@
 # define CYAN "\033[1;36m"
 # define RESET "\033[0;0m"
 
+# define PROMPT_CWD "\033[38;5;169m"
+# define PROMPT_ACT "\033[38;5;24m"
+# define PROMPT_RESET "\033[1;0m"
+
 // CWD Max String Size
 # define CWD_SIZE 1000
 
 // prompt.c
 char    *get_full_cwd(void);
 char    *get_prompt_cwd(void);
-void    prompt(void);
+int		prompt(void);
 
 #endif
