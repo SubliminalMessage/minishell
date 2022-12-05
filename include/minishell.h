@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/05/02 15:51:35 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/01 22:21:21 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,24 @@
 # define PROMPT_ACT "\033[38;5;24m"
 # define PROMPT_RESET "\033[1;0m"
 
+# define PROMPT_BEFORE WHITE"﴾"PROMPT_CWD"  "
+# define PROMPT_AFTER WHITE"  ﴿  "PROMPT_ACT"»  "RESET
+
 // CWD Max String Size
 # define CWD_SIZE 1000
 
 // prompt.c
 char    *get_full_cwd(void);
 char    *get_prompt_cwd(void);
-int		prompt(void);
+char    *get_displayable_prompt(void);
+bool	prompt(void);
+
+// handle_str.c
+bool strEquals(char* a, char* b);
+char *join_three(char *a, char *b, char *c);
+
+char	**ft_split_cmds(const char *s);
+void   print_cmds(char *raw);
+void execute_line(char *line);
 
 #endif

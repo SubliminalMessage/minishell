@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:18 by dangonza          #+#    #+#             */
-/*   Updated: 2022/11/27 01:04:16 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/01 22:16:23 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,22 @@
  * 
  * @return int, 0 if the shell should NOT be exited, 1 otherwise
 */
-int    prompt(void)
+bool    prompt(void)
 {
     char    *prompt;
     char    *line_read;
-    char    *aux;
     int     didExit;
 
-    prompt = get_prompt_cwd();
-    aux = ft_strjoin(WHITE"﴾"PROMPT_CWD"  ", prompt);
-    free(prompt);
-    prompt = ft_strjoin(aux, WHITE"  ﴿  "PROMPT_ACT"»  "RESET);
-    free(aux);
+    prompt = get_displayable_prompt();
     line_read = readline(prompt);
     free(prompt);
-
-    printf("> '%s (%p)'\n", line_read, &line_read); // Do Something
     add_history(line_read);
 
-    didExit = !ft_strncmp(line_read, "exit", 4);
-    free(line_read);
+    execute_line(line_read);
+
+    didExit = line_read == NULL || strEquals(line_read, "exit");
+    if (line_read)
+        free(line_read);
     return (didExit);
 }
 
@@ -70,7 +66,6 @@ char    *get_prompt_cwd(void)
 
     pwd = get_full_cwd();
     home = getenv("HOME");
-    printf(" >> %p\n", &home);
     if (home == NULL)
         return (pwd);
     prompt_cwd = ft_strnstr(pwd, home, ft_strlen(home));
@@ -88,4 +83,16 @@ char    *get_prompt_cwd(void)
         return (ft_strdup("~"));
     }
     return (prompt_cwd);
+}
+
+char *get_displayable_prompt(void)
+{
+    char *prompt_before;
+    char *prompt_after;
+    char *cwd;
+
+    cwd = get_prompt_cwd();
+    prompt_before = ft_strdup(PROMPT_BEFORE);
+    prompt_after = ft_strdup(PROMPT_AFTER);
+    return (join_three(prompt_before, cwd, prompt_after));
 }

@@ -1,34 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2022/11/27 18:24:53 by dangonza         ###   ########.fr       */
+/*   Created: 2022/11/27 18:46:17 by dangonza          #+#    #+#             */
+/*   Updated: 2022/12/05 22:53:39 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int main(void)
+void execute_line(char *line)
 {
-    extern char **environ;
-    bool didExit;
-
-    didExit = false;
-    while(!didExit)
-    {
-        didExit = prompt();
-
-        //int i = -1;
-        // while (environ[++i])
-        // {
-        //     printf("%s\n", environ[i]);
-        // }
-    }
-    printf("exit\n");
-    //system("leaks minishell");
-    return (0);
+    print_cmds(line);
+    // ToDo: Parse 
 }
+
+ void   print_cmds(char *raw)
+ {
+    char **cmds;
+    int i;
+
+    cmds = ft_split_cmds(raw);
+    if (!cmds)
+        return ;
+    i = -1;
+    while (*(cmds + ++i))
+    {   
+        if (**(cmds + i) == '\0')
+            printf(" -> '%s'\n", (char *)NULL);
+        else
+            printf("-> '%s'\n", *(cmds + i));
+        free(*(cmds + i));
+    }
+    free(cmds);
+ }

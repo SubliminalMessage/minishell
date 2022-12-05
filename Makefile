@@ -22,7 +22,10 @@ LIBFT				= $(LIBFT_PATH)/libft.a
 NAME		= minishell
 
 SRC_FILES	= 	main.c \
-				parsing/prompt.c
+				parsing/prompt.c \
+				parsing/commands.c \
+				utils/handle_str.c \
+				utils/split_commands.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
