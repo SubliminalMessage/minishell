@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2022/11/27 18:24:17 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/06 19:46:00 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * 
  * @return int, 0 if not equal, 1 otherwise
 */
-bool strEquals(char* a, char* b)
+bool str_equals(char* a, char* b)
 {
     size_t a_len;
 

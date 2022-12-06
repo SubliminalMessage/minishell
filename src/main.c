@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2022/11/27 18:24:53 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/06 20:22:36 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,27 @@
 
 int main(void)
 {
-    extern char **environ;
     bool didExit;
+    t_env *env_list;
 
+    env_list = init_environ();
+    (void) env_list;
     didExit = false;
     while(!didExit)
     {
         didExit = prompt();
 
-        //int i = -1;
-        // while (environ[++i])
+        // t_env *node = env_list;
+        // while (node != NULL)
         // {
-        //     printf("%s\n", environ[i]);
+        //     printf("%s\n", node->join);
+        //     node = node->next;
         // }
+
+        // if (!didExit) system("leaks minishell");
     }
-    printf("exit\n");
-    //system("leaks minishell");
+    free_environ(&env_list);
+    env_list = NULL;
+    system("leaks minishell");
     return (0);
 }

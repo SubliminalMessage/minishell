@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2022/11/27 18:46:12 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/06 19:14:18 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct	s_env
 	struct s_env	*next;
 	char	*name;
 	char	*value;
+	char	*join;
 } t_env;
 
 #endif

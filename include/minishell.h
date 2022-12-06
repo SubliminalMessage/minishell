@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/01 22:21:21 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/06 19:54:17 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,17 @@ char    *get_displayable_prompt(void);
 bool	prompt(void);
 
 // handle_str.c
-bool strEquals(char* a, char* b);
+bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
 
 char	**ft_split_cmds(const char *s);
 void   print_cmds(char *raw);
 void execute_line(char *line);
+
+t_env   *new_env(char *str);
+void	ft_envadd_back(t_env **lst, t_env *new);
+void    free_environ(t_env **env_list);
+t_env   *init_environ(void);
+void    update_env(t_env **list, char *name, char *new_value);
 
 #endif

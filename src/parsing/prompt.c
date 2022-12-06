@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:18 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/01 22:16:23 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/06 20:24:48 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool    prompt(void)
 
     execute_line(line_read);
 
-    didExit = line_read == NULL || strEquals(line_read, "exit");
+    didExit = line_read == NULL || str_equals(line_read, "exit");
     if (line_read)
         free(line_read);
     return (didExit);
@@ -65,7 +65,9 @@ char    *get_prompt_cwd(void)
     size_t  home_len;
 
     pwd = get_full_cwd();
-    home = getenv("HOME");
+    // ToDo: create a custom ft_getenv() function to look into the env_list instead. 
+    // No free needed, so it wouldn't cause that big of a problem
+    home = getenv("HOME"); 
     if (home == NULL)
         return (pwd);
     prompt_cwd = ft_strnstr(pwd, home, ft_strlen(home));
