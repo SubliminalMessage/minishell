@@ -10,10 +10,11 @@ READLINE_FLAGS = -lreadline
 #               PROJECT PATHS                 #
 ### ---   ---   ---         ---   ---   --- ###
 
-INCS_PATH			= include/
+INCLUDE				= -I include -I libft/include
 SRCS_PATH			= src/
 LIBFT_PATH			= libft/
 LIBFT				= $(LIBFT_PATH)/libft.a
+LIBFT_REPO			= $(LIBFT_PATH)/Makefile
 
 ### ---   ---   ---         ---   ---   --- ###
 #               PROJECT FILES                 #
@@ -49,27 +50,29 @@ BLUE	= '\033[1;34m'
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(SRC_OBJS)
-	$(CC) $(CFLAGS) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDE) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
 
-$(LIBFT):
+$(LIBFT): $(LIBFT_REPO)
 	@make -C $(LIBFT_PATH)
 	@echo LIBFT DONE
+
+$(LIBFT_REPO):
+	git submodule update --init --recursive
+	# TODO Remove in intra version
 
 bin/%.o: src/%.c
 	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -I $(INCS_PATH) -I $(LIBFT_PATH) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
-clean:
+clean: $(LIBFT_REPO)
 	@echo $(RED)"[Deleting Object Files]"$(WHITE)
 	@rm -rf bin
-	@rm -f	$(INCS_PATH)/minitalk.h.gch
-	@make clean -C $(LIBFT_PATH)
+	@make fclean -C $(LIBFT_PATH)
 
-fclean: clean 
+fclean: clean
 	@echo $(RED)"[Deleting $(NAME)]"$(WHITE)
 	@rm -f $(NAME)
-	@make fclean -C $(LIBFT_PATH)
 
 re: fclean all
 
