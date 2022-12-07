@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:46:17 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/05 22:53:39 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/06 20:35:41 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void execute_line(char *line)
 {
     print_cmds(line);
-    // ToDo: Parse 
+    // ToDo: Execute 
 }
 
  void   print_cmds(char *raw)

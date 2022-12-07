@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/06 19:54:17 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/07 00:13:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@
 
 // prompt.c
 char    *get_full_cwd(void);
-char    *get_prompt_cwd(void);
-char    *get_displayable_prompt(void);
-bool	prompt(void);
+char    *get_prompt_cwd(t_env *env_list);
+char    *get_displayable_prompt(t_env *env_list);
+bool	prompt(t_env **env_list);
 
 // handle_str.c
 bool str_equals(char* a, char* b);
@@ -62,5 +62,6 @@ void	ft_envadd_back(t_env **lst, t_env *new);
 void    free_environ(t_env **env_list);
 t_env   *init_environ(void);
 void    update_env(t_env **list, char *name, char *new_value);
+char    *ft_getenv(char *name, t_env *list);
 
 #endif
