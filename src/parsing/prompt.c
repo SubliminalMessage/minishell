@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:18 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/07 00:14:54 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/07 17:07:52 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ char    *get_prompt_cwd(t_env *env_list)
     size_t  home_len;
 
     pwd = get_full_cwd();
-    // ToDo: create a custom ft_getenv() function to look into the env_list instead. 
-    // No free needed, so it wouldn't cause that big of a problem
     home = ft_getenv("HOME", env_list); 
     if (home == NULL)
         return (pwd);
