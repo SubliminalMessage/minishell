@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:18 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/07 17:07:52 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/07 22:55:37 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * 
  * @return int, 0 if the shell should NOT be exited, 1 otherwise
 */
-bool    prompt(t_env **env_list)
+t_bool    prompt(t_env **env_list)
 {
     char    *prompt;
     char    *line_read;

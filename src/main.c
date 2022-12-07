@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/07 00:13:52 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/07 22:55:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 int main(void)
 {
-    bool didExit;
+    t_bool didExit;
     t_env *env_list;
 
     env_list = init_environ();
-    (void) env_list;
     didExit = false;
     while(!didExit)
     {
