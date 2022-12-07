@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/06 20:22:36 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/07 00:13:52 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(void)
     didExit = false;
     while(!didExit)
     {
-        didExit = prompt();
+        didExit = prompt(&env_list);
 
         // t_env *node = env_list;
         // while (node != NULL)
