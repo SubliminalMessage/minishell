@@ -6,20 +6,28 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:46:17 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 00:50:35 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:49:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief This function is used to execute the line the user's wrote
+ * 
+ * @param line The line to be executed (raw, directly from readline)
+*/
 void execute_line(char *line)
 {
     print_cmds(line);
     // ToDo: Execute 
 }
 
- void   print_cmds(char *raw)
- {
+/**
+ * @deprecated This function is deprecated and is being used as a test function
+*/
+void   print_cmds(char *raw)
+{
     char **cmds;
     char **args;
     int i;
@@ -50,4 +58,4 @@ void execute_line(char *line)
         printf("\n\n");
     }
     free(cmds);
- }
+}

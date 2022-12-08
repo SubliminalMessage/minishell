@@ -6,11 +6,16 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:46:22 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/07 23:15:13 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:41:17 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+/**
+ * @deprecated This function is deprecated and will be replaced with
+ * ft_split_quote_conscious() in the future (or a similar one).
+*/
 
 static int	get_total_cmds(const char *s, char c);
 static void	inner_whiles(char *s, int *i, char c, size_t *slen);

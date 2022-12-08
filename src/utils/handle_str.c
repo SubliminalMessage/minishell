@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 00:51:04 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:44:29 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @brief Compares two strings and returns a boolean
  * 
- * @return int, 0 if not equal, 1 otherwise
+ * @return boolean, true if the strings are equal, false otherwise
 */
 t_bool str_equals(char* a, char* b)
 {
@@ -29,6 +29,15 @@ t_bool str_equals(char* a, char* b)
     return (true);
 }
 
+/**
+ * @brief Joins three strings, freeing each of them
+ * 
+ * @param a, the first string
+ * @param b, the second string
+ * @param c, the third string
+ * 
+ * @return char*, the joined string
+*/
 char *join_three(char *a, char *b, char *c)
 {
     char *auxOne;
@@ -44,6 +53,15 @@ char *join_three(char *a, char *b, char *c)
 }
 
 // this also normalizes the quotes (if a quote is not ended, it adds it) making arguments trim-able :)
+/**
+ * @brief Normalizes the quotes in a string, adding the missing quotes.
+ *        Then, it trims the string, and frees the original one.
+ * 
+ * @param str, the string to be trimmed
+ * @param set, the set of characters to be trimmed off
+ * 
+ * @return char*, the trimmed and normalized string
+*/
 char *ft_strtrim_free(char *str, char *set)
 {
     char *aux;
@@ -71,6 +89,13 @@ char *ft_strtrim_free(char *str, char *set)
     return (aux);
 }
 
+/**
+ * @brief Filters a string array, removing all the NULL elements
+ * 
+ * @param str, the array of strings to be filtered 
+ * 
+ * @return char**, the filtered array with no NULL elements (or '\0' strings)
+*/
 char **clean_nulls(char **str)
 {
     int null_count;
