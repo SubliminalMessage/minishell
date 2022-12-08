@@ -27,7 +27,8 @@ SRC_FILES	= 	main.c \
 				parsing/commands.c \
 				utils/handle_str.c \
 				utils/split_commands.c \
-				parsing/environ.c
+				parsing/environ.c \
+				utils/split_arguments.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 

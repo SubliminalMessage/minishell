@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/07 22:55:30 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/08 00:44:06 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ t_bool	prompt(t_env **env_list);
 t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
 
+// ToDo: create a ft_split_quote_conscious(const char *s, char c) and merge the two
 char	**ft_split_cmds(const char *s);
+char	**ft_split_args(const char *s);
+char **clean_nulls(char **str);
 void   print_cmds(char *raw);
 void execute_line(char *line);
 
@@ -63,5 +66,6 @@ void    free_environ(t_env **env_list);
 t_env   *init_environ(void);
 void    update_env(t_env **list, char *name, char *new_value);
 char    *ft_getenv(char *name, t_env *list);
+char *ft_strtrim_free(char *str, char *set);
 
 #endif
