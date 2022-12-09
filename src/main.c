@@ -12,6 +12,9 @@
 
 #include <minishell.h>
 
+// Ctrl + C == Signal 2 (SIGINT)
+// Ctrl + \ == Signal 3 (SIGQUIT)
+
 int main(void)
 {
     t_bool didExit;
@@ -32,6 +35,7 @@ int main(void)
 
         // if (!didExit) system("leaks minishell");
     }
+    printf("exit\n");
     free_environ(&env_list);
     env_list = NULL;
     system("leaks minishell");

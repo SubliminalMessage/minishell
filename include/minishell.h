@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <libft.h>
+# include <libc.h>
 
 #include <stdio.h>
 #include <readline/readline.h>
@@ -67,5 +68,6 @@ t_env   *init_environ(void);
 void    update_env(t_env **list, char *name, char *new_value);
 char    *ft_getenv(char *name, t_env *list);
 char *ft_strtrim_free(char *str, char *set);
+char	*ft_chardup(const char c);
 
 #endif

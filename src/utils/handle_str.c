@@ -81,9 +81,11 @@ char *ft_strtrim_free(char *str, char *set)
             else if (in_quote == str[i])
                 in_quote = '\0';
         }
+        else
+            printf(" '%c'\n", str[i]);
     }
     if (in_quote != '\0')
-        str = join_three(str, ft_strdup(&in_quote), ft_strdup("")); // join_three to free 'str'. ft_strjoin() does not frees it
+        str = join_three(str, ft_chardup(in_quote), ft_chardup('\0')); // join_three to free 'str'. ft_strjoin() does not frees it
     aux = ft_strtrim(str, set);
     free(str);
     return (aux);
@@ -121,4 +123,22 @@ char **clean_nulls(char **str)
             free(str[str_index]);
     free(str);
     return (final);
+}
+
+/**
+ * @brief Duplicates a char.
+ * 
+ * @param c Char to duplicate.
+ * @return char* New char* with the result.
+ */
+char	*ft_chardup(const char c)
+{
+	char	*str;
+
+	str = malloc(sizeof(char) * 2);
+	if (str == NULL)
+		return (0);
+	str[0] = c;
+    str[1] = '\0';
+	return (str);
 }

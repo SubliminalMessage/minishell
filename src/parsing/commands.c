@@ -40,16 +40,16 @@ void   print_cmds(char *raw)
     while (*(cmds + ++i))
     {   
         if (**(cmds + i) == '\0')
-            printf(" -> '%s'\n", (char *)NULL);
+            printf(" -> »%s«\n", (char *)NULL);
         else
         {
             // ToDo: Parse Builtins and replace them with '\0'. Then run 'clean_nulls()' :)
             args = clean_nulls(ft_split_args(*(cmds + i)));
-            printf("-> '%s'\n", *(cmds + i));
+            printf("-> »%s«\n", *(cmds + i));
             j = -1;
             while (*(args + ++j))
             {
-                printf("\t'%s'\n", *(args + j));
+                printf("\t»%s«\n", *(args + j));
                 free(*(args + j));
             }
             free(args);
