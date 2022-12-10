@@ -27,6 +27,7 @@ SRC_FILES	= 	main.c \
 				parsing/commands.c \
 				utils/handle_str.c \
 				utils/split_commands.c \
+				utils/split_quote_conscious.c \
 				parsing/environ.c \
 				utils/split_arguments.c
 

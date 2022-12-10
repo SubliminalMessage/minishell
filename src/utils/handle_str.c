@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 16:44:29 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 17:00:18 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char *join_three(char *a, char *b, char *c)
     return (auxTwo);
 }
 
-// this also normalizes the quotes (if a quote is not ended, it adds it) making arguments trim-able :)
 /**
  * @brief Normalizes the quotes in a string, adding the missing quotes.
  *        Then, it trims the string, and frees the original one.
@@ -73,7 +72,6 @@ char *ft_strtrim_free(char *str, char *set)
     in_quote = '\0';
     i = -1;
     while (str[++i])
-    {
         if (str[i] == '\'' || str[i] == '\"')
         {
             if (in_quote == '\0')
@@ -81,9 +79,6 @@ char *ft_strtrim_free(char *str, char *set)
             else if (in_quote == str[i])
                 in_quote = '\0';
         }
-        else
-            printf(" '%c'\n", str[i]);
-    }
     if (in_quote != '\0')
         str = join_three(str, ft_chardup(in_quote), ft_chardup('\0')); // join_three to free 'str'. ft_strjoin() does not frees it
     aux = ft_strtrim(str, set);

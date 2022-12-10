@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 00:44:06 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/08 17:18:48 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,18 @@
 // CWD Max String Size
 # define CWD_SIZE 1000
 
-// prompt.c
+// All the functions
+// ToDo: Group them by file
 char    *get_full_cwd(void);
 char    *get_prompt_cwd(t_env *env_list);
 char    *get_displayable_prompt(t_env *env_list);
 t_bool	prompt(t_env **env_list);
-
-// handle_str.c
 t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
-
-// ToDo: create a ft_split_quote_conscious(const char *s, char c) and merge the two
-char	**ft_split_cmds(const char *s);
-char	**ft_split_args(const char *s);
+char	**ft_split_quote_conscious(const char *s, char split_char);
 char **clean_nulls(char **str);
 void   print_cmds(char *raw);
 void execute_line(char *line);
-
 t_env   *new_env(char *str);
 void	ft_envadd_back(t_env **lst, t_env *new);
 void    free_environ(t_env **env_list);

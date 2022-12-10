@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:46:17 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 16:49:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 16:56:31 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void   print_cmds(char *raw)
     int i;
     int j;
 
-    cmds = ft_split_cmds(raw);
+    cmds = ft_split_quote_conscious(raw, '|');
     if (!cmds)
         return ;
     i = -1;
@@ -44,7 +44,7 @@ void   print_cmds(char *raw)
         else
         {
             // ToDo: Parse Builtins and replace them with '\0'. Then run 'clean_nulls()' :)
-            args = clean_nulls(ft_split_args(*(cmds + i)));
+            args = clean_nulls(ft_split_quote_conscious(*(cmds + i), ' '));
             printf("-> »%s«\n", *(cmds + i));
             j = -1;
             while (*(args + ++j))
