@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 17:11:36 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 18:53:16 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct	s_command
 {
 	struct s_command	*next;
 	char		*exec;
-	int			argc;
 	char		**argv; // argv[0] is the command name; but if given as a path, should it be the whole path?
 	t_redirs	*redirs; // If NULL, no redirs.
 }	t_command;

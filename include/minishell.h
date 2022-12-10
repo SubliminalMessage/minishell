@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 18:29:17 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 19:51:35 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
 char	**ft_split_quote_conscious(const char *s, char split_char);
 char **clean_nulls(char **str);
-void   print_cmds(char *raw);
 void execute_line(char *line);
 t_env   *new_env(char *str);
 void	ft_envadd_back(t_env **lst, t_env *new);
@@ -69,5 +68,7 @@ char	*ft_chardup(const char c);
 void	ft_cmdadd_back(t_command **lst, t_command *new);
 void free_cmd(t_command **list);
 t_command *new_cmd(char **args);
+t_command   *parse_commands(char **cmds);
+void    free_str_array(char **array);
 
 #endif

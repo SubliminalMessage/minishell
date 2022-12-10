@@ -27,9 +27,7 @@ SRC_FILES	= 	main.c \
 				parsing/commands.c \
 				parsing/environ.c \
 				utils/handle_str.c \
-				utils/split_commands.c \
 				utils/split_quote_conscious.c \
-				utils/split_arguments.c \
 				utils/debug/print_debug.c # This file is not meant to reach the final version of the Minishell
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)

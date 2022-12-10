@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 17:03:48 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 18:32:41 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 19:41:41 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <structures.h>
 
 void    print_quotes(char *str);
-void    print_cmd(t_command *cmd);
+void    print_single_cmd(t_command *cmd);
+void   print_cmds(t_command *cmd_list);
 
 #endif

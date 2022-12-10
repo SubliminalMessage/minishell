@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:46:17 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 18:36:20 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 19:51:03 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,54 @@
 */
 void execute_line(char *line)
 {
-    print_cmds(line);
-    // ToDo: Execute 
+    char **raw_cmds;
+    t_command *cmd_list;
+    
+    // 0. Split the line into commands
+    raw_cmds = ft_split_quote_conscious(line, '|');
+    if (!raw_cmds)
+        return ;
+    
+    // 1. Parse the splitted line into commands
+    cmd_list = parse_commands(raw_cmds);
+    print_cmds(cmd_list);
+
+    // 2. Check everything is fine      
+    if (cmd_list == NULL)
+        return ;
+
+    // 3. Execute the commands
+    // ToDo: Execute commands
+    
+    // 4. Clean up
+    free_cmd(&cmd_list);
 }
 
-/**
- * @deprecated This function is deprecated and is being used as a test function
-*/
-void   print_cmds(char *raw)
+t_command   *parse_commands(char **cmds)
 {
-    char **cmds;
-    char **args;
     t_command *cmd_list;
     t_command *new;
+    char **args;
     int i;
 
-    cmds = ft_split_quote_conscious(raw, '|');
-    if (!cmds)
-        return ;
     i = -1;
+    cmd_list = NULL;
     while (*(cmds + ++i))
     {   
         if (**(cmds + i) == '\0')
-            new = new_cmd(NULL);
-        else
-        {
-            // ToDo: Parse Builtins and replace them with '\0'. Then run 'clean_nulls()' :)
-            args = clean_nulls(ft_split_quote_conscious(*(cmds + i), ' '));
-            new = new_cmd(args);
-        }
+            break ;
+        // ToDo: Parse Redirecctions and replace them with '\0'. Then run 'clean_nulls()' :)
+        args = clean_nulls(ft_split_quote_conscious(*(cmds + i), ' '));
+        new = new_cmd(args);
         ft_cmdadd_back(&cmd_list, new);
-        print_cmd(new);
-        free(*(cmds + i));
     }
-    free(cmds);
+    if (cmds[i] != NULL)
+    {
+        printf(RED"  »  "RESET"Parse error near '|'\n\n"); // ToDo: Move this to an error function
+        free_cmd(&cmd_list); // This, internally, does cmd_list = NULL, so no problem when returning it
+    }
+    free_str_array(cmds);
+    return (cmd_list);
 }
 
 /**
@@ -65,26 +79,18 @@ void   print_cmds(char *raw)
 t_command *new_cmd(char **args)
 {
     t_command *cmd;
-    int arg_count;
 
     cmd = malloc(sizeof(t_command));
     if (!cmd)
         return (NULL);
+    cmd->next = NULL;
+    cmd->argv = args;
     if (args == NULL)
     {
         cmd->exec = NULL;
-        cmd->argc = 0;
-        cmd->argv = NULL;
-        cmd->next = NULL;
         return (cmd);
     }
-    arg_count = 0;
-    while (*(args + arg_count))
-        arg_count++;
     cmd->exec = args[0];
-    cmd->argc = arg_count;
-    cmd->argv = args;
-    cmd->next = NULL;
     return (cmd);
 }
 
@@ -97,6 +103,7 @@ void	ft_cmdadd_back(t_command **lst, t_command *new)
 	else
 	{
 		next_elem = *lst;
+        printf("pointer => %p\n\n", next_elem);
 		while (next_elem->next != NULL)
 			next_elem = next_elem->next;
 		next_elem->next = new;
@@ -113,12 +120,9 @@ void free_cmd(t_command **list)
     i = 0;
     while (next != NULL)
     {
-        i = 0;
-        while (i < next->argc)
-        {
+        i = -1;
+        while (next->argv[++i] != NULL)
             free(next->argv[i]);
-            i++;
-        }
         free(next->argv);
         //free(next->redir);
         temp = next;

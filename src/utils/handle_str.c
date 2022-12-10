@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 17:18:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 19:51:27 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,19 @@ char	*ft_chardup(const char c)
 	str[0] = c;
     str[1] = '\0';
 	return (str);
+}
+
+/**
+ * @brief Frees a string array
+ * 
+ * @param array, the array to be freed
+*/
+void    free_str_array(char **array)
+{
+    int i;
+
+    i = -1;
+    while (*(array + ++i))
+        free(*(array + i));
+    free(array);
 }
