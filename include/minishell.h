@@ -6,12 +6,14 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 17:18:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 18:29:17 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <debug.h> // This is not meant to get into the final version of the Minishell
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -64,5 +66,8 @@ void    update_env(t_env **list, char *name, char *new_value);
 char    *ft_getenv(char *name, t_env *list);
 char *ft_strtrim_free(char *str, char *set);
 char	*ft_chardup(const char c);
+void	ft_cmdadd_back(t_command **lst, t_command *new);
+void free_cmd(t_command **list);
+t_command *new_cmd(char **args);
 
 #endif

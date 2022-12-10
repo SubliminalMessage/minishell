@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/07 22:55:34 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 18:42:06 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,15 @@
 // Ctrl + C == Signal 2 (SIGINT)
 // Ctrl + \ == Signal 3 (SIGQUIT)
 
-int main(void)
+int MINISHELL_DEBUG = 0;
+
+int main(int argc, char **argv)
 {
     t_bool didExit;
     t_env *env_list;
 
+    if (argc == 2 && str_equals(argv[1], "--debug"))
+        MINISHELL_DEBUG = 1;
     env_list = init_environ();
     didExit = false;
     while(!didExit)
