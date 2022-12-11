@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:46:17 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 19:51:03 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/11 19:32:39 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,14 @@ void execute_line(char *line)
     if (!raw_cmds)
         return ;
     
-    // 1. Parse the splitted line into commands
+    // 1.1. Parse the splitted line into commands
     cmd_list = parse_commands(raw_cmds);
+
+    // 1.2. Parse the redirections
+    // Todo: parse_redirections(&cmd_list);
+
+    // 1.3. Expand the variables
+    // ToDo: expand_variables(&cmd_list);
     print_cmds(cmd_list);
 
     // 2. Check everything is fine      
@@ -45,7 +51,6 @@ void execute_line(char *line)
 t_command   *parse_commands(char **cmds)
 {
     t_command *cmd_list;
-    t_command *new;
     char **args;
     int i;
 
@@ -55,10 +60,8 @@ t_command   *parse_commands(char **cmds)
     {   
         if (**(cmds + i) == '\0')
             break ;
-        // ToDo: Parse Redirecctions and replace them with '\0'. Then run 'clean_nulls()' :)
         args = clean_nulls(ft_split_quote_conscious(*(cmds + i), ' '));
-        new = new_cmd(args);
-        ft_cmdadd_back(&cmd_list, new);
+        ft_cmdadd_back(&cmd_list, new_cmd(args));
     }
     if (cmds[i] != NULL)
     {
@@ -84,13 +87,10 @@ t_command *new_cmd(char **args)
     if (!cmd)
         return (NULL);
     cmd->next = NULL;
+    cmd->exec = NULL;
     cmd->argv = args;
-    if (args == NULL)
-    {
-        cmd->exec = NULL;
-        return (cmd);
-    }
-    cmd->exec = args[0];
+    if (args != NULL)
+        cmd->exec = args[0];
     return (cmd);
 }
 
@@ -103,7 +103,6 @@ void	ft_cmdadd_back(t_command **lst, t_command *new)
 	else
 	{
 		next_elem = *lst;
-        printf("pointer => %p\n\n", next_elem);
 		while (next_elem->next != NULL)
 			next_elem = next_elem->next;
 		next_elem->next = new;
@@ -124,7 +123,7 @@ void free_cmd(t_command **list)
         while (next->argv[++i] != NULL)
             free(next->argv[i]);
         free(next->argv);
-        //free(next->redir);
+        //free_redir(&next->redir);
         temp = next;
         next = next->next;
         free(temp);

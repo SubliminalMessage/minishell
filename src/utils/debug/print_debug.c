@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 17:02:53 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 19:41:27 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 22:55:50 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void print_str_arr(char **arr)
     /*
         [ "Hello", "World" ]
     */
-   int total = 0;
+    int total = 0;
     printf(ARR_COLOR"[ "RESET);
     while (*arr != NULL)
     {

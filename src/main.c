@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 19:49:15 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/11 19:33:56 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,22 @@
 // Ctrl + C == Signal 2 (SIGINT)
 // Ctrl + \ == Signal 3 (SIGQUIT)
 
-int MINISHELL_DEBUG = 0;
+// Should not get to the final version of the Minishell
+int MINISHELL_DEBUG = 0; // 0 = false, 1 = true ;; 
 
 int main(int argc, char **argv)
 {
     t_bool didExit;
     t_env *env_list;
-    printf("%s\n", argv[0]);
 
-    if (argc == 2 && str_equals(argv[1], "--debug"))
+    if (argc == 2 && str_equals(argv[1], "--debug")) // ToDo: Remove this (global variable)
         MINISHELL_DEBUG = 1;
     env_list = init_environ();
     didExit = false;
     while(!didExit)
-    {
         didExit = prompt(&env_list);
-
-        // t_env *node = env_list;
-        // while (node != NULL)
-        // {
-        //     printf("%s\n", node->join);
-        //     node = node->next;
-        // }
-
-        // if (!didExit) system("leaks minishell");
-    }
     printf("exit\n");
     free_environ(&env_list);
-    env_list = NULL;
-    system("leaks minishell");
+    system("leaks minishell"); // ToDo: Remove this (system leaks on main)
     return (0);
 }
