@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:09:20 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/06 20:30:31 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 18:21:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void    free_environ(t_env **env_list)
 
 /**
  *  @brief Initializes the Environment List with the system's environment vars
+ * 
+ *  @return A pointer to the Environment List already populated
 */
 t_env *init_environ(void)
 {

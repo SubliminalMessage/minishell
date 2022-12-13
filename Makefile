@@ -25,9 +25,11 @@ NAME		= minishell
 SRC_FILES	= 	main.c \
 				parsing/prompt.c \
 				parsing/commands.c \
+				parsing/environ.c \
+				parsing/expansion.c \
 				utils/handle_str.c \
-				utils/split_commands.c \
-				parsing/environ.c
+				utils/split_quote_conscious.c \
+				utils/debug/print_debug.c # This file is not meant to reach the final version of the Minishell
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
@@ -46,7 +48,7 @@ BLUE	= '\033[1;34m'
 #                  GAME RULES                 #
 ### ---   ---   ---         ---   ---   --- ###
 
-.PHONY: all re clean fclean
+.PHONY: all re clean fclean norm todo execute
 
 all: $(NAME)
 
@@ -78,4 +80,10 @@ fclean: clean
 re: fclean all
 
 norm:
-	norminette */*.c */*.h
+	@norminette $(SRC_FILES:%=$(SRCS_PATH)%) $(INCLUDE_FILES:%=$(INCLUDE_PATH)%) | sed "s/src/\\`echo '\n\r'`/g"
+
+todo:
+	@cat $(SRC_FILES:%=$(SRCS_PATH)%) | grep '//\stodo:.*' -ioh --color=never
+
+execute:
+	@make && clear && ./minishell --debug

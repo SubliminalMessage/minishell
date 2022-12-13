@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_commands.c                                   :+:      :+:    :+:   */
+/*   split_quote_conscious.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/27 18:46:22 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/01 21:58:11 by dangonza         ###   ########.fr       */
+/*   Created: 2022/12/08 17:07:48 by dangonza          #+#    #+#             */
+/*   Updated: 2022/12/08 17:13:07 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include <minishell.h>
 
-static int	get_total_cmds(const char *s, char c);
+/**
+ * @deprecated This function is deprecated and will be replaced with
+ * ft_split_quote_conscious() in the future (or a similar one).
+*/
+
+static int	get_total_words(const char *s, char c);
 static void	inner_whiles(char *s, int *i, char c, size_t *slen);
 static char	**free_all(char **words, int saved);
 
-char	**ft_split_cmds(const char *s)
+char	**ft_split_quote_conscious(const char *s, char split_char)
 {
 	size_t	s_len;
 	int		saved;
@@ -26,7 +32,7 @@ char	**ft_split_cmds(const char *s)
 
 	if (!s)
 		return (NULL);
-	total_words = get_total_cmds(s, '|');
+	total_words = get_total_words(s, split_char);
 	words = malloc(sizeof(char *) * (total_words + 1));
 	if (words == NULL)
 		return (NULL);
@@ -35,8 +41,8 @@ char	**ft_split_cmds(const char *s)
 	s_len = 0;
 	while (*(s + i) && ++saved < total_words)
 	{
-		inner_whiles((char *) s, &i, '|', &s_len);
-		words[saved] = ft_substr(s, i, (size_t) s_len);
+		inner_whiles((char *) s, &i, split_char, &s_len);
+		words[saved] = ft_strtrim_free(ft_substr(s, i, (size_t) s_len), " ");
 		if (words[saved] == NULL)
 			return (free_all(words, saved));
 		i += s_len;
@@ -80,7 +86,7 @@ static void	inner_whiles(char *s, int *i, char c, size_t *slen)
 	}
 }
 
-static int	get_total_cmds(const char *s, char c)
+static int	get_total_words(const char *s, char c)
 {
 	int		total;
 	int		i;

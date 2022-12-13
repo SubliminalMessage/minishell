@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:18 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/07 17:07:52 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:46:27 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
  * 
  * @param env_list The Environment Variable List for the execution part
  * 
- * @return int, 0 if the shell should NOT be exited, 1 otherwise
+ * @return bool, true if the shell should NOT be exited, false otherwise
 */
-bool    prompt(t_env **env_list)
+t_bool    prompt(t_env **env_list)
 {
     char    *prompt;
     char    *line_read;
@@ -58,6 +58,8 @@ char *get_full_cwd(void)
  * @brief Gets the CWD in a format displayable in a Prompt. Tries to
  *        minimize the '$HOME' part into '~/'
  * 
+ * @param env_list The Environment Variable List to read the $HOME variable
+ * 
  * @return char* containing the CWD of the user, in a displayable format
 */
 char    *get_prompt_cwd(t_env *env_list)
@@ -88,6 +90,13 @@ char    *get_prompt_cwd(t_env *env_list)
     return (prompt_cwd);
 }
 
+/**
+ * @brief Gets the final prompt to be displayed on the terminal
+ * 
+ * @param env_list The Environment Variable List to read the $HOME variable
+ * 
+ * @return char* containing the final prompt to be displayed on the terminal
+*/
 char *get_displayable_prompt(t_env *env_list)
 {
     char *prompt_before;
