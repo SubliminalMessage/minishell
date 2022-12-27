@@ -29,7 +29,7 @@ SRC_FILES	= 	main.c \
 				parsing/expansion.c \
 				utils/handle_str.c \
 				utils/split_quote_conscious.c \
-				utils/debug/print_debug.c # ToDo This file is not meant to reach the final version of the Minishell
+				utils/debug/print_debug.c # TODO This file is not meant to reach the final version of the Minishell
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
@@ -58,10 +58,9 @@ $(NAME): $(LIBFT) $(SRC_OBJS)
 
 $(LIBFT): $(LIBFT_REPO)
 	@make -C $(LIBFT_PATH)
-	@echo LIBFT DONE
 
 $(LIBFT_REPO):
-	@# ToDo Remove in intra version
+	@# TODO Remove in intra version
 	git submodule update --init --recursive
 
 bin/%.o: src/%.c
@@ -87,7 +86,9 @@ todo:
 	@cat $(SRC_FILES:%=$(SRCS_PATH)%) | grep '//\stodo:.*' -ioh --color=never
 
 TODO:
-	grep "ToDo" -nr -i --exclude-dir=".git" .
+	@echo "*****************************************"
+	@grep "TODO" -nr -i --exclude-dir=".git" .
+	@echo "*****************************************"
 
 execute:
 	@make && clear && ./minishell --debug

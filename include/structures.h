@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 18:53:16 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/27 10:44:36 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef enum e_bool
 	true
 }	t_bool;
 
-typedef struct	s_redirs // ToDo: there's work to be done here...
+typedef struct	s_redirs // TODO: there's work to be done here...
 {
 	char *in;		// Either "<" or "<<". If NULL, no redirection. Use str_equals() to compare.
 	char *out;		// Either ">" or ">>". If NULL, no redirection.
