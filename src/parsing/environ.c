@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:09:20 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/06 20:20:16 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/10 18:21:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void    free_environ(t_env **env_list)
 
 /**
  *  @brief Initializes the Environment List with the system's environment vars
+ * 
+ *  @return A pointer to the Environment List already populated
 */
 t_env *init_environ(void)
 {
@@ -147,4 +149,23 @@ void    update_env(t_env **list, char *name, char *new_value)
     node->join = join_three(node->name, ft_strdup("="), node->value);
     node->name = tmp_name;
     node->value = tmp_value;
+}
+
+/**
+ * @brief Works like 'getenv()', but with a local Environment List
+ * 
+ * @param name The name of the variable to look for
+ * @param list The list of the environment variables
+ * 
+ * @return The value of the variable found. NULL if not found.
+*/
+char    *ft_getenv(char *name, t_env *list)
+{
+    while (list)
+    {
+        if (str_equals(list->name, name))
+            return (list->value);
+        list = list->next;
+    }
+    return (NULL);
 }
