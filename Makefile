@@ -71,7 +71,8 @@ bin/%.o: src/%.c
 clean: $(LIBFT_REPO)
 	@echo $(RED)"[Deleting Object Files]"$(WHITE)
 	@rm -rf bin
-	@make fclean -C $(LIBFT_PATH)
+	@# TODO fclean the Libft
+	@#make fclean -C $(LIBFT_PATH)
 
 fclean: clean
 	@echo $(RED)"[Deleting $(NAME)]"$(WHITE)
@@ -90,5 +91,5 @@ TODO:
 	@grep "TODO" -nr -i --exclude-dir=".git" .
 	@echo "*****************************************"
 
-execute:
-	@make && clear && ./minishell --debug
+execute: all
+	@clear && ./minishell --debug
