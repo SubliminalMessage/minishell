@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:18 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 16:46:27 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/27 13:01:06 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_bool    prompt(t_env **env_list)
 
 	prompt = get_displayable_prompt(*env_list);
 	line_read = readline(prompt);
+	line_read = readline("012345678901234567899> ");
 	free(prompt);
 	add_history(line_read);
 
@@ -69,7 +70,7 @@ char    *get_prompt_cwd(t_env *env_list)
 	char    *prompt_cwd;
 	size_t  home_len;
 
-	pwd = get_full_cwd();
+	pwd = get_full_cwd(); // TODO: this could be null (malloc at strdup)
 	home = ft_getenv("HOME", env_list); 
 	if (home == NULL)
 		return (pwd);
@@ -106,5 +107,11 @@ char *get_displayable_prompt(t_env *env_list)
 	cwd = get_prompt_cwd(env_list);
 	prompt_before = ft_strdup(PROMPT_BEFORE);
 	prompt_after = ft_strdup(PROMPT_AFTER);
-	return (join_three(prompt_before, cwd, prompt_after));
+	if (ft_strlen(cwd) <= PROMPT_MAX_FULL_LEN)
+		return (join_three(prompt_before, cwd, prompt_after));
+	char *real_promt = ft_strrchr(cwd, '/');
+	if (*real_promt == '/')
+		real_promt++;
+	free(cwd);
+	return (join_three(prompt_before, ft_strdup(real_promt), prompt_after));
 }
