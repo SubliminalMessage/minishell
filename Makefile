@@ -29,7 +29,7 @@ SRC_FILES	= 	main.c \
 				parsing/expansion.c \
 				utils/handle_str.c \
 				utils/split_quote_conscious.c \
-				utils/debug/print_debug.c # TODO This file is not meant to reach the final version of the Minishell
+				utils/debug/print_debug.c # ToDo This file is not meant to reach the final version of the Minishell
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
@@ -61,7 +61,7 @@ $(LIBFT): $(LIBFT_REPO)
 	@echo LIBFT DONE
 
 $(LIBFT_REPO):
-	@# TODO Remove in intra version
+	@# ToDo Remove in intra version
 	git submodule update --init --recursive
 
 bin/%.o: src/%.c

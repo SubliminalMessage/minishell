@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 09:15:12 by jre-gonz          #+#    #+#             */
-/*   Updated: 2022/12/27 09:16:56 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2022/12/27 09:36:39 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,107 @@
 
 # include "libft.h"
 
-# include "pipex_msg_bonus.h"
-# include "pipex_structs_bonus.h"
+# define ERROR_ARGC "Invalid arguments:\n./pipex <input> <cmd1> <cm2> <output>\n"
+# define ERROR_FORK "Error when creating the fork.\n"
+# define ERROR_PIPE "Error when creating the pipe.\n"
+# define ERROR_MALLOC "Malloc failed.\n"
+# define ERROR_ENV "Error when getting the environment variable.\n"
+# define ERROR_PIPE_INIT "Error when initializing pipes.\n"
+# define ERROR_CNF "Command not found or not allowed to execute.\n"
+# define ERROR_CNF_CODE 127
+# define ERROR_HEREDOC "here_doc failed"
+# define ERROR_EXE_CMD "Error when executing the command.\n"
+
+// /**
+//  * @struct t_pipex
+//  * @brief Struct to hold all the information of the pipex program.
+//  */
+// typedef struct s_pipex
+// {
+// 	/**
+// 	 * @brief Fd of the input file.
+// 	 */
+// 	int		f_input;
+// 
+// 	/**
+// 	 * @brief Fd of the output file.
+// 	 */
+// 	int		f_output;
+// 
+// 	/**
+// 	 * @brief Array with the cmds (argv)
+// 	 */
+// 	char	**cmds;
+// 
+// 	/**
+// 	 * @brief enviroment array from the main function.
+// 	 */
+// 	char	**envp;
+// 
+// 	/**
+// 	 * @brief Array with the path array.
+// 	 * Result of processing envp
+// 	 */
+// 	char	**env_paths;
+// 
+// 	/**
+// 	 * @brief Number of cmds to execute.
+// 	 */
+// 	int		cmd_count;
+// 
+// 	/**
+// 	 * @brief Index of the current cmd.
+// 	 */
+// 	int		cmd_idx;
+// 
+// 	/**
+// 	 * @brief Array to store all the fds of the pipes.
+// 	 * If index is even, it's the read fd, if odd, it's the write fd.
+// 	 */
+// 	int		*fds;
+// 
+// 	/**
+// 	 * @brief Command to execute as an array.
+// 	 * Defined at each process.
+// 	 * Result of spliting the string by spaces.
+// 	 */
+// 	char	**cmd_args;
+// 
+// 	/**
+// 	 * @brief Command with the path.
+// 	 */
+// 	char	*cmd_full;
+// 
+// 	/**
+// 	 * @brief 0 if here_doc is not present, 1 if it is.
+// 	 */
+// 	int		heredoc;
+// 
+// 	/**
+// 	 * @brief Process ids of the processes.
+// 	 */
+// 	int		*pid;
+// }				t_pipex;
+
+/**
+ * @struct t_pipex
+ * @brief Struct to hold all the information of the pipex program.
+ */
+typedef struct s_pipex
+{
+	int		f_input;
+	int		f_output;
+	char	**cmds;
+	char	**envp;
+	char	**env_paths;
+	int		cmd_count;
+	int		cmd_idx;
+	int		*fds;
+	char	**cmd_args;
+	char	*cmd_full;
+	int		heredoc;
+	int		*pid;
+}				t_pipex;
 
 # define STDIN 0
 # define STDOUT 1
