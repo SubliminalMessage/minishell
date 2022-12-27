@@ -13,7 +13,7 @@ READLINE_FLAGS = -lreadline
 INCLUDE				= -I include -I libft/include
 SRCS_PATH			= src/
 LIBFT_PATH			= libft/
-LIBFT				= $(LIBFT_PATH)/libft.a
+LIBFT				= $(LIBFT_PATH)libft.a
 LIBFT_REPO			= $(LIBFT_PATH)/Makefile
 
 ### ---   ---   ---         ---   ---   --- ###
@@ -43,6 +43,7 @@ PURPLE	= '\033[1;35m'
 YELLOW	= '\033[1;33m'
 WHITE	= '\033[1;37m'
 BLUE	= '\033[1;34m'
+NC		= '\033[0m'
 
 ### ---   ---   ---         ---   ---   --- ###
 #                     RULES                   #
@@ -53,7 +54,7 @@ BLUE	= '\033[1;34m'
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(SRC_OBJS)
-	@echo $(BLUE)[Compilation]$(WHITE): $(NAME)
+	@echo $(BLUE)[Compilation]$(WHITE): $(NAME)$(NC)
 	$(CC) $(CFLAGS) $(INCLUDE) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT): $(LIBFT_REPO)
@@ -64,18 +65,18 @@ $(LIBFT_REPO):
 	git submodule update --init --recursive
 
 bin/%.o: src/%.c
-	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "
+	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "$(NC)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean: $(LIBFT_REPO)
-	@echo $(RED)"[Deleting Object Files]"$(WHITE)
+	@echo $(RED)"[Deleting Object Files]"$(NC)
 	@rm -rf bin
 	@# TODO fclean the Libft
 	@#make fclean -C $(LIBFT_PATH)
 
 fclean: clean
-	@echo $(RED)"[Deleting $(NAME)]"$(WHITE)
+	@echo $(RED)"[Deleting $(NAME)]"$(NC)
 	@rm -f $(NAME)
 
 re: fclean all
