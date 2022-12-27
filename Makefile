@@ -48,7 +48,7 @@ BLUE	= '\033[1;34m'
 #                     RULES                   #
 ### ---   ---   ---         ---   ---   --- ###
 
-.PHONY: all re clean fclean norm todo execute
+.PHONY: all re clean fclean norm todo TODO execute
 
 all: $(NAME)
 
@@ -85,6 +85,9 @@ norm:
 
 todo:
 	@cat $(SRC_FILES:%=$(SRCS_PATH)%) | grep '//\stodo:.*' -ioh --color=never
+
+TODO:
+	grep "ToDo" -nr -i --exclude-dir=".git" .
 
 execute:
 	@make && clear && ./minishell --debug
