@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:46:17 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/11 19:32:39 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/27 10:45:43 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void execute_line(char *line)
     // Todo: parse_redirections(&cmd_list);
 
     // 1.3. Expand the variables
-    // ToDo: expand_variables(&cmd_list);
+    // TODO: expand_variables(&cmd_list);
     print_cmds(cmd_list);
 
     // 2. Check everything is fine      
@@ -42,7 +42,7 @@ void execute_line(char *line)
         return ;
 
     // 3. Execute the commands
-    // ToDo: Execute commands
+    // TODO: Execute commands
     
     // 4. Clean up
     free_cmd(&cmd_list);
@@ -65,7 +65,7 @@ t_command   *parse_commands(char **cmds)
     }
     if (cmds[i] != NULL)
     {
-        printf(RED"  »  "RESET"Parse error near '|'\n\n"); // ToDo: Move this to an error function
+        printf(RED"  »  "RESET"Parse error near '|'\n\n"); // TODO: Move this to an error function
         free_cmd(&cmd_list); // This, internally, does cmd_list = NULL, so no problem when returning it
     }
     free_str_array(cmds);

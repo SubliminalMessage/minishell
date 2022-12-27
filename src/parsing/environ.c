@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:09:20 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 18:21:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/27 10:44:57 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void    update_env(t_env **list, char *name, char *new_value)
     {
         // strdup on new_value should not be needed, but the test are being made with hardcoded strings. Same thing
         // with ft_strdup(name);
-        // ToDo: Remove the ft_strdup(new_value) and ft_strdup(name) and double-check those variables are being both malloc-ed and free-d
+        // TODO: Remove the ft_strdup(new_value) and ft_strdup(name) and double-check those variables are being both malloc-ed and free-d
         node = new_env(join_three(ft_strdup(name), ft_strdup("="), ft_strdup(new_value))); 
         ft_envadd_back(list, node);
         return ;
@@ -145,7 +145,7 @@ void    update_env(t_env **list, char *name, char *new_value)
     tmp_value = ft_strdup(node->value);
     // strdup on new_value should not be needed, but the test are being made with hardcoded strings. Same thing
     // with ft_strdup(name);
-    // ToDo: Remove the ft_strdup(new_value) and ft_strdup(name) and double-check those variables are being both malloc-ed and free-d
+    // TODO: Remove the ft_strdup(new_value) and ft_strdup(name) and double-check those variables are being both malloc-ed and free-d
     node->join = join_three(node->name, ft_strdup("="), node->value);
     node->name = tmp_name;
     node->value = tmp_value;

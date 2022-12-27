@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 16:50:23 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/11 19:32:03 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/27 10:45:13 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@
 void    expand_variables(char **str)
 {
     (void) str;
-    // ToDo: work on this function
+    // TODO: work on this function
 }

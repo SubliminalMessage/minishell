@@ -4,3 +4,5 @@ minishell
 *.DS_Store
 .vscode/
 libft.a
+
+*.swp

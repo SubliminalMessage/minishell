@@ -29,7 +29,7 @@ SRC_FILES	= 	main.c \
 				parsing/expansion.c \
 				utils/handle_str.c \
 				utils/split_quote_conscious.c \
-				utils/debug/print_debug.c # This file is not meant to reach the final version of the Minishell
+				utils/debug/print_debug.c # TODO This file is not meant to reach the final version of the Minishell
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
@@ -45,23 +45,23 @@ WHITE	= '\033[1;37m'
 BLUE	= '\033[1;34m'
 
 ### ---   ---   ---         ---   ---   --- ###
-#                  GAME RULES                 #
+#                     RULES                   #
 ### ---   ---   ---         ---   ---   --- ###
 
-.PHONY: all re clean fclean norm todo execute
+.PHONY: all re clean fclean norm todo TODO execute
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(SRC_OBJS)
+	@echo $(BLUE)[Compilation]$(WHITE): $(NAME)
 	$(CC) $(CFLAGS) $(INCLUDE) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT): $(LIBFT_REPO)
 	@make -C $(LIBFT_PATH)
-	@echo LIBFT DONE
 
 $(LIBFT_REPO):
+	@# TODO Remove in intra version
 	git submodule update --init --recursive
-	# TODO Remove in intra version
 
 bin/%.o: src/%.c
 	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "
@@ -84,6 +84,11 @@ norm:
 
 todo:
 	@cat $(SRC_FILES:%=$(SRCS_PATH)%) | grep '//\stodo:.*' -ioh --color=never
+
+TODO:
+	@echo "*****************************************"
+	@grep "TODO" -nr -i --exclude-dir=".git" .
+	@echo "*****************************************"
 
 execute:
 	@make && clear && ./minishell --debug
