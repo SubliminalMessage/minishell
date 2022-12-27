@@ -6,14 +6,14 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 19:51:35 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/27 09:21:00 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <debug.h> // This is not meant to get into the final version of the Minishell
+# include <debug.h> // TODO This is not meant to get into the final version of the Minishell
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -25,6 +25,10 @@
 #include <readline/history.h>
 
 #include <structures.h>
+
+// Custom headers
+
+# include "pipex.h"
 
 // Colors: https://www.darklaunch.com/print-terminal-colors.html
 # define RED "\033[1;31m"
@@ -47,7 +51,7 @@
 # define CWD_SIZE 1000
 
 // All the functions
-// ToDo: Group them by file
+// TODO: Group them by file
 char    *get_full_cwd(void);
 char    *get_prompt_cwd(t_env *env_list);
 char    *get_displayable_prompt(t_env *env_list);
