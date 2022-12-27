@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 17:02:53 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 22:55:50 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:50:00 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void    print_single_cmd(t_command *cmd)
         redir: NULL
     }
     */
-    extern int MINISHELL_DEBUG;
-    if(!MINISHELL_DEBUG)
+    extern int g_minishell_debug;
+    if(!g_minishell_debug)
         return ;
     printf(CURLY_COLOR"{\n"RESET);
     if (cmd->exec == NULL)
