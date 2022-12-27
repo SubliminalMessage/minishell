@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 17:02:53 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/27 11:50:00 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:53:45 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,76 +30,75 @@
 
 void    print_quotes(char *str)
 {
-    /*
-        »String«
-    */
+	/*
+		»String«
+	*/
    printf(QUOTE_COLOR"▹"STR_COLOR"%s"QUOTE_COLOR"◃", str);
 }
 
 void print_str_arr(char **arr)
 {
-    /*
-        [ "Hello", "World" ]
-    */
-    int total = 0;
-    printf(ARR_COLOR"[ "RESET);
-    while (*arr != NULL)
-    {
-        total++;
-        print_quotes(*arr);
-        arr++;
-        if (*arr != NULL)
-            printf(COMMA_COLOR", "RESET);
-    }
-    printf(ARR_COLOR" ]"RESET);
-    printf(CURLY_COLOR" ("NUM_COLOR"%d"CURLY_COLOR")", total);
+	/*
+		[ "Hello", "World" ]
+	*/
+	int total = 0;
+	printf(ARR_COLOR"[ "RESET);
+	while (*arr != NULL)
+	{
+		total++;
+		print_quotes(*arr);
+		arr++;
+		if (*arr != NULL)
+			printf(COMMA_COLOR", "RESET);
+	}
+	printf(ARR_COLOR" ]"RESET);
+	printf(CURLY_COLOR" ("NUM_COLOR"%d"CURLY_COLOR")", total);
 }
 
 void   print_cmds(t_command *cmd_list)
 {
-    t_command *cmd;
+	t_command *cmd;
 
-    cmd = cmd_list;
-    while (cmd)
-    {
-        print_single_cmd(cmd);
-        cmd = cmd->next;
-    }
+	cmd = cmd_list;
+	while (cmd)
+	{
+		print_single_cmd(cmd);
+		cmd = cmd->next;
+	}
 }
 
 void    print_single_cmd(t_command *cmd)
 {
-    /*
-    {
-        exec: "echo",
-        argc: 3,
-        argv: [ "echo", "Hello", "World" ],
-        redir: NULL
-    }
-    */
-    extern int g_minishell_debug;
-    if(!g_minishell_debug)
-        return ;
-    printf(CURLY_COLOR"{\n"RESET);
-    if (cmd->exec == NULL)
-    {
-        printf(NULL_COLOR"    NULL\n");
-    }
-    else
-    {
-        printf(KEY_COLOR"    exec"COLON_COLOR": "); 
-            print_quotes(cmd->exec);
-            printf(COMMA_COLOR",\n"RESET);
-        printf(KEY_COLOR"    argv"COLON_COLOR": "); 
-            print_str_arr(cmd->argv);
-            printf(COMMA_COLOR",\n"RESET);
-        printf(KEY_COLOR"    redirs"COLON_COLOR": "); 
-            printf(NULL_COLOR"NULL\n");
-        printf(KEY_COLOR"    next"COLON_COLOR": ");
-        if (cmd->next != NULL)
-            printf(NULL_COLOR"%p\n", cmd->next);
-        else
-            printf(NULL_COLOR"NULL\n");
-    }
-    printf(CURLY_COLOR"}\n"RESET);
+	/*
+	{
+		exec: "echo",
+		argv: [ "echo", "Hello", "World" ],
+		redir: NULL
+	}
+	*/
+	extern int g_minishell_debug;
+	if(!g_minishell_debug)
+		return ;
+	printf(CURLY_COLOR"{\n"RESET);
+	if (cmd->exec == NULL)
+	{
+		printf(NULL_COLOR"    NULL\n");
+	}
+	else
+	{
+		printf(KEY_COLOR"    exec"COLON_COLOR": "); 
+			print_quotes(cmd->exec);
+			printf(COMMA_COLOR",\n"RESET);
+		printf(KEY_COLOR"    argv"COLON_COLOR": "); 
+			print_str_arr(cmd->argv);
+			printf(COMMA_COLOR",\n"RESET);
+		printf(KEY_COLOR"    redirs"COLON_COLOR": "); 
+			printf(NULL_COLOR"NULL\n");
+		printf(KEY_COLOR"    next"COLON_COLOR": ");
+		if (cmd->next != NULL)
+			printf(NULL_COLOR"%p\n", cmd->next);
+		else
+			printf(NULL_COLOR"NULL\n");
+	}
+	printf(CURLY_COLOR"}\n"RESET);
 }
