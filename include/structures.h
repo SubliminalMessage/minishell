@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/27 10:44:36 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2022/12/29 08:49:58 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef enum e_bool
 	true
 }	t_bool;
 
+// ! TODO Remove when new version is implemented
 typedef struct	s_redirs // TODO: there's work to be done here...
 {
 	char *in;		// Either "<" or "<<". If NULL, no redirection. Use str_equals() to compare.
@@ -27,13 +28,53 @@ typedef struct	s_redirs // TODO: there's work to be done here...
 	char *file_out;	// Null by default. If not null, it's the file to write to.
 } t_redirs;
 
+// ! TODO Remove when new version is implemented
 typedef struct	s_command
 {
 	struct s_command	*next;
 	char		*exec;
-	char		**argv; // argv[0] is the command name; but if given as a path, should it be the whole path?
+	char		**argv; // argv[0] is the command; but if given as a path, should it be the whole path?
 	t_redirs	*redirs; // If NULL, no redirs.
 }	t_command;
+
+/**
+ * @brief Structure to store the information of a file.
+ * 
+ * @note When used in heredoc (<<), name is the keyword to end.
+ * @note implemented as a linked list.
+ */
+typedef struct s_file
+{
+	struct s_file	*next;
+	char	*name;
+	int		fd;
+	t_bool	append;
+}			t_file;
+
+/**
+ * @brief Structure responsible for storing all the data needed to execute 
+ * a command.
+ * 
+ * @note implemented as a linked list.
+ */
+typedef struct s_cmd
+{
+	char	*cmd;
+	/**
+	 * Input files (linked list).
+	 * 
+	 * @note All are concatenated into fd_in before execution.
+	 */
+	t_file	*in;
+	/**
+	 * File descriptor used as input.
+	*/
+	int		fd_in;
+	/**
+	 * Output files (Linked list).
+	 */
+	t_file	*out;
+}	t_cmd;
 
 typedef struct	s_env
 {
