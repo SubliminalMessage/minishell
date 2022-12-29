@@ -90,7 +90,7 @@ t_command *new_cmd(char **args)
 	cmd->exec = NULL;
 	cmd->argv = args;
 	if (args != NULL)
-		cmd->exec = args[0];
+		cmd->exec = args[0]; // TODO Not correct (example: < Makefile cat)
 	return (cmd);
 }
 

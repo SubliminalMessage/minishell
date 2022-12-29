@@ -20,7 +20,7 @@
  * 
  * @return bool, true if the shell should NOT be exited, false otherwise
 */
-t_bool    prompt(t_env **env_list)
+t_bool	prompt(t_env **env_list)
 {
 	char    *prompt;
 	char    *line_read;
@@ -28,7 +28,6 @@ t_bool    prompt(t_env **env_list)
 
 	prompt = get_displayable_prompt(*env_list);
 	line_read = readline(prompt);
-	line_read = readline("012345678901234567899> ");
 	free(prompt);
 	add_history(line_read);
 
