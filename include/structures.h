@@ -59,10 +59,13 @@ typedef struct s_file
  */
 typedef struct s_cmd
 {
-	char	*cmd;
+	struct s_cmd	*next;
+	// char	*cmd; // TODO
+	// char	**envp; // TODO
 	/**
 	 * Input files (linked list).
 	 * 
+	 * @note The pipe's fd with the input will be on the first position (if existing).
 	 * @note All are concatenated into fd_in before execution.
 	 */
 	t_file	*in;
@@ -72,6 +75,8 @@ typedef struct s_cmd
 	int		fd_in;
 	/**
 	 * Output files (Linked list).
+	 * @note The pipe's fd with the output will be on the last position (if existing).
+	 * @note The content is sent to the first element of this list.
 	 */
 	t_file	*out;
 }	t_cmd;
