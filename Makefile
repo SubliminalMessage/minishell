@@ -14,7 +14,7 @@ INCLUDE				= -I include -I libft/include
 SRCS_PATH			= src/
 LIBFT_PATH			= libft/
 LIBFT				= $(LIBFT_PATH)libft.a
-LIBFT_REPO			= $(LIBFT_PATH)/Makefile
+LIBFT_REPO			= $(LIBFT_PATH)Makefile
 
 ### ---   ---   ---         ---   ---   --- ###
 #               PROJECT FILES                 #
