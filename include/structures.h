@@ -6,12 +6,14 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/29 08:49:58 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/11 15:24:38 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
+
+# include <minishell.h>
 
 typedef enum e_bool
 {
@@ -37,15 +39,29 @@ typedef struct	s_command
 	t_redirs	*redirs; // If NULL, no redirs.
 }	t_command;
 
+typedef struct	s_env
+{
+	struct s_env    *next;
+	char	*name;
+	char	*value;
+	char	*join;
+} t_env;
+
+
+// ------------------------------------
+
+typedef t_list t_file_lst;
+typedef t_list t_cmd_lst;
+// typedef t_list t__lst;
+
 /**
  * @brief Structure to store the information of a file.
  * 
  * @note When used in heredoc (<<), name is the keyword to end.
- * @note implemented as a linked list.
+ * @note implemented in a linked list.
  */
 typedef struct s_file
 {
-	struct s_file	*next;
 	char	*name;
 	int		fd;
 	t_bool	append;
@@ -55,11 +71,10 @@ typedef struct s_file
  * @brief Structure responsible for storing all the data needed to execute 
  * a command.
  * 
- * @note implemented as a linked list.
+ * @note implemented in a linked list.
  */
 typedef struct s_cmd
 {
-	struct s_cmd	*next;
 	// char	*cmd; // TODO
 	// char	**envp; // TODO
 	/**
@@ -80,13 +95,5 @@ typedef struct s_cmd
 	 */
 	t_file	*out;
 }	t_cmd;
-
-typedef struct	s_env
-{
-	struct s_env	*next;
-	char	*name;
-	char	*value;
-	char	*join;
-} t_env;
 
 #endif
