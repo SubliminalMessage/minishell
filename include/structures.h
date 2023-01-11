@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/01/11 15:24:38 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/11 15:32:16 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,26 @@ typedef t_list t_cmd_lst;
 // typedef t_list t__lst;
 
 /**
+ * @brief The type of file in a t_file structure.
+ */
+typedef enum e_ftype
+{
+	APPEND_FTYPE,
+	TRUNC_FTYPE,
+}	t_ftype;
+
+/**
  * @brief Structure to store the information of a file.
  * 
  * @note When used in heredoc (<<), name is the keyword to end.
- * @note implemented in a linked list.
+ * @note implemented as a linked list.
  */
 typedef struct s_file
 {
+	struct s_file	*next;
 	char	*name;
 	int		fd;
-	t_bool	append;
+	t_ftype	type;
 }			t_file;
 
 /**
@@ -83,7 +93,7 @@ typedef struct s_cmd
 	 * @note The pipe's fd with the input will be on the first position (if existing).
 	 * @note All are concatenated into fd_in before execution.
 	 */
-	t_file	*in;
+	t_file_lst	*in;
 	/**
 	 * File descriptor used as input.
 	*/
@@ -93,7 +103,7 @@ typedef struct s_cmd
 	 * @note The pipe's fd with the output will be on the last position (if existing).
 	 * @note The content is sent to the first element of this list.
 	 */
-	t_file	*out;
+	t_file_lst	*out;
 }	t_cmd;
 
 #endif
