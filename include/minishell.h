@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/27 12:59:22 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/11 15:34:31 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 // Custom headers
 
+# include "libft.h"
 # include "pipex.h"
 
 // Colors: https://www.darklaunch.com/print-terminal-colors.html

@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/01/10 08:03:49 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/17 12:27:02 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
+
+# include <minishell.h>
 
 typedef enum e_bool
 {
@@ -36,6 +38,29 @@ typedef struct	s_command
 	char		**argv; // argv[0] is the command; but if given as a path, should it be the whole path?
 	t_redirs	*redirs; // If NULL, no redirs.
 }	t_command;
+
+typedef struct	s_env
+{
+	struct s_env    *next;
+	char	*name;
+	char	*value;
+	char	*join;
+} t_env;
+
+
+// ------------------------------------
+
+typedef struct s_list t_file_lst;
+typedef struct s_list t_cmd_lst;
+
+/**
+ * @brief The type of file in a t_file structure.
+ */
+typedef enum e_ftype
+{
+	APPEND_FTYPE,
+	TRUNC_FTYPE,
+}	t_ftype;
 
 /**
  * @brief The type of file in a t_file structure.
@@ -64,11 +89,10 @@ typedef struct s_file
  * @brief Structure responsible for storing all the data needed to execute 
  * a command.
  * 
- * @note implemented as a linked list.
+ * @note implemented in a linked list.
  */
 typedef struct s_cmd
 {
-	struct s_cmd	*next;
 	// char	*cmd; // TODO
 	// char	**envp; // TODO
 	/**
@@ -77,7 +101,7 @@ typedef struct s_cmd
 	 * @note The pipe's fd with the input will be on the first position (if existing).
 	 * @note All are concatenated into fd_in before execution.
 	 */
-	t_file	*in;
+	t_file_lst	*in;
 	/**
 	 * File descriptor used as input.
 	*/
@@ -87,15 +111,7 @@ typedef struct s_cmd
 	 * @note The pipe's fd with the output will be on the last position (if existing).
 	 * @note The content is sent to the first element of this list.
 	 */
-	t_file	*out;
+	t_file_lst	*out;
 }	t_cmd;
-
-typedef struct	s_env
-{
-	struct s_env	*next;
-	char	*name;
-	char	*value;
-	char	*join;
-} t_env;
 
 #endif
