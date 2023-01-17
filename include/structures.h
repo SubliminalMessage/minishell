@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/29 08:49:58 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/10 08:03:49 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ typedef struct	s_command
 }	t_command;
 
 /**
+ * @brief The type of file in a t_file structure.
+ */
+typedef enum e_ftype
+{
+	APPEND_FTYPE,
+	TRUNC_FTYPE,
+}	t_ftype;
+
+/**
  * @brief Structure to store the information of a file.
  * 
  * @note When used in heredoc (<<), name is the keyword to end.
@@ -48,7 +57,7 @@ typedef struct s_file
 	struct s_file	*next;
 	char	*name;
 	int		fd;
-	t_bool	append;
+	t_ftype	type;
 }			t_file;
 
 /**
