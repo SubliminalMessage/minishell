@@ -33,6 +33,12 @@ SRC_FILES	= 	main.c \
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
+DEBUG		=	debug
+
+DEBUG_FILES	=	debug/main.c
+
+DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
+
 ### ---   ---   ---         ---   ---   --- ###
 #              COLORS & EXTRAS :)             #
 ### ---   ---   ---         ---   ---   --- ###
@@ -78,6 +84,7 @@ clean: $(LIBFT_REPO)
 fclean: clean
 	@echo $(RED)"[Deleting $(NAME)]"$(NC)
 	@rm -f $(NAME)
+	@rm -f $(DEBUG)
 
 re: fclean all
 
@@ -94,3 +101,15 @@ TODO:
 
 execute: all
 	@clear && ./minishell --debug
+
+
+### ---   ---   ---         ---   ---   --- ###
+#                    DEBUG                    #
+### ---   ---   ---         ---   ---   --- ###
+
+$(DEBUG): $(DEBUG_OBJS)
+	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
+	$(CC) $(CFLAGS) -I src/debug/ $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
+
+exec_dev: $(DEBUG)
+	@./$(DEBUG)
