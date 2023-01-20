@@ -6,29 +6,48 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/01/19 10:01:32 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/19 12:05:55 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug_minishell.h"
 
+t_file	*openfile(char	*file)
+{
+	t_file	*file;
+
+	file = malloc(sizeof(t_file));
+	if (!file)
+		return (NULL);
+	file->fd = open("Makefile", O_RDONLY);
+	if (fd == -1)
+		return (NULL);
+	file->type = READ;
+
+}
+
 // < Makefile cat | wc -l
 t_cmd_lst	*ft_cmd1()
 {
 	t_cmd_lst	*cmd;
+	t_cmd		*command;
 
-	cmd = malloc(sizeof(t_cmd_lst));
-	if (!cmd)
+	command = malloc(sizeof(t_cmd));
+	if (!command)
 		return (NULL);
-	return (cmd);
-}
-
-void	free_cmd(t_cmd	*cmd)
-{
+	command->cmd = "/bin/cat";
+	
+	cmd = ft_lstnew(command);
 	if (!cmd)
-		return ;
+	{
+		ft_free_cmd(command);
+		return (NULL);
+	}
+
+	t_file *makef = openfile(ft_strdup("Makefile"));
+	cmd->in = ft_lstnew(makef);
 	// TODO
-	free(cmd);
+	return (cmd);
 }
 
 int	main(void)
@@ -41,6 +60,6 @@ int	main(void)
 	ft_putendl_fd("Executing...", 1);
 	// TODO execute
 	ft_putendl_fd("Execution ended", 1);
-	ft_lstclear((t_list**) &cmd, (void (*)(void *)) free_cmd);
+	ft_free_cmd_lst(cmd);
 	return (0);
 }

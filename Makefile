@@ -35,9 +35,10 @@ SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
 DEBUG		=	debug
 
-DEBUG_FILES	=	debug/main.c
+DEBUG_FILES	=	main.c \
+				clean_cmd.c
 
-DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
+DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/debug/%.o)
 
 ### ---   ---   ---         ---   ---   --- ###
 #              COLORS & EXTRAS :)             #
@@ -112,4 +113,5 @@ $(DEBUG): $(DEBUG_OBJS)
 	$(CC) $(CFLAGS) -I src/debug/ $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
 
 exec_dev: $(DEBUG)
-	@./$(DEBUG)
+	@#./$(DEBUG)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(DEBUG)
