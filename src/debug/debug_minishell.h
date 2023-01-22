@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/01/21 18:37:43 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/23 11:24:16 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef enum e_ftype
 {
 	APPEND_FTYPE,
 	TRUNC_FTYPE,
-	READ, // TODO needed?
+	READ,
+	PIPE
 }	t_ftype;
 
 /**
@@ -76,10 +77,14 @@ typedef struct s_cmd
 	t_file_lst	*out;
 }	t_cmd;
 
-
-
+// Clean
+void	ft_close_fd(int *fd);
 void	ft_free_file(t_file	*file);
 void	ft_free_cmd(t_cmd	*cmd);
 void	ft_free_cmd_lst(t_cmd_lst	*cmd);
+
+// get
+t_file	*get_file(t_file_lst	*lst);
+t_cmd	*get_cmd(t_cmd_lst	*lst);
 
 #endif

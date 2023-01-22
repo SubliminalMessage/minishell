@@ -36,7 +36,8 @@ SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 DEBUG		=	debug
 
 DEBUG_FILES	=	main.c \
-				clean_cmd.c
+				clean_cmd.c \
+				get.c
 
 DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/debug/%.o)
 
