@@ -115,4 +115,5 @@ $(DEBUG): $(DEBUG_OBJS)
 
 exec_dev: $(DEBUG)
 	@#./$(DEBUG)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(DEBUG)
+	@#valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(DEBUG)
+	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no ./$(DEBUG)

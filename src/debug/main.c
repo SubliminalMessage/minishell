@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/01/23 11:22:57 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:27:34 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,34 @@ t_cmd_lst	*ft_cmd1()
 		new = ft_lstnew(ft_newpipefd(fds[i * 2 + 1]));
 		// TODO malloc error
 		ft_lstadd_back(&get_cmd(tmp->next)->in, new);
+		tmp = tmp->next;
 		i++;
 	}
 	free(fds); // The array is no longer needed
+	// stdin?
+
+	new = ft_lstnew(ft_newpipefd(1));
+	// TODO malloc error
+	ft_lstadd_back(&get_cmd(tmp)->out, new);
 
 	return (cmd);
+}
+
+// ************************** Execution
+int	ft_exe_cmd(t_cmd_lst	*cmd, t_cmd_lst *full)
+{ // TODO Is there a better way?
+	int	pid;
+
+	pid = fork();
+	if (pid)
+		return (pid);
+	cmd++;
+	// TODO redirect pipes
+	// TODO close pipes
+	// TODO exec
+	ft_free_cmd_lst(full);
+	exit(2);
+	return (-1);
 }
 
 int	main(void)
@@ -117,8 +140,15 @@ int	main(void)
 	if (!cmd)
 		return (1);
 	ft_putendl_fd("Executing...", 1);
-	// TODO execute
+	int	pid1 = ft_exe_cmd(cmd, cmd);
+	int	pid2 = ft_exe_cmd(cmd->next, cmd);
+	// TODO Close pids
+	
+	int result;
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, &result, 0); // TODO get correct result
 	ft_putendl_fd("Execution ended", 1);
+	ft_printf("Result: %i\n", result);
 	ft_free_cmd_lst(cmd);
-	return (0);
+	return (result);
 }
