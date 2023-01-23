@@ -6,18 +6,49 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:46:17 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/27 10:45:43 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/23 13:46:27 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 /**
+ * @brief Expands the Environment variables of every single ARGV
+ * 
+ * @param **cmd, the list of commands
+ * @param *env_list, the list of environment variables of the Minishell
+*/
+void	expand_arguments(t_command **cmd, t_env *env_list)
+{
+	t_command *node;
+	char *str;
+	int index;
+
+	if (!cmd || !(*cmd) || !(*cmd)->argv)
+		return ;
+	node = *cmd;
+	while (node)
+	{
+		index = -1;
+		str = NULL;
+		while (str || index == -1)
+		{
+			index++;
+			str = node->argv[index];
+			if (!str)
+				break ;
+			node->argv[index] = expand_str(str, env_list);
+		}
+		node = node->next;
+	}
+}
+
+/**
  * @brief This function is used to execute the line the user's wrote
  * 
  * @param line The line to be executed (raw, directly from readline)
 */
-void execute_line(char *line)
+void execute_line(char *line, t_env **env_list)
 {
     char **raw_cmds;
     t_command *cmd_list;
@@ -35,6 +66,7 @@ void execute_line(char *line)
 
     // 1.3. Expand the variables
     // TODO: expand_variables(&cmd_list);
+	expand_arguments(&cmd_list, *env_list);
     print_cmds(cmd_list);
 
     // 2. Check everything is fine      
@@ -90,7 +122,7 @@ t_command *new_cmd(char **args)
     cmd->exec = NULL;
     cmd->argv = args;
     if (args != NULL)
-        cmd->exec = args[0];
+        cmd->exec =  ft_strdup(args[0]);
     return (cmd);
 }
 
@@ -123,6 +155,7 @@ void free_cmd(t_command **list)
         while (next->argv[++i] != NULL)
             free(next->argv[i]);
         free(next->argv);
+		free(next->exec);
         //free_redir(&next->redir);
         temp = next;
         next = next->next;

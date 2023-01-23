@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/27 10:43:40 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:16:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
 char	**ft_split_quote_conscious(const char *s, char split_char);
 char **clean_nulls(char **str);
-void execute_line(char *line);
+void execute_line(char *line, t_env **env_list);
 t_env   *new_env(char *str);
 void	ft_envadd_back(t_env **lst, t_env *new);
 void    free_environ(t_env **env_list);
@@ -74,5 +74,15 @@ void free_cmd(t_command **list);
 t_command *new_cmd(char **args);
 t_command   *parse_commands(char **cmds);
 void    free_str_array(char **array);
+char *str_replace(char *str, char *find, char *replacement, int from);
+int str_index_of(char *str, char *to_find, int from);
+char *get_token(char *str);
+t_bool not(t_bool b);
+char	*dequote_all(char *str);
+char	*dequote_str(char *str, int start, int end);
+char *expand_str(char *str, t_env *env_list);
+t_bool  is_builtin(char *cmd_name);
+void	execute_builtin(char *builtin_name, int argc, char **argv);
+int echo(int argc, char **argv);
 
 #endif

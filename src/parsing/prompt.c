@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:18 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 16:46:27 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:15:59 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_bool    prompt(t_env **env_list)
     free(prompt);
     add_history(line_read);
 
-    execute_line(line_read);
+    execute_line(line_read, env_list);
 
     didExit = line_read == NULL || str_equals(line_read, "exit");
     if (line_read)

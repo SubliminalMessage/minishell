@@ -27,8 +27,13 @@ SRC_FILES	= 	main.c \
 				parsing/commands.c \
 				parsing/environ.c \
 				parsing/expansion.c \
+				parsing/dequote.c \
+				builtins/utils.c \
+				builtins/echo.c \
 				utils/handle_str.c \
+				utils/handle_booleans.c \
 				utils/split_quote_conscious.c \
+				utils/str_replace.c \
 				utils/debug/print_debug.c # TODO This file is not meant to reach the final version of the Minishell
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)

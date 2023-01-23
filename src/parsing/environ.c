@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:09:20 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/27 10:44:57 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/23 13:40:48 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void    update_env(t_env **list, char *name, char *new_value)
  * @param name The name of the variable to look for
  * @param list The list of the environment variables
  * 
- * @return The value of the variable found. NULL if not found.
+ * @return The value of the variable found. \0 if not found.
 */
 char    *ft_getenv(char *name, t_env *list)
 {
@@ -167,5 +167,5 @@ char    *ft_getenv(char *name, t_env *list)
             return (list->value);
         list = list->next;
     }
-    return (NULL);
+    return ("\0");
 }
