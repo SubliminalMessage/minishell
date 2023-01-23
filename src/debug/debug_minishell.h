@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/01/23 12:17:29 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/23 13:32:58 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h> // Open, close
-# include <sys/wait.h>
+# include <sys/wait.h> // fork
 // # include <>
 
 typedef struct s_list t_file_lst;

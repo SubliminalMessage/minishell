@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/01/23 12:27:34 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/23 14:02:21 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_cmd_lst	*ft_cmd1()
 	if (!command)
 		return (NULL);
 	command->cmd = ft_strdup("/bin/cat"); // TODO malloc error
+	command->args = ft_split("cat", ' '); // TODO malloc error
 	
 	cmd = ft_lstnew(command);
 	if (!cmd)
@@ -107,7 +108,7 @@ t_cmd_lst	*ft_cmd1()
 	}
 	free(fds); // The array is no longer needed
 	// stdin?
-
+	command->fd_in = -1; // INVALID
 	new = ft_lstnew(ft_newpipefd(1));
 	// TODO malloc error
 	ft_lstadd_back(&get_cmd(tmp)->out, new);
@@ -116,17 +117,85 @@ t_cmd_lst	*ft_cmd1()
 }
 
 // ************************** Execution
-int	ft_exe_cmd(t_cmd_lst	*cmd, t_cmd_lst *full)
+#define STDIN 0
+#define STDOUT 1
+/**
+ * @brief Set's the given file descriptors as stdin and stdout.
+ * Closes the given file descriptors.
+ * 
+ * @param fd_in File descriptor for stdin.
+ * @param fd_out File descriptor for stdout.
+ */
+void	ft_redirect_io(int *fd_in, int *fd_out)
+{
+	if (*fd_in != STDIN)
+	{
+		dup2(*fd_in, STDIN);
+		ft_close_fd(fd_in);
+	}
+	if (*fd_out != STDOUT)
+	{
+		dup2(*fd_out, STDOUT);
+		ft_close_fd(fd_out);
+	}
+}
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 4098
+#endif
+
+static int	ft_copyall(int rfd, int wfd)
+{
+	int		r;
+	int		total;
+	char	buffer[BUFFER_SIZE];
+
+	total = 0;
+	while (1) // TODO use t_bool
+	{
+		r = read(rfd, buffer, BUFFER_SIZE);
+		if (r == -1)
+			break;
+		write(wfd, buffer, r);
+		total += r;
+		if (r < BUFFER_SIZE)
+			break;
+	}
+	return (total);
+}
+
+int	ft_join_input(t_cmd	*cmd)
+{
+	int			pipe_fds[2];
+	t_file_lst *file_lst;
+
+	pipe(pipe_fds); // TODO check valid
+	file_lst = cmd->in;
+	while (file_lst)
+	{
+		ft_copyall(get_file(file_lst)->fd, pipe_fds[1]); // TODO check error?
+		ft_close_fd(&get_file(file_lst)->fd);
+		file_lst = file_lst->next;
+	}
+	ft_close_fd(&pipe_fds[1]);
+	
+	return (pipe_fds[1]);
+}
+
+int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 { // TODO Is there a better way?
 	int	pid;
+	t_cmd	*cmd;
 
 	pid = fork();
 	if (pid)
 		return (pid);
-	cmd++;
-	// TODO redirect pipes
-	// TODO close pipes
-	// TODO exec
+	cmd = get_cmd(cmd_lst);
+	ft_printf("Executing: '%s'\n", cmd->cmd); // TODO print all info
+	ft_join_input(cmd);
+	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
+	// TODO execute
+	// execve(cmd->cmd, cmd->args, NULL);
 	ft_free_cmd_lst(full);
 	exit(2);
 	return (-1);
