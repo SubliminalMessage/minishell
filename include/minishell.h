@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/01/19 13:16:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:39:09 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,11 @@
 # define CYAN "\033[1;36m"
 # define RESET "\033[0;0m"
 
-# define PROMPT_CWD "\033[38;5;169m"
-# define PROMPT_ACT "\033[38;5;24m"
-# define PROMPT_RESET "\033[1;0m"
+# define PROMPT_TITLE "\033[38;5;24m"
+#define PROMPT_ARROW "\033[38;5;170m"
 
-# define PROMPT_BEFORE WHITE"﴾"PROMPT_CWD"  "
-# define PROMPT_AFTER WHITE"  ﴿  "PROMPT_ACT"»  "RESET
+# define DISPLAYABLE_PROMPT PROMPT_ARROW" » "RESET
 
-// CWD Max String Size
 # define CWD_SIZE 1000
 
 // All the functions
@@ -77,12 +74,13 @@ void    free_str_array(char **array);
 char *str_replace(char *str, char *find, char *replacement, int from);
 int str_index_of(char *str, char *to_find, int from);
 char *get_token(char *str);
-t_bool not(t_bool b);
+t_bool	not(t_bool b);
 char	*dequote_all(char *str);
 char	*dequote_str(char *str, int start, int end);
-char *expand_str(char *str, t_env *env_list);
+char	*expand_str(char *str, t_env *env_list);
 t_bool  is_builtin(char *cmd_name);
-void	execute_builtin(char *builtin_name, int argc, char **argv);
+void	execute_builtin(char *builtin_name, int argc, char **argv, t_env **env);
 int echo(int argc, char **argv);
+int pwd(void);
 
 #endif

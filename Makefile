@@ -3,7 +3,7 @@
 ### ---   ---   ---         ---   ---   --- ###
 
 CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra #-g3 -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -g3 -fsanitize=address
 READLINE_FLAGS = -lreadline
 
 ### ---   ---   ---         ---   ---   --- ###
@@ -30,6 +30,7 @@ SRC_FILES	= 	main.c \
 				parsing/dequote.c \
 				builtins/utils.c \
 				builtins/echo.c \
+				builtins/pwd.c \
 				utils/handle_str.c \
 				utils/handle_booleans.c \
 				utils/split_quote_conscious.c \
