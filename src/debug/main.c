@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/01/23 14:02:21 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/24 07:55:54 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_cmd_lst	*ft_cmd1()
 	// stdin?
 	command->fd_in = -1; // INVALID
 	new = ft_lstnew(ft_newpipefd(1));
+	get_file(new)->type = TRUNC_FTYPE;
 	// TODO malloc error
 	ft_lstadd_back(&get_cmd(tmp)->out, new);
 
@@ -182,6 +183,32 @@ int	ft_join_input(t_cmd	*cmd)
 	return (pipe_fds[1]);
 }
 
+void	ft_print_minishell(t_cmd_lst *command)
+{
+	t_cmd		*cmd;
+	t_file_lst	*f;
+
+	cmd = get_cmd(command);
+	ft_printf("Cmd: '%s'\n", cmd->cmd);
+	ft_printf("In:\n");
+	f = cmd->in;
+	while (f)
+	{
+		ft_printf("  - '%s' -> fd: %d, type: %d\n", get_file(f)->name, get_file(f)->fd, get_file(f)->type);
+		f = f->next;
+	}
+	ft_printf("Out:\n");
+	f = cmd->out;
+	while (f)
+	{
+		ft_printf("  - '%s' -> fd: %d, type: %d\n", get_file(f)->name, get_file(f)->fd, get_file(f)->type);
+		f = f->next;
+	}
+	ft_printf("\n\n\n\n");
+	if (command->next)
+		ft_print_minishell(command->next);
+}
+
 int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 { // TODO Is there a better way?
 	int	pid;
@@ -191,7 +218,6 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	if (pid)
 		return (pid);
 	cmd = get_cmd(cmd_lst);
-	ft_printf("Executing: '%s'\n", cmd->cmd); // TODO print all info
 	ft_join_input(cmd);
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
 	// TODO execute
@@ -209,12 +235,14 @@ int	main(void)
 	if (!cmd)
 		return (1);
 	ft_putendl_fd("Executing...", 1);
+	ft_print_minishell(cmd);
 	int	pid1 = ft_exe_cmd(cmd, cmd);
+	waitpid(pid1, NULL, 0);
 	int	pid2 = ft_exe_cmd(cmd->next, cmd);
 	// TODO Close pids
 	
 	int result;
-	waitpid(pid1, NULL, 0);
+	//waitpid(pid1, NULL, 0);
 	waitpid(pid2, &result, 0); // TODO get correct result
 	ft_putendl_fd("Execution ended", 1);
 	ft_printf("Result: %i\n", result);
