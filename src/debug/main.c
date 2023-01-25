@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/01/24 07:55:54 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:31:44 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ t_cmd_lst	*ft_cmd1()
 	{
 		new = ft_lstnew(ft_newpipefd(fds[i * 2]));
 		// TODO malloc error
+		get_file(new)->type = TRUNC_FTYPE;
 		ft_lstadd_back(&get_cmd(tmp)->out, new);
 		new = ft_lstnew(ft_newpipefd(fds[i * 2 + 1]));
 		// TODO malloc error
@@ -110,8 +111,8 @@ t_cmd_lst	*ft_cmd1()
 	// stdin?
 	command->fd_in = -1; // INVALID
 	new = ft_lstnew(ft_newpipefd(1));
-	get_file(new)->type = TRUNC_FTYPE;
 	// TODO malloc error
+	get_file(new)->type = TRUNC_FTYPE;
 	ft_lstadd_back(&get_cmd(tmp)->out, new);
 
 	return (cmd);
@@ -131,11 +132,13 @@ void	ft_redirect_io(int *fd_in, int *fd_out)
 {
 	if (*fd_in != STDIN)
 	{
+		ft_printf_fd(2, "redirecting stdin: %d -> %d\n", *fd_in, STDIN);
 		dup2(*fd_in, STDIN);
 		ft_close_fd(fd_in);
 	}
 	if (*fd_out != STDOUT)
 	{
+		ft_printf_fd(2, "redirecting stdout: %d -> %d\n", *fd_out, STDOUT);
 		dup2(*fd_out, STDOUT);
 		ft_close_fd(fd_out);
 	}
@@ -171,6 +174,7 @@ int	ft_join_input(t_cmd	*cmd)
 	t_file_lst *file_lst;
 
 	pipe(pipe_fds); // TODO check valid
+	cmd->fd_in = pipe_fds[0];
 	file_lst = cmd->in;
 	while (file_lst)
 	{
@@ -183,30 +187,34 @@ int	ft_join_input(t_cmd	*cmd)
 	return (pipe_fds[1]);
 }
 
-void	ft_print_minishell(t_cmd_lst *command)
+void	ft_print_minishell(t_cmd_lst *command, int fd, int recursive)
 {
 	t_cmd		*cmd;
 	t_file_lst	*f;
 
 	cmd = get_cmd(command);
-	ft_printf("Cmd: '%s'\n", cmd->cmd);
-	ft_printf("In:\n");
+	ft_printf_fd(fd, "Cmd: '%s'\n", cmd->cmd);
+	ft_printf_fd(fd, "fd_in: %d\n", cmd->fd_in);
+	ft_printf_fd(fd, "In:\n");
 	f = cmd->in;
 	while (f)
 	{
-		ft_printf("  - '%s' -> fd: %d, type: %d\n", get_file(f)->name, get_file(f)->fd, get_file(f)->type);
+		ft_printf_fd(fd, "  - '%s' -> fd: %d, type: %d\n",
+			   get_file(f)->name, get_file(f)->fd, get_file(f)->type);
 		f = f->next;
 	}
-	ft_printf("Out:\n");
+	ft_printf_fd(fd, "Out:\n");
 	f = cmd->out;
+	ft_putnbr_fd(get_file(f)->fd, 2);
 	while (f)
 	{
-		ft_printf("  - '%s' -> fd: %d, type: %d\n", get_file(f)->name, get_file(f)->fd, get_file(f)->type);
+		ft_printf_fd(fd, "  - '%s' -> fd: %d, type: %d\n",
+			   get_file(f)->name, get_file(f)->fd, get_file(f)->type);
 		f = f->next;
 	}
-	ft_printf("\n\n\n\n");
-	if (command->next)
-		ft_print_minishell(command->next);
+	ft_printf_fd(fd, "\n\n\n\n");
+	if (command->next && recursive)
+	 	ft_print_minishell(command->next, fd, recursive);
 }
 
 int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
@@ -220,13 +228,19 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	cmd = get_cmd(cmd_lst);
 	ft_join_input(cmd);
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
+	ft_print_minishell(cmd_lst, 2, 0);
 	// TODO execute
-	// execve(cmd->cmd, cmd->args, NULL);
+	ft_printf_fd(2, "******************* Executing *******************\n");
+	// char	buffer[50];
+	// read(0, buffer, 50);
+	// ft_printf_fd(2, "****\n%s\n****", buffer);
+	execve(cmd->cmd, cmd->args, NULL);
 	ft_free_cmd_lst(full);
 	exit(2);
 	return (-1);
 }
 
+//int	main(int argc, char **argv, char **envp)
 int	main(void)
 {
 	t_cmd_lst	*cmd;
@@ -235,7 +249,6 @@ int	main(void)
 	if (!cmd)
 		return (1);
 	ft_putendl_fd("Executing...", 1);
-	ft_print_minishell(cmd);
 	int	pid1 = ft_exe_cmd(cmd, cmd);
 	waitpid(pid1, NULL, 0);
 	int	pid2 = ft_exe_cmd(cmd->next, cmd);

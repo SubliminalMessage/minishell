@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:07:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/01/23 11:25:09 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:19:47 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@
  */
 void	ft_close_fd(int *fd)
 {
-	if (*fd == -1)
-		return ;
-	close(*fd);
+	if (*fd > 1)
+		close(*fd);
 	*fd = -1;
 }
 
