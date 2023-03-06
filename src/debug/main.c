@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/06 17:30:49 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/06 18:14:33 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +200,8 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
 	// TODO execute
 	ft_printf_fd(2, "******************* Executing *******************\n");
-	ft_printf_fd(1, "Second time?\n"); // TODO check
-	ft_printf_fd(1, "cmd: %s\n", cmd->cmd);
+	// ft_printf_fd(1, "Second time?\n"); // TODO check
+	// ft_printf_fd(1, "cmd: %s\n", cmd->cmd);
 	// char	buffer[50];
 	// read(0, buffer, 50);
 	// ft_printf_fd(2, "****\n%s\n****", buffer);
@@ -220,12 +220,11 @@ int	main(void)
 	if (!cmd)
 		return (1);
 	int	pid1 = ft_exe_cmd(cmd, cmd);
-	waitpid(pid1, NULL, 0);
 	int	pid2 = ft_exe_cmd(cmd->next, cmd);
 	// TODO Close pids
 	
 	int result;
-	//waitpid(pid1, NULL, 0);
+	waitpid(pid1, NULL, 0);
 	waitpid(pid2, &result, 0); // TODO get correct result
 	ft_putendl_fd("Execution ended", 1);
 	ft_printf("Result: %i\n", result);
