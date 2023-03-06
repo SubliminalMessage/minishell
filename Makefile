@@ -13,8 +13,8 @@ READLINE_FLAGS = -lreadline
 INCLUDE				= -I include -I libft/include
 SRCS_PATH			= src/
 LIBFT_PATH			= libft/
-LIBFT				= $(LIBFT_PATH)/libft.a
-LIBFT_REPO			= $(LIBFT_PATH)/Makefile
+LIBFT				= $(LIBFT_PATH)libft.a
+LIBFT_REPO			= $(LIBFT_PATH)Makefile
 
 ### ---   ---   ---         ---   ---   --- ###
 #               PROJECT FILES                 #
@@ -33,6 +33,15 @@ SRC_FILES	= 	main.c \
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
+DEBUG		=	debug
+
+DEBUG_FILES	=	main.c \
+				clean_cmd.c \
+				get.c \
+				file.c
+
+DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/debug/%.o)
+
 ### ---   ---   ---         ---   ---   --- ###
 #              COLORS & EXTRAS :)             #
 ### ---   ---   ---         ---   ---   --- ###
@@ -43,6 +52,7 @@ PURPLE	= '\033[1;35m'
 YELLOW	= '\033[1;33m'
 WHITE	= '\033[1;37m'
 BLUE	= '\033[1;34m'
+NC		= '\033[0m'
 
 ### ---   ---   ---         ---   ---   --- ###
 #                     RULES                   #
@@ -53,7 +63,7 @@ BLUE	= '\033[1;34m'
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(SRC_OBJS)
-	@echo $(BLUE)[Compilation]$(WHITE): $(NAME)
+	@echo $(BLUE)[Compilation]$(WHITE): $(NAME)$(NC)
 	$(CC) $(CFLAGS) $(INCLUDE) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT): $(LIBFT_REPO)
@@ -64,18 +74,20 @@ $(LIBFT_REPO):
 	git submodule update --init --recursive
 
 bin/%.o: src/%.c
-	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "
+	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "$(NC)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean: $(LIBFT_REPO)
-	@echo $(RED)"[Deleting Object Files]"$(WHITE)
+	@echo $(RED)"[Deleting Object Files]"$(NC)
 	@rm -rf bin
-	@make fclean -C $(LIBFT_PATH)
+	@# TODO fclean the Libft
+	@#make fclean -C $(LIBFT_PATH)
 
 fclean: clean
-	@echo $(RED)"[Deleting $(NAME)]"$(WHITE)
+	@echo $(RED)"[Deleting $(NAME)]"$(NC)
 	@rm -f $(NAME)
+	@rm -f $(DEBUG)
 
 re: fclean all
 
@@ -90,5 +102,20 @@ TODO:
 	@grep "TODO" -nr -i --exclude-dir=".git" .
 	@echo "*****************************************"
 
-execute:
-	@make && clear && ./minishell --debug
+execute: all
+	@clear && ./minishell --debug
+
+
+### ---   ---   ---         ---   ---   --- ###
+#                    DEBUG                    #
+### ---   ---   ---         ---   ---   --- ###
+
+$(DEBUG): $(DEBUG_OBJS)
+	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
+	$(CC) $(CFLAGS) -I src/debug/ $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
+
+exec_dev: $(DEBUG)
+	@#./$(DEBUG)
+	@#valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(DEBUG)
+	@#valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no ./$(DEBUG)
+	valgrind ./$(DEBUG)

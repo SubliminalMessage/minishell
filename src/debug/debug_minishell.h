@@ -1,54 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structures.h                                       :+:      :+:    :+:   */
+/*   debug_minishell.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/01/18 09:46:42 by jre-gonz         ###   ########.fr       */
+/*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
+/*   Updated: 2023/03/06 15:25:47 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTURES_H
-# define STRUCTURES_H
+#ifndef DEBUG_MINISHELL_H
+# define DEBUG_MINISHELL_H
 
-# include <minishell.h>
-
-typedef enum e_bool
-{
-	false,
-	true
-}	t_bool;
-
-// ! TODO Remove when new version is implemented
-typedef struct	s_redirs // TODO: there's work to be done here...
-{
-	char *in;		// Either "<" or "<<". If NULL, no redirection. Use str_equals() to compare.
-	char *out;		// Either ">" or ">>". If NULL, no redirection.
-	char *file_in;	// Null by default. If not null, it's the file to read from.
-	char *file_out;	// Null by default. If not null, it's the file to write to.
-} t_redirs;
-
-// ! TODO Remove when new version is implemented
-typedef struct	s_command
-{
-	struct s_command	*next;
-	char		*exec;
-	char		**argv; // argv[0] is the command; but if given as a path, should it be the whole path?
-	t_redirs	*redirs; // If NULL, no redirs.
-}	t_command;
-
-typedef struct	s_env
-{
-	struct s_env    *next;
-	char	*name;
-	char	*value;
-	char	*join;
-} t_env;
-
-
-// ------------------------------------
+# include "libft.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h> // Open, close
+# include <sys/wait.h> // fork
+// # include <>
 
 typedef struct s_list t_file_lst;
 typedef struct s_list t_cmd_lst;
@@ -60,6 +30,8 @@ typedef enum e_ftype
 {
 	APPEND_FTYPE,
 	TRUNC_FTYPE,
+	READ,
+	PIPE
 }	t_ftype;
 
 /**
@@ -70,7 +42,6 @@ typedef enum e_ftype
  */
 typedef struct s_file
 {
-	struct s_file	*next;
 	char	*name;
 	int		fd;
 	t_ftype	type;
@@ -84,7 +55,8 @@ typedef struct s_file
  */
 typedef struct s_cmd
 {
-	// char	*cmd; // TODO
+	char	*cmd;
+	char	**args;
 	// char	**envp; // TODO
 	/**
 	 * Input files (linked list).
@@ -104,5 +76,20 @@ typedef struct s_cmd
 	 */
 	t_file_lst	*out;
 }	t_cmd;
+
+// Clean
+void	ft_close_fd(int *fd);
+void	ft_free_file(t_file	*file);
+void	ft_free_cmd(t_cmd	*cmd);
+void	ft_free_cmd_lst(t_cmd_lst	*cmd);
+
+// get
+t_file	*get_file(t_file_lst	*lst);
+t_cmd	*get_cmd(t_cmd_lst	*lst);
+
+// file
+t_file	*ft_newfile(char *file, t_ftype type, int opentype);
+t_file	*openfile(char *file);
+t_file	*ft_newpipefd(int fd);
 
 #endif

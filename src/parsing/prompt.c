@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:18 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 16:46:27 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/27 13:01:06 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,23 @@
  * 
  * @return bool, true if the shell should NOT be exited, false otherwise
 */
-t_bool    prompt(t_env **env_list)
+t_bool	prompt(t_env **env_list)
 {
-    char    *prompt;
-    char    *line_read;
-    int     didExit;
+	char    *prompt;
+	char    *line_read;
+	int     didExit;
 
-    prompt = get_displayable_prompt(*env_list);
-    line_read = readline(prompt);
-    free(prompt);
-    add_history(line_read);
+	prompt = get_displayable_prompt(*env_list);
+	line_read = readline(prompt);
+	free(prompt);
+	add_history(line_read);
 
-    execute_line(line_read);
+	execute_line(line_read);
 
-    didExit = line_read == NULL || str_equals(line_read, "exit");
-    if (line_read)
-        free(line_read);
-    return (didExit);
+	didExit = line_read == NULL || str_equals(line_read, "exit");
+	if (line_read)
+		free(line_read);
+	return (didExit);
 }
 
 /**
@@ -46,12 +46,12 @@ t_bool    prompt(t_env **env_list)
 */
 char *get_full_cwd(void)
 {
-    char buffer[CWD_SIZE + 1];
-    char *pwd;
+	char buffer[CWD_SIZE + 1];
+	char *pwd;
 
-    pwd = getcwd(buffer, CWD_SIZE);
-    buffer[CWD_SIZE] = '\0';
-    return (ft_strdup(pwd));
+	pwd = getcwd(buffer, CWD_SIZE);
+	buffer[CWD_SIZE] = '\0';
+	return (ft_strdup(pwd));
 }
 
 /**
@@ -64,30 +64,30 @@ char *get_full_cwd(void)
 */
 char    *get_prompt_cwd(t_env *env_list)
 {
-    char    *pwd;
-    char    *home;
-    char    *prompt_cwd;
-    size_t  home_len;
+	char    *pwd;
+	char    *home;
+	char    *prompt_cwd;
+	size_t  home_len;
 
-    pwd = get_full_cwd();
-    home = ft_getenv("HOME", env_list); 
-    if (home == NULL)
-        return (pwd);
-    prompt_cwd = ft_strnstr(pwd, home, ft_strlen(home));
-    if (prompt_cwd == NULL)
-        return (pwd);
-    home_len = ft_strlen(home);
-    prompt_cwd = ft_substr(pwd, home_len, ft_strlen(pwd) - home_len);
-    free(pwd);
-    pwd = prompt_cwd;
-    prompt_cwd = ft_strjoin("~", pwd);
-    free(pwd);
-    if (ft_strlen(prompt_cwd) == 2)
-    {
-        free(prompt_cwd);
-        return (ft_strdup("~"));
-    }
-    return (prompt_cwd);
+	pwd = get_full_cwd(); // TODO: this could be null (malloc at strdup)
+	home = ft_getenv("HOME", env_list); 
+	if (home == NULL)
+		return (pwd);
+	prompt_cwd = ft_strnstr(pwd, home, ft_strlen(home));
+	if (prompt_cwd == NULL)
+		return (pwd);
+	home_len = ft_strlen(home);
+	prompt_cwd = ft_substr(pwd, home_len, ft_strlen(pwd) - home_len);
+	free(pwd);
+	pwd = prompt_cwd;
+	prompt_cwd = ft_strjoin("~", pwd);
+	free(pwd);
+	if (ft_strlen(prompt_cwd) == 2)
+	{
+		free(prompt_cwd);
+		return (ft_strdup("~"));
+	}
+	return (prompt_cwd);
 }
 
 /**
@@ -99,12 +99,18 @@ char    *get_prompt_cwd(t_env *env_list)
 */
 char *get_displayable_prompt(t_env *env_list)
 {
-    char *prompt_before;
-    char *prompt_after;
-    char *cwd;
+	char *prompt_before;
+	char *prompt_after;
+	char *cwd;
 
-    cwd = get_prompt_cwd(env_list);
-    prompt_before = ft_strdup(PROMPT_BEFORE);
-    prompt_after = ft_strdup(PROMPT_AFTER);
-    return (join_three(prompt_before, cwd, prompt_after));
+	cwd = get_prompt_cwd(env_list);
+	prompt_before = ft_strdup(PROMPT_BEFORE);
+	prompt_after = ft_strdup(PROMPT_AFTER);
+	if (ft_strlen(cwd) <= PROMPT_MAX_FULL_LEN)
+		return (join_three(prompt_before, cwd, prompt_after));
+	char *real_promt = ft_strrchr(cwd, '/');
+	if (*real_promt == '/')
+		real_promt++;
+	free(cwd);
+	return (join_three(prompt_before, ft_strdup(real_promt), prompt_after));
 }

@@ -6,20 +6,15 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:07:48 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/08 17:13:07 by dangonza         ###   ########.fr       */
+/*   Updated: 2022/12/27 12:20:08 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <minishell.h>
 
-/**
- * @deprecated This function is deprecated and will be replaced with
- * ft_split_quote_conscious() in the future (or a similar one).
-*/
-
 static int	get_total_words(const char *s, char c);
-static void	inner_whiles(char *s, int *i, char c, size_t *slen);
+static void	inner_whiles(const char *s, int *i, char c, size_t *slen);
 static char	**free_all(char **words, int saved);
 
 char	**ft_split_quote_conscious(const char *s, char split_char)
@@ -41,7 +36,7 @@ char	**ft_split_quote_conscious(const char *s, char split_char)
 	s_len = 0;
 	while (*(s + i) && ++saved < total_words)
 	{
-		inner_whiles((char *) s, &i, split_char, &s_len);
+		inner_whiles(s, &i, split_char, &s_len);
 		words[saved] = ft_strtrim_free(ft_substr(s, i, (size_t) s_len), " ");
 		if (words[saved] == NULL)
 			return (free_all(words, saved));
@@ -57,15 +52,12 @@ static char	**free_all(char **words, int saved)
 
 	i = 0;
 	while (i < saved)
-	{
-		free(words[i]);
-		i++;
-	}
+		free(words[i++]);
 	free(words);
 	return (NULL);
 }
 
-static void	inner_whiles(char *s, int *i, char c, size_t *slen)
+static void	inner_whiles(const char *s, int *i, char c, size_t *slen)
 {
 	char	in_quote;
 

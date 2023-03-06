@@ -19,6 +19,6 @@
 */
 void    expand_variables(char **str)
 {
-    (void) str;
-    // TODO: work on this function
+	(void) str;
+	// TODO: work on this function
 }

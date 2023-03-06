@@ -22,22 +22,22 @@
 */
 t_env   *new_env(char *str)
 {
-    int i;
-    t_env   *env;
+	int i;
+	t_env   *env;
 
-    if (!str)
-        return (NULL);
-    i = 0;
-    while (str[i] && str[i] != '=')
-        i++;
-    env = malloc(sizeof(t_env));
-    if (!env)
-        return (env);
-    env->name = ft_substr(str, 0, i);
-    env->value = ft_substr(str, i + 1, ft_strlen(str));
-    env->join = ft_strdup(str);
-    env->next = NULL;
-    return (env);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return (env);
+	env->name = ft_substr(str, 0, i);
+	env->value = ft_substr(str, i + 1, ft_strlen(str));
+	env->join = ft_strdup(str);
+	env->next = NULL;
+	return (env);
 }
 
 /**
@@ -70,20 +70,20 @@ void	ft_envadd_back(t_env **lst, t_env *new)
 */
 void    free_environ(t_env **env_list)
 {
-    t_env	*next;
-    t_env	*temp;
+	t_env	*next;
+	t_env	*temp;
 
-    next = *env_list;
-    while (next != NULL)
-    {
-        free(next->name);
-        free(next->value);
-        free(next->join);
-        temp = next;
-        next = next->next;
-        free(temp);
-    }
-    *env_list = NULL;
+	next = *env_list;
+	while (next != NULL)
+	{
+		free(next->name);
+		free(next->value);
+		free(next->join);
+		temp = next;
+		next = next->next;
+		free(temp);
+	}
+	*env_list = NULL;
 }
 
 /**
@@ -93,20 +93,20 @@ void    free_environ(t_env **env_list)
 */
 t_env *init_environ(void)
 {
-    extern char **environ;
-    t_env *env_list;
-    t_env *new;
-    int i;
+	extern char **environ;
+	t_env *env_list;
+	t_env *new;
+	int i;
 
-    i = 0;
-    env_list = NULL;
-    while (environ[i])
-    {
-        new = new_env(environ[i]);
-        ft_envadd_back(&env_list, new);
-        i++;
-    }
-    return (env_list);
+	i = 0;
+	env_list = NULL;
+	while (environ[i])
+	{
+		new = new_env(environ[i]);
+		ft_envadd_back(&env_list, new);
+		i++;
+	}
+	return (env_list);
 }
 
 /**
@@ -119,36 +119,36 @@ t_env *init_environ(void)
 */
 void    update_env(t_env **list, char *name, char *new_value)
 {
-    t_env *node;
-    char *tmp_name;
-    char *tmp_value;
+	t_env *node;
+	char *tmp_name;
+	char *tmp_value;
 
-    node = *list;
-    while (node)
-    {
-        if (str_equals(node->name, name) == true)
-            break ;
-        node = node->next;
-    }
-    if (node == NULL)
-    {
-        // strdup on new_value should not be needed, but the test are being made with hardcoded strings. Same thing
-        // with ft_strdup(name);
-        // TODO: Remove the ft_strdup(new_value) and ft_strdup(name) and double-check those variables are being both malloc-ed and free-d
-        node = new_env(join_three(ft_strdup(name), ft_strdup("="), ft_strdup(new_value))); 
-        ft_envadd_back(list, node);
-        return ;
-    }
-    free(node->value);
-    node->value = ft_strdup(new_value);
-    tmp_name = ft_strdup(node->name);
-    tmp_value = ft_strdup(node->value);
-    // strdup on new_value should not be needed, but the test are being made with hardcoded strings. Same thing
-    // with ft_strdup(name);
-    // TODO: Remove the ft_strdup(new_value) and ft_strdup(name) and double-check those variables are being both malloc-ed and free-d
-    node->join = join_three(node->name, ft_strdup("="), node->value);
-    node->name = tmp_name;
-    node->value = tmp_value;
+	node = *list;
+	while (node)
+	{
+		if (str_equals(node->name, name) == true)
+			break ;
+		node = node->next;
+	}
+	if (node == NULL)
+	{
+		// strdup on new_value should not be needed, but the test are being made with hardcoded strings. Same thing
+		// with ft_strdup(name);
+		// TODO: Remove the ft_strdup(new_value) and ft_strdup(name) and double-check those variables are being both malloc-ed and free-d
+		node = new_env(join_three(ft_strdup(name), ft_strdup("="), ft_strdup(new_value))); 
+		ft_envadd_back(list, node);
+		return ;
+	}
+	free(node->value);
+	node->value = ft_strdup(new_value);
+	tmp_name = ft_strdup(node->name);
+	tmp_value = ft_strdup(node->value);
+	// strdup on new_value should not be needed, but the test are being made with hardcoded strings. Same thing
+	// with ft_strdup(name);
+	// TODO: Remove the ft_strdup(new_value) and ft_strdup(name) and double-check those variables are being both malloc-ed and free-d
+	node->join = join_three(node->name, ft_strdup("="), node->value);
+	node->name = tmp_name;
+	node->value = tmp_value;
 }
 
 /**
@@ -161,11 +161,11 @@ void    update_env(t_env **list, char *name, char *new_value)
 */
 char    *ft_getenv(char *name, t_env *list)
 {
-    while (list)
-    {
-        if (str_equals(list->name, name))
-            return (list->value);
-        list = list->next;
-    }
-    return (NULL);
+	while (list)
+	{
+		if (str_equals(list->name, name))
+			return (list->value);
+		list = list->next;
+	}
+	return (NULL);
 }

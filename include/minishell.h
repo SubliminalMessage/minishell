@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/27 10:43:40 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/01/11 15:34:31 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 // Custom headers
 
+# include "libft.h"
 # include "pipex.h"
 
 // Colors: https://www.darklaunch.com/print-terminal-colors.html
@@ -44,7 +45,12 @@
 # define PROMPT_ACT "\033[38;5;24m"
 # define PROMPT_RESET "\033[1;0m"
 
-# define PROMPT_BEFORE WHITE"﴾"PROMPT_CWD"  "
+/**
+ * @brief Max length of the pwd in the prompt. If bigger,
+ * the prompt is reduced (if possible).
+ */
+# define PROMPT_MAX_FULL_LEN 15
+# define PROMPT_BEFORE WHITE"﴾  "PROMPT_CWD
 # define PROMPT_AFTER WHITE"  ﴿  "PROMPT_ACT"»  "RESET
 
 // CWD Max String Size
