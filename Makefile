@@ -37,7 +37,8 @@ DEBUG		=	debug
 
 DEBUG_FILES	=	main.c \
 				clean_cmd.c \
-				get.c
+				get.c \
+				file.c
 
 DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/debug/%.o)
 

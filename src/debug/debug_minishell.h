@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/01/23 13:32:58 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/06 15:25:47 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,10 @@ void	ft_free_cmd_lst(t_cmd_lst	*cmd);
 // get
 t_file	*get_file(t_file_lst	*lst);
 t_cmd	*get_cmd(t_cmd_lst	*lst);
+
+// file
+t_file	*ft_newfile(char *file, t_ftype type, int opentype);
+t_file	*openfile(char *file);
+t_file	*ft_newpipefd(int fd);
 
 #endif
