@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:21:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/06 15:22:34 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:08:44 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@ t_file	*ft_newfile(char *file, t_ftype type, int opentype)
 {
 	t_file	*f;
 
+	if (!file)
+		return (NULL);
 	f = ft_calloc(1, sizeof(t_file));
 	if (!f)
+	{
+		free(file);
 		return (NULL);
+	}
 	f->name = file;
 	f->type = type;
 	f->fd = open(file, opentype);
