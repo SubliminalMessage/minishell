@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:07:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 09:31:03 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 14:12:43 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_close_fd(int *fd)
 {
 	if (*fd > 1)
 		close(*fd);
-	*fd = -1;
+	*fd = INVALID;
 }
 
 void	ft_free_file(t_file *file)

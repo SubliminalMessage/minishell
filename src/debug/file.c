@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:21:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/08 20:08:44 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 14:11:13 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_file	*ft_newfile(char *file, t_ftype type, int opentype)
 	f->name = file;
 	f->type = type;
 	f->fd = open(file, opentype);
-	if (f->fd == -1)
+	if (f->fd == INVALID)
 	{
 		ft_free_file(f);
 		return (NULL);

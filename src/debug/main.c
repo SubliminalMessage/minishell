@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 13:43:39 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 14:14:34 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_cmd_lst	*ft_cmd1()
 	ft_printf("makefile file: %d, type: %d\n",
 		get_file(command->in)->fd, get_file(command->in)->type
 	);
-	command->fd_in = -1;
+	command->fd_in = INVALID;
 
 	command = ft_calloc(1, sizeof(t_cmd));
 	if (!command)
@@ -68,7 +68,7 @@ t_cmd_lst	*ft_cmd1()
 		ft_free_cmd_lst(cmd);
 		return (NULL);
 	}
-	command->fd_in = -1;
+	command->fd_in = INVALID;
 
 	// ****************************************
 	int	*fds = ft_calloc((2 - 1) * 2, sizeof(int));
@@ -83,13 +83,13 @@ t_cmd_lst	*ft_cmd1()
 		pipe(&(fds[2 * i]));
 		if (pipe(&(fds[2 * i])) != 0)
 		{
-			i = -1;
+			i = INVALID;
 			break;
 		}
 		ft_printf_fd(2, "pipe between cmds: %d, %d\n", fds[0], fds[1]);
 		i++;
 	}
-	if (i == -1)
+	if (i == INVALID)
 	{
 		i = 0;
 		while (fds[i])
@@ -107,7 +107,7 @@ t_cmd_lst	*ft_cmd1()
 		new = ft_lstnew(ft_newpipefd(fds[i * 2 + 1]));
 		if (!new)
 		{
-			i = -1;
+			i = INVALID;
 			break;
 		}
 		ft_lstadd_back(&get_cmd(tmp)->out, new);
@@ -115,7 +115,7 @@ t_cmd_lst	*ft_cmd1()
 		new = ft_lstnew(ft_newpipefd(fds[i * 2]));
 		if (!new)
 		{
-			i = -1;
+			i = INVALID;
 			break;
 		}
 		ft_lstadd_back(&get_cmd(tmp->next)->in, new);
@@ -123,7 +123,7 @@ t_cmd_lst	*ft_cmd1()
 		i++;
 	}
 	free(fds); // The array is no longer needed
-	if (i == -1)
+	if (i == INVALID)
 	{
 		ft_free_cmd_lst(cmd);
 		return (NULL);
@@ -188,14 +188,14 @@ static int	ft_copyall(int rfd, int wfd)
 	while (true)
 	{
 		r = read(rfd, buffer, BUFFER_SIZE);
-		if (r == -1)
+		if (r == INVALID)
 			break;
 		write(wfd, buffer, r);
 		total += r;
 		if (r < BUFFER_SIZE)
 			break;
 	}
-	return (total); // TODO check -1
+	return (total);
 }
 
 int	ft_join_input(t_cmd	*cmd)
@@ -203,18 +203,18 @@ int	ft_join_input(t_cmd	*cmd)
 	int			pipe_fds[2];
 	t_file_lst *file_lst;
 
-	if (pipe(pipe_fds) == -1)
-		return (-1);
+	if (pipe(pipe_fds) == INVALID)
+		return (INVALID);
 	// ft_printf_fd(2, "Pipe executed: %d, %d\n", pipe_fds[0], pipe_fds[1]);
 	cmd->fd_in = pipe_fds[0];
 	// ft_printf_fd(2, "cmd->fd_in: %d\n", cmd->fd_in);
 	file_lst = cmd->in;
 	while (file_lst)
 	{
-		if (ft_copyall(get_file(file_lst)->fd, pipe_fds[1]) == -1)
+		if (ft_copyall(get_file(file_lst)->fd, pipe_fds[1]) == INVALID)
 		{
 			ft_close_fd(&pipe_fds[1]);
-			return (-1);
+			return (INVALID);
 		}
 		ft_close_fd(&get_file(file_lst)->fd);
 		file_lst = file_lst->next;
@@ -261,13 +261,12 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	if (pid)
 		return (pid);
 	cmd = get_cmd(cmd_lst);
-	if (ft_join_input(cmd) == -1)
+	if (ft_join_input(cmd) == INVALID)
 	{
 		ft_free_cmd_lst(full);
 		exit(42); // TODO error code?
-		return (-1);
+		return (INVALID);
 	}
-	// ft_print_minishell(cmd_lst, 2, 0);
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
 	ft_close_all_fds(full);
 	ft_printf_fd(2, "******************* Executing *******************\n");
@@ -277,7 +276,7 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	ft_printf_fd(2, "Error executing execve!\n");
 	ft_free_cmd_lst(full);
 	exit(42); // TODO End with custom error code? Is there a better way?
-	return (-1);
+	return (INVALID);
 }
 
 int	wait_result(int *pids)

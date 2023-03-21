@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 12:30:33 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 14:08:31 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef enum e_bool
 	false,
 	true
 }	t_bool;
+
+# define INVALID -1
 
 typedef struct s_list t_file_lst;
 typedef struct s_list t_cmd_lst;
