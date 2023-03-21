@@ -6,10 +6,10 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*   main.c                                               ||           ||     */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 08:08:21 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 08:30:12 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:17:33 by jre-gonz         ###   ########.fr       */
-/*   Updated: 2023/03/21 08:08:21 by Jkutkut            '-----------------'   */
+/*   Updated: 2023/03/21 08:30:12 by Jkutkut            '-----------------'   */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -56,7 +56,7 @@ t_cmd_lst	*ft_cmd1()
 		ft_free_cmd_lst(cmd);
 		return (NULL);
 	}
-	command->cmd = ft_strdup("/bin/wc");
+	command->cmd = ft_strdup("/usr/bin/wc");
 	command->args = ft_split("wc -l", ' ');
 	if (!command->cmd || !command->args)
 	{
@@ -237,7 +237,7 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	ft_printf_fd(2, "******************* Executing *******************\n");
 	execve(cmd->cmd, cmd->args, NULL);
 	ft_free_cmd_lst(full);
-	exit(2);
+	exit(42); // TODO End with custom error code? Is there a better way?
 	return (-1);
 }
 
@@ -265,12 +265,12 @@ int	main(void)
 	pid_t	waited_pid;
 	i = 0;
 	while (i < 2) {
-		ft_printf("Waiting for %d\n", i);
-		waited_pid = waitpid(pids[i], &status, 0);
+		waited_pid = waitpid(pids[i], &status, 0); // TODO can fail
 		if (pids[2 - 1] == waited_pid)
 			result = status;
 		i++;
 	}
+	result = WEXITSTATUS(result);
 	ft_putendl_fd("Execution ended", 1);
 	ft_printf("Result: %i\n", result);
 	ft_free_cmd_lst(cmd);
