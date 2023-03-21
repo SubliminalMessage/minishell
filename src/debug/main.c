@@ -6,10 +6,10 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*   main.c                                               ||           ||     */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 12:18:04 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:31:19 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:17:33 by jre-gonz         ###   ########.fr       */
-/*   Updated: 2023/03/21 12:18:04 by Jkutkut            '-----------------'   */
+/*   Updated: 2023/03/21 12:30:55 by Jkutkut            '-----------------'   */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -189,7 +189,7 @@ static int	ft_copyall(int rfd, int wfd)
 	char	buffer[BUFFER_SIZE];
 
 	total = 0;
-	while (1) // TODO use t_bool
+	while (true)
 	{
 		r = read(rfd, buffer, BUFFER_SIZE);
 		if (r == -1)
@@ -222,35 +222,6 @@ int	ft_join_input(t_cmd	*cmd)
 	ft_close_fd(&pipe_fds[1]);
 	return (pipe_fds[0]);
 }
-
-// void	ft_print_minishell(t_cmd_lst *command, int fd, int recursive)
-// {
-// 	t_cmd		*cmd;
-// 	t_file_lst	*f;
-// 
-// 	cmd = get_cmd(command);
-// 	ft_printf_fd(fd, "Cmd: '%s'\n", cmd->cmd);
-// 	ft_printf_fd(fd, "fd_in: %d\n", cmd->fd_in);
-// 	ft_printf_fd(fd, "In:\n");
-// 	f = cmd->in;
-// 	while (f)
-// 	{
-// 		ft_printf_fd(fd, "  - '%s' -> fd: %d, type: %d\n",
-// 			   get_file(f)->name, get_file(f)->fd, get_file(f)->type);
-// 		f = f->next;
-// 	}
-// 	ft_printf_fd(fd, "Out:\n");
-// 	f = cmd->out;
-// 	while (f)
-// 	{
-// 		ft_printf_fd(fd, "  - '%s' -> fd: %d, type: %d\n",
-// 			   get_file(f)->name, get_file(f)->fd, get_file(f)->type);
-// 		f = f->next;
-// 	}
-// 	ft_printf_fd(fd, "\n\n\n\n");
-// 	if (command->next && recursive)
-// 	 	ft_print_minishell(command->next, fd, recursive);
-// }
 
 // *****************************************************************************
 #include<stdio.h> // TODO debug

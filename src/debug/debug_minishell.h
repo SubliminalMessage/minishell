@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 12:15:27 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:30:33 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 # include <stdlib.h>
 # include <fcntl.h> // Open, close
 # include <sys/wait.h> // fork, WEXITSTATUS
+
+typedef enum e_bool
+{
+	false,
+	true
+}	t_bool;
 
 typedef struct s_list t_file_lst;
 typedef struct s_list t_cmd_lst;
