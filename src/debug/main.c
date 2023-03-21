@@ -4,9 +4,13 @@
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*   main.c                                               ||           ||     */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
+/*   Updated: 2023/03/21 08:08:21 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:17:33 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 08:08:21 by Jkutkut            '-----------------'   */
+/*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +92,6 @@ t_cmd_lst	*ft_cmd1()
 	{
 		new = ft_lstnew(ft_newpipefd(fds[i * 2 + 1]));
 		// TODO malloc error
-		get_file(new)->type = TRUNC_FTYPE;
 		ft_lstadd_back(&get_cmd(tmp)->out, new);
 
 		new = ft_lstnew(ft_newpipefd(fds[i * 2]));
@@ -111,6 +114,7 @@ t_cmd_lst	*ft_cmd1()
 // ************************** Execution
 #define STDIN 0
 #define STDOUT 1
+
 /**
  * @brief Set's the given file descriptors as stdin and stdout.
  * Closes the given file descriptors.
@@ -127,13 +131,13 @@ void	ft_redirect_io(int *fd_in, int *fd_out)
 {
 	if (*fd_in != STDIN)
 	{
-		// ft_printf_fd(2, "redirecting stdin: %d -> %d\n", *fd_in, STDIN);
+		ft_printf_fd(2, "redirecting stdin: %d -> %d\n", *fd_in, STDIN);
 		dup2(*fd_in, STDIN);
 		ft_close_fd(fd_in);
 	}
 	if (*fd_out != STDOUT)
 	{
-		// ft_printf_fd(2, "redirecting stdout: %d -> %d\n", *fd_out, STDOUT);
+		ft_printf_fd(2, "redirecting stdout: %d -> %d\n", *fd_out, STDOUT);
 		dup2(*fd_out, STDOUT);
 		ft_close_fd(fd_out);
 	}
@@ -230,9 +234,7 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	}
 	// ft_print_minishell(cmd_lst, 2, 0);
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
-	// TODO execute
 	ft_printf_fd(2, "******************* Executing *******************\n");
-	// ft_printf_fd(1, "Second time?\n"); // TODO check
 	execve(cmd->cmd, cmd->args, NULL);
 	ft_free_cmd_lst(full);
 	exit(2);
@@ -247,13 +249,28 @@ int	main(void)
 	cmd = ft_cmd1();
 	if (!cmd)
 		return (1);
-	int	pid1 = ft_exe_cmd(cmd, cmd); // TODO check -1
-	int	pid2 = ft_exe_cmd(cmd->next, cmd);
+	int i = 0;
+	pid_t *pids = malloc(sizeof(pid_t) * 2); // TODO check malloc
+	t_cmd_lst *ite = cmd;
+	while (ite)
+	{
+		ft_printf("Executing %d\n", i);
+		pids[i++] = ft_exe_cmd(ite, cmd);
+		ite = ite->next;
+	}
 	// TODO Close pids
 	
-	int result;
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, &result, 0); // TODO get correct result
+	int		result;
+	int		status;
+	pid_t	waited_pid;
+	i = 0;
+	while (i < 2) {
+		ft_printf("Waiting for %d\n", i);
+		waited_pid = waitpid(pids[i], &status, 0);
+		if (pids[2 - 1] == waited_pid)
+			result = status;
+		i++;
+	}
 	ft_putendl_fd("Execution ended", 1);
 	ft_printf("Result: %i\n", result);
 	ft_free_cmd_lst(cmd);
