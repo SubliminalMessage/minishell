@@ -6,10 +6,10 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*   main.c                                               ||           ||     */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 10:24:07 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 11:46:54 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:17:33 by jre-gonz         ###   ########.fr       */
-/*   Updated: 2023/03/21 10:24:07 by Jkutkut            '-----------------'   */
+/*   Updated: 2023/03/21 11:46:54 by Jkutkut            '-----------------'   */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -273,17 +273,28 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	return (-1);
 }
 
-//int	main(int argc, char **argv, char **envp)
-int	main(void)
+int	wait_result(int *pids)
 {
-	t_cmd_lst	*cmd;
+	int		result;
+	int		status;
+	pid_t	waited_pid;
+	while (*pids)
+	{
+		waited_pid = waitpid(*pids, &status, 0); // TODO can fail and returns -1
+		if (pids[1] == 0 && *pids == waited_pid)
+			result = status;
+		pids++;
+	}
+	return (WEXITSTATUS(result));
+}
 
+static int	run(t_cmd_lst *cmd)
+{
 	atexit(exit_checks); // TODO debug
-	cmd = ft_cmd1();
 	if (!cmd)
 		return (1); // TODO error code?
 	int i = 0;
-	pid_t *pids = malloc(sizeof(pid_t) * 2);
+	pid_t *pids = ft_calloc(sizeof(pid_t) , 2 + 1);
 	if (!pids)
 	{
 		ft_free_cmd_lst(cmd);
@@ -292,25 +303,25 @@ int	main(void)
 	t_cmd_lst *ite = cmd;
 	while (ite)
 	{
-		// ft_printf("Executing %d\n", i);
 		pids[i++] = ft_exe_cmd(ite, cmd);
 		ite = ite->next;
 	}
 	ft_close_all_fds(cmd);
-	
-	int		result;
-	int		status;
-	pid_t	waited_pid;
-	i = 0;
-	while (i < 2) {
-		waited_pid = waitpid(pids[i], &status, 0); // TODO can fail and returns -1
-		if (pids[2 - 1] == waited_pid)
-			result = status;
-		i++;
-	}
-	result = WEXITSTATUS(result);
+
+	int result;
+	result = wait_result(pids);
+	free(pids);
 	ft_putendl_fd("Execution ended", 1);
 	ft_printf("Result: %i\n", result);
 	ft_free_cmd_lst(cmd);
 	return (result);
+}
+
+//int	main(int argc, char **argv, char **envp)
+int	main(void)
+{
+	t_cmd_lst	*cmd;
+
+	cmd = ft_cmd1();
+	return (run(cmd));
 }
