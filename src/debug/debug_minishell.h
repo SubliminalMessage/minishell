@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 09:45:29 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:15:27 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef enum e_ftype
 	APPEND_FTYPE,
 	TRUNC_FTYPE,
 	READ,
-	PIPE
+	PIPE,
+	STD // stdin, stdout, stderr
 }	t_ftype;
 
 /**

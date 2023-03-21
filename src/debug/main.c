@@ -6,10 +6,10 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*   main.c                                               ||           ||     */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 11:46:54 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:18:04 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:17:33 by jre-gonz         ###   ########.fr       */
-/*   Updated: 2023/03/21 11:46:54 by Jkutkut            '-----------------'   */
+/*   Updated: 2023/03/21 12:18:04 by Jkutkut            '-----------------'   */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -49,6 +49,7 @@ t_cmd_lst	*ft_cmd1()
 	ft_printf("makefile file: %d, type: %d\n",
 		get_file(command->in)->fd, get_file(command->in)->type
 	);
+	command->fd_in = -1;
 
 	command = ft_calloc(1, sizeof(t_cmd));
 	if (!command)
@@ -71,18 +72,35 @@ t_cmd_lst	*ft_cmd1()
 		ft_free_cmd_lst(cmd);
 		return (NULL);
 	}
+	command->fd_in = -1;
 
 	// ****************************************
-	// TODO continue protection
 	int	*fds = ft_calloc((2 - 1) * 2, sizeof(int));
+	if (!fds)
+	{
+		ft_free_cmd_lst(cmd);
+		return (NULL);
+	};
 	int	i = 0;
 	while (i < 2 - 1)
 	{
 		pipe(&(fds[2 * i]));
-		// if (pipe(&(fds[2 * i])) != 0)
-			// TODO
+		if (pipe(&(fds[2 * i])) != 0)
+		{
+			i = -1;
+			break;
+		}
 		ft_printf_fd(2, "pipe between cmds: %d, %d\n", fds[0], fds[1]);
 		i++;
+	}
+	if (i == -1)
+	{
+		i = 0;
+		while (fds[i])
+			ft_close_fd(&fds[i++]);
+		free(fds);
+		ft_free_cmd_lst(cmd);
+		return (NULL);
 	}
 
 	t_cmd_lst *new;
@@ -91,21 +109,38 @@ t_cmd_lst	*ft_cmd1()
 	while (i < 2 - 1)
 	{
 		new = ft_lstnew(ft_newpipefd(fds[i * 2 + 1]));
-		// TODO malloc error
+		if (!new)
+		{
+			i = -1;
+			break;
+		}
 		ft_lstadd_back(&get_cmd(tmp)->out, new);
 
 		new = ft_lstnew(ft_newpipefd(fds[i * 2]));
-		// TODO malloc error
+		if (!new)
+		{
+			i = -1;
+			break;
+		}
 		ft_lstadd_back(&get_cmd(tmp->next)->in, new);
 		tmp = tmp->next;
 		i++;
 	}
 	free(fds); // The array is no longer needed
-	// stdin?
-	command->fd_in = -1; // INVALID
+	if (i == -1)
+	{
+		ft_free_cmd_lst(cmd);
+		return (NULL);
+	}
+
+	// TODO what if stdin needed?
 	new = ft_lstnew(ft_newpipefd(1));
-	// TODO malloc error
-	get_file(new)->type = TRUNC_FTYPE;
+	if (!new)
+	{
+		ft_free_cmd_lst(cmd);
+		return (NULL);
+	}
+	get_file(new)->type = STD;
 	ft_lstadd_back(&get_cmd(tmp)->out, new);
 
 	return (cmd);
