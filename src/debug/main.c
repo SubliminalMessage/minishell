@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
-/*   main.c                                               ||           ||     */
+/*   By: jre-gonz <jre-gonz@student.42madrid>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 12:31:19 by jre-gonz         ###   ########.fr       */
-/*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
-/*   Updated: 2023/03/08 20:17:33 by jre-gonz         ###   ########.fr       */
-/*   Updated: 2023/03/21 12:30:55 by Jkutkut            '-----------------'   */
-/*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 13:43:39 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +211,11 @@ int	ft_join_input(t_cmd	*cmd)
 	file_lst = cmd->in;
 	while (file_lst)
 	{
-		ft_copyall(get_file(file_lst)->fd, pipe_fds[1]); // TODO check error?
+		if (ft_copyall(get_file(file_lst)->fd, pipe_fds[1]) == -1)
+		{
+			ft_close_fd(&pipe_fds[1]);
+			return (-1);
+		}
 		ft_close_fd(&get_file(file_lst)->fd);
 		file_lst = file_lst->next;
 	}
@@ -263,7 +263,8 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	cmd = get_cmd(cmd_lst);
 	if (ft_join_input(cmd) == -1)
 	{
-		// TODO
+		ft_free_cmd_lst(full);
+		exit(42); // TODO error code?
 		return (-1);
 	}
 	// ft_print_minishell(cmd_lst, 2, 0);
