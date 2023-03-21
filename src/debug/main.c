@@ -6,10 +6,10 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*   main.c                                               ||           ||     */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 08:30:12 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 10:24:07 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*   Updated: 2023/03/08 20:17:33 by jre-gonz         ###   ########.fr       */
-/*   Updated: 2023/03/21 08:30:12 by Jkutkut            '-----------------'   */
+/*   Updated: 2023/03/21 10:24:07 by Jkutkut            '-----------------'   */
 /*   Updated: 2023/03/08 20:32:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -131,13 +131,13 @@ void	ft_redirect_io(int *fd_in, int *fd_out)
 {
 	if (*fd_in != STDIN)
 	{
-		ft_printf_fd(2, "redirecting stdin: %d -> %d\n", *fd_in, STDIN);
+		// ft_printf_fd(2, "redirecting stdin: %d -> %d\n", *fd_in, STDIN);
 		dup2(*fd_in, STDIN);
 		ft_close_fd(fd_in);
 	}
 	if (*fd_out != STDOUT)
 	{
-		ft_printf_fd(2, "redirecting stdout: %d -> %d\n", *fd_out, STDOUT);
+		// ft_printf_fd(2, "redirecting stdout: %d -> %d\n", *fd_out, STDOUT);
 		dup2(*fd_out, STDOUT);
 		ft_close_fd(fd_out);
 	}
@@ -217,6 +217,35 @@ int	ft_join_input(t_cmd	*cmd)
 // 	 	ft_print_minishell(command->next, fd, recursive);
 // }
 
+// *****************************************************************************
+#include<stdio.h> // TODO debug
+#define FD_DEBUG 2
+static void	system_exec(char *cmdtemplate)
+{
+	FILE* fp = popen(cmdtemplate, "r");
+	if (fp == NULL) {
+		ft_printf_fd(FD_DEBUG, "Error opening command %s\n", cmdtemplate);
+		return ;
+	}
+	char output[1024];
+	size_t n = fread(output, 1, sizeof(output), fp);
+	output[n] = '\0';
+	ft_printf_fd(FD_DEBUG, output);
+}
+static void	exit_checks(void)
+{
+	char cmdtemplate[1024];
+	ft_printf_fd(FD_DEBUG, "\n\n******************************************\n");
+	ft_printf_fd(FD_DEBUG, "Open fds:\n");
+	sprintf(cmdtemplate, "lsof -p %d | grep CHR", getpid());
+	system_exec(cmdtemplate);
+	ft_printf_fd(FD_DEBUG, "\nLeaks:\n");
+	sprintf(cmdtemplate, "leaks %d", getpid());
+	system_exec(cmdtemplate);
+	ft_printf_fd(FD_DEBUG, "******************************************\n");
+}
+// *****************************************************************************
+
 int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 { // TODO Is there a better way?
 	int	pid;
@@ -225,7 +254,6 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	pid = fork();
 	if (pid)
 		return (pid);
-	ft_putendl_fd("Executing...", 1);
 	cmd = get_cmd(cmd_lst);
 	if (ft_join_input(cmd) == -1)
 	{
@@ -234,8 +262,12 @@ int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
 	}
 	// ft_print_minishell(cmd_lst, 2, 0);
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
+	ft_close_all_fds(full);
 	ft_printf_fd(2, "******************* Executing *******************\n");
+	atexit(exit_checks); // TODO debug
+	exit_checks(); // TODO debug
 	execve(cmd->cmd, cmd->args, NULL);
+	ft_printf_fd(2, "Error executing execve!\n");
 	ft_free_cmd_lst(full);
 	exit(42); // TODO End with custom error code? Is there a better way?
 	return (-1);
@@ -246,26 +278,32 @@ int	main(void)
 {
 	t_cmd_lst	*cmd;
 
+	atexit(exit_checks); // TODO debug
 	cmd = ft_cmd1();
 	if (!cmd)
-		return (1);
+		return (1); // TODO error code?
 	int i = 0;
-	pid_t *pids = malloc(sizeof(pid_t) * 2); // TODO check malloc
+	pid_t *pids = malloc(sizeof(pid_t) * 2);
+	if (!pids)
+	{
+		ft_free_cmd_lst(cmd);
+		return (1); // TODO error code?
+	}
 	t_cmd_lst *ite = cmd;
 	while (ite)
 	{
-		ft_printf("Executing %d\n", i);
+		// ft_printf("Executing %d\n", i);
 		pids[i++] = ft_exe_cmd(ite, cmd);
 		ite = ite->next;
 	}
-	// TODO Close pids
+	ft_close_all_fds(cmd);
 	
 	int		result;
 	int		status;
 	pid_t	waited_pid;
 	i = 0;
 	while (i < 2) {
-		waited_pid = waitpid(pids[i], &status, 0); // TODO can fail
+		waited_pid = waitpid(pids[i], &status, 0); // TODO can fail and returns -1
 		if (pids[2 - 1] == waited_pid)
 			result = status;
 		i++;

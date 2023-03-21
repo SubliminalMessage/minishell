@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/06 15:25:47 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/21 09:45:29 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h> // Open, close
-# include <sys/wait.h> // fork
-// # include <>
+# include <sys/wait.h> // fork, WEXITSTATUS
 
 typedef struct s_list t_file_lst;
 typedef struct s_list t_cmd_lst;
@@ -81,6 +80,7 @@ typedef struct s_cmd
 void	ft_close_fd(int *fd);
 void	ft_free_file(t_file	*file);
 void	ft_free_cmd(t_cmd	*cmd);
+void	ft_close_all_fds(t_cmd_lst	*cmd);
 void	ft_free_cmd_lst(t_cmd_lst	*cmd);
 
 // get
