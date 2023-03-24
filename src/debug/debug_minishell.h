@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_minishell.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 14:08:31 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:43:08 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,23 @@ t_cmd	*get_cmd(t_cmd_lst	*lst);
 t_file	*ft_newfile(char *file, t_ftype type, int opentype);
 t_file	*openfile(char *file);
 t_file	*ft_newpipefd(int fd);
+
+// leaks_fds_check.c
+void	exit_checks(void);
+
+// wait_result.c
+int	ft_wait_result(int *pids);
+
+// join_input.c
+int	ft_join_input(t_cmd	*cmd);
+
+// exe_cmd.c
+int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full);
+
+// copy_all.c
+int	ft_copyall(int rfd, int wfd);
+
+// run.c
+int	run(t_cmd_lst *cmd);
 
 #endif

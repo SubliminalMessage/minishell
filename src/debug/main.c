@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid>       +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 14:14:34 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:42:40 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug_minishell.h"
 
 // < Makefile cat | wc -l
-t_cmd_lst	*ft_cmd1()
+static t_cmd_lst	*ft_cmd1()
 {
 	t_cmd_lst	*cmd;
 	t_cmd		*command;
@@ -143,185 +143,6 @@ t_cmd_lst	*ft_cmd1()
 }
 
 // ************************** Execution
-#define STDIN 0
-#define STDOUT 1
-
-/**
- * @brief Set's the given file descriptors as stdin and stdout.
- * Closes the given file descriptors.
- *
- * Note: Both fd_in and fd_out must be valid fds.
- * Note: dup2 is not checked because it can only fail if:
- * "If oldfd is not a valid file descriptor, then the call fails, and newfd is
- * not closed."
- *
- * @param fd_in File descriptor for stdin.
- * @param fd_out File descriptor for stdout.
- */
-void	ft_redirect_io(int *fd_in, int *fd_out)
-{
-	if (*fd_in != STDIN)
-	{
-		// ft_printf_fd(2, "redirecting stdin: %d -> %d\n", *fd_in, STDIN);
-		dup2(*fd_in, STDIN);
-		ft_close_fd(fd_in);
-	}
-	if (*fd_out != STDOUT)
-	{
-		// ft_printf_fd(2, "redirecting stdout: %d -> %d\n", *fd_out, STDOUT);
-		dup2(*fd_out, STDOUT);
-		ft_close_fd(fd_out);
-	}
-}
-
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 4098
-#endif
-
-static int	ft_copyall(int rfd, int wfd)
-{
-	int		r;
-	int		total;
-	char	buffer[BUFFER_SIZE];
-
-	total = 0;
-	while (true)
-	{
-		r = read(rfd, buffer, BUFFER_SIZE);
-		if (r == INVALID)
-			break;
-		write(wfd, buffer, r);
-		total += r;
-		if (r < BUFFER_SIZE)
-			break;
-	}
-	return (total);
-}
-
-int	ft_join_input(t_cmd	*cmd)
-{
-	int			pipe_fds[2];
-	t_file_lst *file_lst;
-
-	if (pipe(pipe_fds) == INVALID)
-		return (INVALID);
-	// ft_printf_fd(2, "Pipe executed: %d, %d\n", pipe_fds[0], pipe_fds[1]);
-	cmd->fd_in = pipe_fds[0];
-	// ft_printf_fd(2, "cmd->fd_in: %d\n", cmd->fd_in);
-	file_lst = cmd->in;
-	while (file_lst)
-	{
-		if (ft_copyall(get_file(file_lst)->fd, pipe_fds[1]) == INVALID)
-		{
-			ft_close_fd(&pipe_fds[1]);
-			return (INVALID);
-		}
-		ft_close_fd(&get_file(file_lst)->fd);
-		file_lst = file_lst->next;
-	}
-	ft_close_fd(&pipe_fds[1]);
-	return (pipe_fds[0]);
-}
-
-// *****************************************************************************
-#include<stdio.h> // TODO debug
-#define FD_DEBUG 2
-static void	system_exec(char *cmdtemplate)
-{
-	FILE* fp = popen(cmdtemplate, "r");
-	if (fp == NULL) {
-		ft_printf_fd(FD_DEBUG, "Error opening command %s\n", cmdtemplate);
-		return ;
-	}
-	char output[1024];
-	size_t n = fread(output, 1, sizeof(output), fp);
-	output[n] = '\0';
-	ft_printf_fd(FD_DEBUG, output);
-}
-static void	exit_checks(void)
-{
-	char cmdtemplate[1024];
-	ft_printf_fd(FD_DEBUG, "\n\n******************************************\n");
-	ft_printf_fd(FD_DEBUG, "Open fds:\n");
-	sprintf(cmdtemplate, "lsof -p %d | grep CHR", getpid());
-	system_exec(cmdtemplate);
-	ft_printf_fd(FD_DEBUG, "\nLeaks:\n");
-	sprintf(cmdtemplate, "leaks %d", getpid());
-	system_exec(cmdtemplate);
-	ft_printf_fd(FD_DEBUG, "******************************************\n");
-}
-// *****************************************************************************
-
-int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full)
-{ // TODO Is there a better way?
-	int	pid;
-	t_cmd	*cmd;
-
-	pid = fork();
-	if (pid)
-		return (pid);
-	cmd = get_cmd(cmd_lst);
-	if (ft_join_input(cmd) == INVALID)
-	{
-		ft_free_cmd_lst(full);
-		exit(42); // TODO error code?
-		return (INVALID);
-	}
-	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
-	ft_close_all_fds(full);
-	ft_printf_fd(2, "******************* Executing *******************\n");
-	atexit(exit_checks); // TODO debug
-	exit_checks(); // TODO debug
-	execve(cmd->cmd, cmd->args, NULL);
-	ft_printf_fd(2, "Error executing execve!\n");
-	ft_free_cmd_lst(full);
-	exit(42); // TODO End with custom error code? Is there a better way?
-	return (INVALID);
-}
-
-int	wait_result(int *pids)
-{
-	int		result;
-	int		status;
-	pid_t	waited_pid;
-	while (*pids)
-	{
-		waited_pid = waitpid(*pids, &status, 0); // TODO can fail and returns -1
-		if (pids[1] == 0 && *pids == waited_pid)
-			result = status;
-		pids++;
-	}
-	return (WEXITSTATUS(result));
-}
-
-static int	run(t_cmd_lst *cmd)
-{
-	atexit(exit_checks); // TODO debug
-	if (!cmd)
-		return (1); // TODO error code?
-	int i = 0;
-	pid_t *pids = ft_calloc(sizeof(pid_t) , 2 + 1);
-	if (!pids)
-	{
-		ft_free_cmd_lst(cmd);
-		return (1); // TODO error code?
-	}
-	t_cmd_lst *ite = cmd;
-	while (ite)
-	{
-		pids[i++] = ft_exe_cmd(ite, cmd);
-		ite = ite->next;
-	}
-	ft_close_all_fds(cmd);
-
-	int result;
-	result = wait_result(pids);
-	free(pids);
-	ft_putendl_fd("Execution ended", 1);
-	ft_printf("Result: %i\n", result);
-	ft_free_cmd_lst(cmd);
-	return (result);
-}
 
 //int	main(int argc, char **argv, char **envp)
 int	main(void)
@@ -329,5 +150,9 @@ int	main(void)
 	t_cmd_lst	*cmd;
 
 	cmd = ft_cmd1();
-	return (run(cmd));
+	int result;
+	result = run(cmd);
+	ft_putendl_fd("Execution ended", 1);
+	ft_printf("Result: %i\n", result);
+	return (result);
 }

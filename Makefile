@@ -35,10 +35,16 @@ SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
 DEBUG		=	debug
 
-DEBUG_FILES	=	main.c \
-				clean_cmd.c \
+DEBUG_FILES	=	clean_cmd.c \
+				copy_all.c \
+				exe_cmd.c \
+				file.c \
 				get.c \
-				file.c
+				join_input.c \
+				leaks_fds_check.c \
+				main.c \
+				run.c \
+				wait_result.c
 
 DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/debug/%.o)
 
@@ -81,7 +87,7 @@ bin/%.o: src/%.c
 clean: $(LIBFT_REPO)
 	@echo $(RED)"[Deleting Object Files]"$(NC)
 	@rm -rf bin
-	@# TODO fclean the Libft
+	@make -C $(LIBFT_PATH) fclean
 	@#make fclean -C $(LIBFT_PATH)
 
 fclean: clean
@@ -110,12 +116,12 @@ execute: all
 #                    DEBUG                    #
 ### ---   ---   ---         ---   ---   --- ###
 
-$(DEBUG): $(DEBUG_OBJS)
+$(DEBUG): $(DEBUG_OBJS) $(LIBFT)
 	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
 	$(CC) $(CFLAGS) -I src/debug/ $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
 
 exec_dev: $(DEBUG)
 	@#./$(DEBUG)
 	@#valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(DEBUG)
-	@#valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no ./$(DEBUG)
-	valgrind ./$(DEBUG)
+	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no ./$(DEBUG)
+	@#valgrind ./$(DEBUG)
