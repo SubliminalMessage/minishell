@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/24 12:42:40 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/25 22:30:07 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static t_cmd_lst	*ft_cmd1()
 	int	i = 0;
 	while (i < 2 - 1)
 	{
-		pipe(&(fds[2 * i]));
 		if (pipe(&(fds[2 * i])) != 0)
 		{
 			i = INVALID;
