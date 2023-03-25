@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/24 12:43:08 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/25 20:32:39 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,6 @@ t_cmd	*get_cmd(t_cmd_lst	*lst);
 t_file	*ft_newfile(char *file, t_ftype type, int opentype);
 t_file	*openfile(char *file);
 t_file	*ft_newpipefd(int fd);
-
-// leaks_fds_check.c
-void	exit_checks(void);
 
 // wait_result.c
 int	ft_wait_result(int *pids);

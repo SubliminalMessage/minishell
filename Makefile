@@ -41,7 +41,6 @@ DEBUG_FILES	=	clean_cmd.c \
 				file.c \
 				get.c \
 				join_input.c \
-				leaks_fds_check.c \
 				main.c \
 				run.c \
 				wait_result.c
@@ -121,7 +120,4 @@ $(DEBUG): $(DEBUG_OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -I src/debug/ $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
 
 exec_dev: $(DEBUG)
-	@#./$(DEBUG)
-	@#valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(DEBUG)
-	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no ./$(DEBUG)
-	@#valgrind ./$(DEBUG)
+	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)

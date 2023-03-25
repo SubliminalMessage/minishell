@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/24 12:46:59 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/25 20:33:07 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	run(t_cmd_lst *cmd)
 	t_cmd_lst	*ite;
 	pid_t		*pids;
 
-	atexit(exit_checks); // TODO debug
 	if (!cmd)
 		return (INVALID);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/24 12:12:22 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/25 20:32:58 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
 	ft_close_all_fds(full);
 	ft_printf_fd(2, "******************* Executing *******************\n");
-	atexit(exit_checks); // TODO debug
-	exit_checks(); // TODO debug
 	execve(cmd->cmd, cmd->args, NULL);
 	ft_printf_fd(2, "Error executing execve!\n"); // TODO
 	return (ft_free_cmd_lst(full), exit(42), INVALID); // TODO error code?
