@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/25 23:44:19 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 00:03:37 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,29 @@ int	ft_add_pipes(t_cmd_lst *cmd, int *fds)
 	return (free(fds), i);
 }
 
+/**
+ * @brief If no output file is specified, stdout should be used.
+ * @note The case of stdin does not need to be checked.
+ * 
+ * @param cmd Structure containing the command.
+ * @return int INVALID if error, true otherwise.
+ */
+int	ft_check_output(t_cmd_lst *cmd)
+{
+	t_cmd		*last_cmd;
+	t_file_lst	*new_fd;
+
+	last_cmd = get_cmd(ft_lstlast(cmd));
+	if (ft_lstsize(last_cmd->out) > 0)
+		return (true);
+	new_fd = ft_lstnew(ft_newpipefd(STDOUT));
+	if (!new_fd)
+		return (INVALID);
+	get_file(new_fd)->type = STD;
+	ft_lstadd_back(&last_cmd->out, new_fd);
+	return (true);
+}
+
 t_cmd_lst *make_cmd(void)
 {
 	// for command in line:
@@ -146,24 +169,11 @@ t_cmd_lst *make_cmd(void)
 	cmd = ft_cmd1();
 
 	// --------------------
-	// pipes
-
 	int	*fds = ft_create_pipes(ft_lstsize(cmd));
 	if (!fds || ft_add_pipes(cmd, fds) == INVALID)
 		return (ft_free_cmd_lst(cmd), NULL);
-
-	// if no input files, stdin
-	// if no output files, stdout
-	// TODO what if stdin needed?
-	t_cmd_lst	*new = ft_lstnew(ft_newpipefd(1));
-	if (!new)
-	{
-		ft_free_cmd_lst(cmd);
-		return (NULL);
-	}
-	get_file(new)->type = STD;
-	ft_lstadd_back(&get_cmd(tmp)->out, new);
-
+	if (ft_check_output(cmd) == INVALID)
+		return (ft_free_cmd_lst(cmd), NULL);
 	return (cmd);
 }
 
