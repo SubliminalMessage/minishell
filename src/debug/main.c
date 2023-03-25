@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/25 23:17:47 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/25 23:44:19 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,32 @@ int	*ft_create_pipes(int amount_cmds)
 	return (fds);
 }
 
+int	ft_add_pipes(t_cmd_lst *cmd, int *fds)
+{
+	int			i;
+	int			cmd_amount;
+	t_cmd_lst	*new;
+	t_cmd_lst	*tmp;
+
+	i = 0;
+	cmd_amount = ft_lstsize(cmd);
+	tmp = cmd;
+	while (i < cmd_amount - 1)
+	{
+		new = ft_lstnew(ft_newpipefd(fds[i * 2 + 1]));
+		if (!new)
+			return (free(fds), INVALID);
+		ft_lstadd_back(&get_cmd(tmp)->out, new);
+
+		new = ft_lstnew(ft_newpipefd(fds[i * 2]));
+		if (!new)
+			return (free(fds), INVALID);
+		ft_lstadd_back(&get_cmd(tmp->next)->in, new);
+		tmp = tmp->next;
+		i++;
+	}
+	return (free(fds), i);
+}
 
 t_cmd_lst *make_cmd(void)
 {
@@ -120,48 +146,16 @@ t_cmd_lst *make_cmd(void)
 	cmd = ft_cmd1();
 
 	// --------------------
-
-	// if no input files, stdin
-	// if no output files, stdout
-
 	// pipes
 
 	int	*fds = ft_create_pipes(ft_lstsize(cmd));
-	if (!fds)
+	if (!fds || ft_add_pipes(cmd, fds) == INVALID)
 		return (ft_free_cmd_lst(cmd), NULL);
 
-	t_cmd_lst *new;
-	t_cmd_lst *tmp = cmd;
-	int i = 0;
-	while (i < 2 - 1)
-	{
-		new = ft_lstnew(ft_newpipefd(fds[i * 2 + 1]));
-		if (!new)
-		{
-			i = INVALID;
-			break;
-		}
-		ft_lstadd_back(&get_cmd(tmp)->out, new);
-
-		new = ft_lstnew(ft_newpipefd(fds[i * 2]));
-		if (!new)
-		{
-			i = INVALID;
-			break;
-		}
-		ft_lstadd_back(&get_cmd(tmp->next)->in, new);
-		tmp = tmp->next;
-		i++;
-	}
-	free(fds); // The array is no longer needed
-	if (i == INVALID)
-	{
-		ft_free_cmd_lst(cmd);
-		return (NULL);
-	}
-
+	// if no input files, stdin
+	// if no output files, stdout
 	// TODO what if stdin needed?
-	new = ft_lstnew(ft_newpipefd(1));
+	t_cmd_lst	*new = ft_lstnew(ft_newpipefd(1));
 	if (!new)
 	{
 		ft_free_cmd_lst(cmd);
