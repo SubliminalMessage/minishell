@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/25 20:32:58 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 13:16:48 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	ft_redirect_io(int *fd_in, int *fd_out)
  * @return int INVALID if error, the pid of the child process otherwise.
  */
 // TODO builtins
-// TODO heredoc
+// ? ? builtin and args
 int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 {
 	int		pid;
@@ -61,6 +61,11 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 	pid = fork();
 	if (pid)
 		return (pid);
+	// TODO input files
+	// TODO output files
+	// ? append
+	// TODO check path
+	// ? no command given
 	cmd = get_cmd(cmd_lst);
 	if (ft_join_input(cmd) == INVALID)
 		return (ft_free_cmd_lst(full), exit(42), INVALID); // TODO error code?

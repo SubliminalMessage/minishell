@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 00:03:37 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 13:09:14 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,14 +150,13 @@ int	ft_check_output(t_cmd_lst *cmd)
 	return (true);
 }
 
-t_cmd_lst *make_cmd(void)
+// abc < fjaskldfjla << end < aaaaa | < noexists abc > output | cat > end
+
+t_cmd_lst *ft_create_cmd(void)
 {
 	// for command in line:
 
 	// get command
-	// ? path
-	// ? builtin
-	// ? ? builtin and args
 
 	// get input files
 	// ? here doc
@@ -185,7 +184,7 @@ int	main(void)
 	int			result;
 	t_cmd_lst	*cmd;
 
-	cmd = make_cmd();
+	cmd = ft_create_cmd();
 	result = run(cmd);
 	ft_putendl_fd("Execution ended", 1);
 	ft_printf("Result: %i\n", result);
