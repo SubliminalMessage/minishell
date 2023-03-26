@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 20:34:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 20:41:59 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 21:35:20 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_getopenflag(t_file *file)
  * @brief Opens a t_file.
  * 
  * @param file The file to open.
- * @return t_bool TRUE if the file was opened successfully. FALSE otherwise.
+ * @return t_bool true if the file was opened successfully. false otherwise.
  */
 t_bool	ft_openfile(t_file *file)
 {
@@ -45,7 +45,7 @@ t_bool	ft_openfile(t_file *file)
 
 	flag = ft_getopenflag(file);
 	if (flag == INVALID)
-		return (FALSE);
-	file->fd = open(file, flag);
+		return (false);
+	file->fd = open(file->name, flag);
 	return (file->fd != INVALID);
 }

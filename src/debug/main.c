@@ -6,73 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 14:20:21 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 21:35:49 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug_minishell.h"
-
-// < Makefile cat | wc -l
-static t_cmd_lst	*ft_cmd1()
-{
-	t_cmd_lst	*cmd;
-	t_cmd		*command;
-
-	command = ft_calloc(1, sizeof(t_cmd));
-	if (!command)
-		return (NULL);
-	command->cmd = ft_strdup("/bin/cat");
-	command->args = ft_split("cat", ' ');
-	if (!command->cmd || !command->args)
-	{
-		ft_free_cmd(command);
-		return (NULL);
-	}
-
-	cmd = ft_lstnew(command);
-	if (!cmd)
-	{
-		ft_free_cmd(command);
-		return (NULL);
-	}
-
-	command->in = ft_lstnew(openfile(ft_strdup("Makefile")));
-	if (!command->in || !get_file(command->in))
-	{
-		ft_free_cmd_lst(cmd);
-		return (NULL);
-	}
-	ft_printf("makefile file: %d, type: %d\n",
-		get_file(command->in)->fd, get_file(command->in)->type
-	);
-	command->fd_in = INVALID;
-
-	command = ft_calloc(1, sizeof(t_cmd));
-	if (!command)
-	{
-		ft_free_cmd_lst(cmd);
-		return (NULL);
-	}
-	command->cmd = ft_strdup("/usr/bin/wc");
-	command->args = ft_split("wc -l", ' ');
-	if (!command->cmd || !command->args)
-	{
-		ft_free_cmd(command);
-		ft_free_cmd_lst(cmd);
-		return (NULL);
-	}
-	ft_lstadd_back(&cmd, ft_lstnew(command));
-	if (ft_lstsize(cmd) == 1)
-	{
-		ft_free_cmd(command);
-		ft_free_cmd_lst(cmd);
-		return (NULL);
-	}
-	command->fd_in = INVALID;
-
-	// ****************************************
-	return (cmd);
-}
 
 int	*ft_create_pipes(int amount_cmds)
 {
@@ -132,9 +70,9 @@ int	ft_add_pipes(t_cmd_lst *cmd, int *fds)
  * @note The case of stdin does not need to be checked.
  * 
  * @param cmd Structure containing the command.
- * @return int INVALID if error, true otherwise.
+ * @return int false if error, true otherwise.
  */
-int	ft_check_output(t_cmd_lst *cmd)
+t_bool	ft_check_output(t_cmd_lst *cmd)
 {
 	t_cmd		*last_cmd;
 	t_file_lst	*new_fd;
@@ -144,35 +82,72 @@ int	ft_check_output(t_cmd_lst *cmd)
 		return (true);
 	new_fd = ft_lstnew(ft_newpipefd(STDOUT));
 	if (!new_fd)
-		return (INVALID);
-	get_file(new_fd)->type = STD;
+		return (false);
+	get_file(new_fd)->type = STD_FTYPE;
 	ft_lstadd_back(&last_cmd->out, new_fd);
 	return (true);
 }
 
 // cat Makefile| wc < Makefile -l
 // abc < fjaskldfjla << end < aaaaa | < noexists abc > output | cat > end
+// < Makefile cat | wc -l
 
 t_cmd_lst *ft_create_cmd(void)
 {
+	t_cmd_lst	*cmd;
+	t_cmd		*command;
+
 	// for command in line:
 
 	// get command
+	command = ft_calloc(1, sizeof(t_cmd));
+	if (!command)
+		return (NULL);
+	command->fd_in = INVALID;
+	command->args = ft_split("cat", ' ');
+	command->cmd = ft_strjoin("/bin/", command->args[0]); // TODO should be done later
+	if (!command->cmd || !command->args)
+		return (ft_free_cmd(command), NULL);
+	cmd = ft_lstnew(command);
+	if (!cmd)
+		return (ft_free_cmd(command), NULL);
+
+	command = ft_calloc(1, sizeof(t_cmd));
+	if (!command)
+		return (ft_free_cmd_lst(cmd), NULL);
+	command->fd_in = INVALID;
+	command->args = ft_split("wc -l", ' ');
+	command->cmd = ft_strjoin("/usr/bin/", command->args[0]); // TODO should be done later
+	if (!command->cmd || !command->args)
+		return (ft_free_cmd(command), ft_free_cmd_lst(cmd), NULL);
+	ft_lstadd_back(&cmd, ft_lstnew(command));
+	if (ft_lstsize(cmd) == 1)
+		return (ft_free_cmd(command), ft_free_cmd_lst(cmd), NULL);
 
 	// get input files
 	// ? here doc
+	command = get_cmd(cmd);
+	command->in = ft_lstnew(ft_newfile(ft_strdup("Makefile"), READ_FTYPE)); // TODO leaks
+	if (!command->in || !get_file(command->in))
+	{
+		ft_free_cmd_lst(cmd);
+		return (NULL);
+	}
+	command->fd_in = INVALID;
 
 	// get output files
 	// ? append
 
-	t_cmd_lst	*cmd;
-	cmd = ft_cmd1();
+	// --------------------
+	// TODO debug
+	command = get_cmd(cmd);
+	ft_openfile(get_file(command->in));
 
 	// --------------------
 	int	*fds = ft_create_pipes(ft_lstsize(cmd));
 	if (!fds || ft_add_pipes(cmd, fds) == INVALID)
 		return (ft_free_cmd_lst(cmd), NULL);
-	if (ft_check_output(cmd) == INVALID)
+	if (ft_check_output(cmd) == false)
 		return (ft_free_cmd_lst(cmd), NULL);
 	return (cmd);
 }

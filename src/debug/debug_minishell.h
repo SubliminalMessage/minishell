@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 20:43:21 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 21:04:39 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_cmd	*get_cmd(t_cmd_lst	*lst);
 
 // file
 t_file	*ft_newpipefd(int fd);
-t_file	*ft_openfile(char *file, t_ftype type, int opentype);
+t_file	*ft_newfile(char *file, t_ftype type);
 
 // wait_result.c
 int	ft_wait_result(int *pids);

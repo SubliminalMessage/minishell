@@ -111,7 +111,8 @@ DEBUG_FILES	=	utils/clean_cmd.c \
 				debug/join_input.c \
 				debug/main.c \
 				debug/run.c \
-				debug/wait_result.c
+				debug/wait_result.c \
+				utils/openfile.c
 
 DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
 

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:21:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 20:34:35 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 21:31:58 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_file	*ft_newfile(char *file, t_ftype type)
 	if (!file)
 		return (NULL);
 	f = ft_newtfile(file, INVALID, type);
-	if (!f)
+	if (f == NULL)
 		free(file);
 	return (f);
 }
