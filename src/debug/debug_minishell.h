@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/25 20:32:39 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 20:43:21 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,20 @@ typedef struct s_list t_cmd_lst;
 
 /**
  * @brief The type of file in a t_file structure.
+ * 
+ * @note APPEND_FTYPE: Append to the output file.
+ * @note TRUNC_FTYPE: Truncate the output file.
+ * @note READ_FTYPE: Read from the input file.
+ * @note PIPE_FTYPE: Pipe between commands (both in or out).
+ * @note STD_FTYPE: stdin, stdout or stderr.
  */
 typedef enum e_ftype
 {
 	APPEND_FTYPE,
 	TRUNC_FTYPE,
-	READ,
-	PIPE,
-	STD // stdin, stdout, stderr
+	READ_FTYPE,
+	PIPE_FTYPE,
+	STD_FTYPE
 }	t_ftype;
 
 /**
@@ -97,9 +103,8 @@ t_file	*get_file(t_file_lst	*lst);
 t_cmd	*get_cmd(t_cmd_lst	*lst);
 
 // file
-t_file	*ft_newfile(char *file, t_ftype type, int opentype);
-t_file	*openfile(char *file);
 t_file	*ft_newpipefd(int fd);
+t_file	*ft_openfile(char *file, t_ftype type, int opentype);
 
 // wait_result.c
 int	ft_wait_result(int *pids);
@@ -115,5 +120,8 @@ int	ft_copyall(int rfd, int wfd);
 
 // run.c
 int	run(t_cmd_lst *cmd);
+
+// openfile.c
+t_bool	ft_openfile(t_file *file);
 
 #endif
