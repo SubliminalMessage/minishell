@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 21:04:39 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 22:43:48 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,7 @@ int	run(t_cmd_lst *cmd);
 
 // openfile.c
 t_bool	ft_openfile(t_file *file);
+t_file	*ft_openfiles(t_file_lst *lst);
+t_bool	ft_open_all_files(t_cmd *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 21:35:49 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 22:57:42 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_cmd_lst *ft_create_cmd(void)
 	// get input files
 	// ? here doc
 	command = get_cmd(cmd);
-	command->in = ft_lstnew(ft_newfile(ft_strdup("Makefile"), READ_FTYPE)); // TODO leaks
+	command->in = ft_lstnew(ft_newfile(ft_strdup("pepe"), READ_FTYPE)); // TODO leaks
 	if (!command->in || !get_file(command->in))
 	{
 		ft_free_cmd_lst(cmd);
@@ -139,9 +139,9 @@ t_cmd_lst *ft_create_cmd(void)
 	// ? append
 
 	// --------------------
-	// TODO debug
-	command = get_cmd(cmd);
-	ft_openfile(get_file(command->in));
+	// TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+	// command = get_cmd(cmd);
+	// ft_openfile(get_file(command->in));
 
 	// --------------------
 	int	*fds = ft_create_pipes(ft_lstsize(cmd));

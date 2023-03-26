@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 13:00:01 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 23:10:44 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	run(t_cmd_lst *cmd)
 	t_cmd_lst	*ite;
 	pid_t		*pids;
 
-	// TODO Heredocs
+	// TODO heredocs
 	if (!cmd)
 		return (INVALID);
 	i = 0;
@@ -46,7 +46,11 @@ int	run(t_cmd_lst *cmd)
 	ite = cmd;
 	while (ite)
 	{
-		pids[i++] = ft_exe_cmd(ite, cmd);
+		pids[i] = ft_exe_cmd(ite, cmd);
+		if (pids[i] == INVALID) // Child with error
+			// TODO the rest of the childs and the parent hang
+			return (free(pids), close_fds_free(cmd), exit(-42), INVALID); // TODO error code
+		++i;
 		ite = ite->next;
 	}
 	return (close_fds_free(cmd), ft_wait_result(pids));
