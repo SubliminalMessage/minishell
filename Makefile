@@ -10,7 +10,7 @@ READLINE_FLAGS = -lreadline
 #               PROJECT PATHS                 #
 ### ---   ---   ---         ---   ---   --- ###
 
-INCLUDE				= -I include -I libft/include
+INCLUDE				= -I include -I libft/include -I src/debug/ # TODO remove debug
 SRCS_PATH			= src/
 LIBFT_PATH			= libft/
 LIBFT				= $(LIBFT_PATH)libft.a
@@ -32,20 +32,6 @@ SRC_FILES	= 	main.c \
 				utils/debug/print_debug.c # TODO This file is not meant to reach the final version of the Minishell
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
-
-DEBUG		=	debug
-
-DEBUG_FILES	=	clean_cmd.c \
-				copy_all.c \
-				exe_cmd.c \
-				file.c \
-				get.c \
-				join_input.c \
-				main.c \
-				run.c \
-				wait_result.c
-
-DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/debug/%.o)
 
 ### ---   ---   ---         ---   ---   --- ###
 #              COLORS & EXTRAS :)             #
@@ -115,9 +101,23 @@ execute: all
 #                    DEBUG                    #
 ### ---   ---   ---         ---   ---   --- ###
 
+DEBUG		=	debug
+
+DEBUG_FILES	=	utils/clean_cmd.c \
+				utils/copy_all.c \
+				debug/exe_cmd.c \
+				debug/file.c \
+				utils/get.c \
+				debug/join_input.c \
+				debug/main.c \
+				debug/run.c \
+				debug/wait_result.c
+
+DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
+
 $(DEBUG): $(DEBUG_OBJS) $(LIBFT)
 	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
-	$(CC) $(CFLAGS) -I src/debug/ $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
 
 exec_dev: $(DEBUG)
 	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)

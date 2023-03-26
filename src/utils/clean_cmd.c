@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   clean_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:07:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/21 14:12:43 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 16:21:30 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug_minishell.h"
+#include "debug_minishell.h" // TODO use minishell
 
 /**
  * @brief Closes the given fd. If null, nothing done.

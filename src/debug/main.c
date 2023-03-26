@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 13:09:14 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/26 14:20:21 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ int	ft_check_output(t_cmd_lst *cmd)
 	return (true);
 }
 
+// cat Makefile| wc < Makefile -l
 // abc < fjaskldfjla << end < aaaaa | < noexists abc > output | cat > end
 
 t_cmd_lst *ft_create_cmd(void)
