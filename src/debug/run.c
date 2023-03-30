@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 23:10:44 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/03/30 16:58:16 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ int	run(t_cmd_lst *cmd)
 	while (ite)
 	{
 		pids[i] = ft_exe_cmd(ite, cmd);
+		// TODO can fail with fork, execve or invalid command
 		if (pids[i] == INVALID) // Child with error
+			return (free(pids), close_fds_free(cmd), exit(42), INVALID); // TODO error code
 			// TODO the rest of the childs and the parent hang
-			return (free(pids), close_fds_free(cmd), exit(-42), INVALID); // TODO error code
 		++i;
 		ite = ite->next;
 	}
