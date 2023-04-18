@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:07:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 16:21:30 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/18 21:25:30 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 void	ft_close_fd(int *fd)
 {
 	if (*fd > 1)
-		close(*fd);
+		close(*fd); // TODO can fail
 	*fd = INVALID;
 }
 
@@ -40,8 +40,8 @@ static void	ft_close_fds(t_cmd *cmd)
 	if (!cmd)
 		return ;
 	ft_lstclear((t_list**) &cmd->in, (void (*)(void *)) ft_free_file);
-	ft_lstclear((t_list**) &cmd->out, (void (*)(void *)) ft_free_file);
 	ft_close_fd(&cmd->fd_in);
+	ft_lstclear((t_list**) &cmd->out, (void (*)(void *)) ft_free_file);
 }
 
 void	ft_free_cmd(t_cmd *cmd)

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:17:14 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 16:23:04 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/18 21:42:03 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	ft_wait_result(int *pids)
 	i = 0;
 	while (pids[i])
 	{
+		ft_printf_fd(2, "Waiting for pid %d (i = %d)\n", pids[i], i); // TODO debug
 		waited_pid = waitpid(pids[i], &status, 0);
 		if (pids[i] == waited_pid && pids[i + 1] == 0)
 			result = status;
