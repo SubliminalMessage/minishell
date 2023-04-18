@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 20:34:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 22:56:54 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/18 21:44:22 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_file	*ft_openfiles(t_file_lst *lst)
 	return (ft_openfiles(lst->next));
 }
 
-#define NO_FILE_OR_DIR "minishell: %s: No such file or directory"
+#define NO_FILE_OR_DIR "minishell: %s: No such file or directory" // TODO refactor and move
 
 /**
  * @brief Opens all the files in the command.
