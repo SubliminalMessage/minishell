@@ -1,0 +1,16 @@
+{
+    "image": "jkutkut/docker4c:latest",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "kube.42header",
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cpptools-themes",
+                "twxs.cmake",
+                "ms-vscode.cmake-tools",
+                "GitHub.copilot"
+            ]
+        }
+    }
+}
