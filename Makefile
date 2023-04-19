@@ -121,5 +121,8 @@ $(DEBUG): $(DEBUG_OBJS) $(LIBFT)
 	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
 	$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
 
+docker:
+	docker run -it --rm -v $(PWD):/home/marvin/docker jkutkut/docker4c
+
 exec_dev: $(DEBUG)
 	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/18 21:37:48 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:45:37 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 	cmd = get_cmd(cmd_lst);
 	if (!ft_open_all_files(cmd))
 		return (INVALID * 2); // TODO refactor INVALID logic
-	// TODO check path
+	// TODO check path with env
 	// ? no command given
 	if (ft_join_input(cmd) == INVALID)
 		return (INVALID * 2);
+	ft_printf_fd(2, "******************* pre redirect *******************\n");
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
+	ft_printf_fd(2, "******************* post redirect *******************\n");
 	ft_close_all_fds(full);
 	ft_printf_fd(2, "******************* Executing *******************\n");
 	execve(cmd->cmd, cmd->args, NULL);

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 21:11:35 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:36:55 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	ft_add_pipes(t_cmd_lst *cmd, int *fds)
 
 /**
  * @brief If no output file is specified, stdout should be used.
+ * @note If no ouput is specified, a new fd representing stdout is created.
  * @note The case of stdin does not need to be checked.
  * 
  * @param cmd Structure containing the command.
@@ -133,7 +134,9 @@ t_cmd_lst *ft_create_cmd(void)
 	command->fd_in = INVALID;
 
 	// get output files
-	
+	// command = get_cmd(ft_lstlast(cmd));
+	// command->out = ft_lstnew(ft_newfile(ft_strdup("aaaa"), TRUNC_FTYPE)); // TODO leaks
+	// command->out = ft_lstnew(ft_newfile(ft_strdup("aaaa"), APPEND_FTYPE)); // TODO leaks
 	// --------------------
 
 	// --------------------

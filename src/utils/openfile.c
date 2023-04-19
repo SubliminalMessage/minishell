@@ -6,32 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 20:34:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/18 21:44:22 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:39:39 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug_minishell.h"
-
-/**
- * @brief Obtains the flag to open a t_file.
- * @note The file must be a valid-not-opened file.
- * @note If the file should not be opened, it is considered invalid.
- * 
- * @param file The file to open.
- * @return int INVALID if the file is invalid or the flag to open the file.
- */
-static int	ft_getopenflag(t_file *file)
-{
-	if (!file || file->fd != INVALID)
-		return (INVALID);
-	if (file->type == READ_FTYPE)
-		return (O_RDONLY);
-	if (file->type == TRUNC_FTYPE)
-		return (O_WRONLY | O_CREAT | O_TRUNC);
-	if (file->type == APPEND_FTYPE)
-		return (O_WRONLY | O_CREAT | O_APPEND);
-	return (INVALID);
-}
 
 /**
  * @brief Opens a t_file.
@@ -41,12 +20,16 @@ static int	ft_getopenflag(t_file *file)
  */
 t_bool	ft_openfile(t_file *file)
 {
-	int	flag;
-
-	flag = ft_getopenflag(file);
-	if (flag == INVALID)
+	if (!file || file->fd != INVALID)
 		return (false);
-	file->fd = open(file->name, flag);
+	if (file->type == READ_FTYPE)
+		file->fd = open(file->name, O_RDONLY);
+	else if (file->type == TRUNC_FTYPE)
+		file->fd = open(file->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (file->type == APPEND_FTYPE)
+		file->fd = open(file->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		return (false);
 	return (file->fd != INVALID);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/18 21:41:44 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:52:46 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@
  */
 static void	close_fds_free(t_cmd_lst *cmd)
 {
-	// ft_printf_fd(2, "Closing all file descriptors...\n"); // TODO debug
 	ft_close_all_fds(cmd);
-	// ft_printf_fd(2, "Freeing the list of commands...\n"); // TODO debug
 	ft_free_cmd_lst(cmd);
-	// ft_printf_fd(2, "All file descriptors closed and list freed.\n"); // TODO debug
 }
 
 /**
@@ -39,7 +36,6 @@ int	run(t_cmd_lst *cmd)
 	t_cmd_lst	*ite;
 	pid_t		*pids;
 
-	// TODO heredocs
 	if (!cmd)
 		return (INVALID);
 	i = 0;
@@ -47,13 +43,14 @@ int	run(t_cmd_lst *cmd)
 	if (!pids)
 		return (close_fds_free(cmd), INVALID);
 	ite = cmd;
-	while (i < 2) // TODO use ite
+	while (ite)
 	{
 		pids[i] = ft_exe_cmd(ite, cmd);
 		// TODO can fail with fork, execve or invalid command
 		if (pids[i] == INVALID) // Fork error
 		{
 			ft_printf_fd(2, "\nError: fork failed.\n"); // TODO debug
+			// TODO ? kill all children
 			return (free(pids), close_fds_free(cmd), exit(42), INVALID); // TODO error code
 		}
 		if (pids[i] == INVALID * 2) // Child with error
