@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/18 22:09:22 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:11:35 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	*ft_create_pipes(int amount_cmds)
 			free(fds);
 			return (NULL);
 		}
-		ft_printf_fd(2, "pipe between cmds: %d, %d\n", fds[i], fds[i + 1]);
+		ft_printf_fd(2, "pipe between cmds: %d, %d\n", fds[i], fds[i + 1]); // TODO debug
 		i += 2;
 	}
 	return (fds);
@@ -125,19 +125,15 @@ t_cmd_lst *ft_create_cmd(void)
 		return (ft_free_cmd(command), ft_free_cmd_lst(cmd), NULL);
 
 	// get input files
-	// TODO append files?
-	// ? here doc
 	command = get_cmd(cmd);
 	command->in = ft_lstnew(ft_newfile(ft_strdup("Makefile"), READ_FTYPE)); // TODO leaks
-	ft_lstadd_back(&command->in, ft_lstnew(ft_newfile(ft_strdup("end"), HEREDOC_FTYPE))); // TODO leaks
 	if (!command->in || !get_file(command->in))
 		return (ft_free_cmd_lst(cmd), NULL);
+	ft_lstadd_back(&command->in, ft_lstnew(ft_new_here_doc(ft_strdup("end")))); // TODO leaks
 	command->fd_in = INVALID;
 
 	// get output files
-	// ? append
-	if (!ft_handle_here_doc_lst(cmd))
-		return (ft_free_cmd_lst(cmd), NULL);
+	
 	// --------------------
 
 	// --------------------

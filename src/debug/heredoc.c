@@ -6,17 +6,26 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:06:49 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/18 22:34:31 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 20:59:51 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug_minishell.h"
 
-t_bool	ft_isdelimeter(char *delimeter, char *buf)
+/**
+ * @brief Checks if the given buffer is the heredoc delimeter.
+ * 
+ * @param delimeter The string to compare.
+ * @param buf The buffer to compare.
+ * @return t_bool true if the buffer is the delimeter, false otherwise.
+ */
+static t_bool	ft_isdelimeter(char *delimeter, char *buf)
 {
 	int	delim_len;
 	int	buf_len;
 
+	if (!delimeter || !buf)
+		return (false);
 	delim_len = ft_strlen(delimeter);
 	buf_len = ft_strlen(buf);
 	if (delim_len + 1 != buf_len)
@@ -28,60 +37,32 @@ t_bool	ft_isdelimeter(char *delimeter, char *buf)
 	return (true);
 }
 
+/**
+ * @brief Ask the user for the heredoc content and store it in a pipe
+ * 
+ * @param file t_file to store the content.
+ * @return t_bool true if success, false if error.
+ */
 t_bool	ft_handle_here_doc(t_file *file)
 {
 	int		p[2];
-	char	*line;
+	int		bytes_read;
+	char	line[BUFFER_SIZE];
 
 	if (pipe(p) == -1)
 		return (false);
-	ft_printf_fd(2, "Here doc pipe: %d, %d\n", p[0], p[1]);
-	ft_printf_fd(2, "heredoc end: '%s'\n", file->name);
 	while (true)
 	{
 		ft_putstr_fd("heredoc> ", STDOUT);
-		line = get_next_line(STDIN); // TODO ft_
-		// TODO leaks
-		if (!line)
-			return (false); // TODO handle error
+		bytes_read = read(STDIN, line, BUFFER_SIZE - 1);
+		line[bytes_read] = '\0';
+		if (bytes_read == -1)
+			return (ft_close_fd(&p[1]), ft_close_fd(&p[0]), false);
 		if (ft_isdelimeter(file->name, line))
-		{
-			free(line);
 			break ;
-		}
 		ft_putendl_fd(line, p[1]);
-		free(line);
 	}
 	ft_close_fd(&p[1]);
 	file->fd = p[0];
-	return (true);
-}
-
-t_bool	ft_handle_here_doc_lst(t_cmd_lst *cmd_lst)
-{ // TODO remove and add heredoc directly when creating a file
-	t_cmd_lst	*cmd;
-	t_cmd		*c;
-	t_file_lst	*file;
-	t_file		*f;
-
-	cmd = cmd_lst;
-	while (cmd)
-	{
-		c = get_cmd(cmd);
-		file = c->in;
-		while (file)
-		{
-			f = get_file(file);
-			if (f->type == HEREDOC_FTYPE)
-			{
-				if (!ft_handle_here_doc(f))
-					return (false);
-			}
-			file = file->next;
-		}
-		cmd = cmd->next;
-	}
-
-
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 08:10:11 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/18 22:22:15 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 20:47:39 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ t_cmd	*get_cmd(t_cmd_lst	*lst);
 // file
 t_file	*ft_newpipefd(int fd);
 t_file	*ft_newfile(char *file, t_ftype type);
+t_file	*ft_new_here_doc(char *delimiter);
 
 // wait_result.c
 int	ft_wait_result(int *pids);
@@ -133,6 +134,6 @@ t_file	*ft_openfiles(t_file_lst *lst);
 t_bool	ft_open_all_files(t_cmd *cmd);
 
 // heredoc
-t_bool	ft_handle_here_doc_lst(t_cmd_lst *cmd);
+t_bool	ft_handle_here_doc(t_file *file);
 
 #endif
