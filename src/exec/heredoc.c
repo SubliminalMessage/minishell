@@ -6,11 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:06:49 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 22:17:04 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:51:39 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug_minishell.h"
+#include <minishell.h>
 
 /**
  * @brief Checks if the given buffer is the heredoc delimeter.

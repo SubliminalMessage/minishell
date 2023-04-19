@@ -6,11 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:17:14 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 21:57:49 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:51:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug_minishell.h" // TODO Use minimishell.h
+#include <minishell.h>
 
 /**
  * @brief Wait for all pids and return the result of the last one.

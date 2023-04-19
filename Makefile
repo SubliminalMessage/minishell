@@ -113,7 +113,8 @@ DEBUG_FILES	=	utils/clean_cmd.c \
 				exec/run.c \
 				exec/wait_result.c \
 				exec/openfile.c \
-				exec/heredoc.c
+				exec/heredoc.c \
+				exec/pipes.c
 
 DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
 

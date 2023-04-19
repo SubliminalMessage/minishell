@@ -6,11 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:44:07 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/03/26 16:21:27 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:50:05 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug_minishell.h" // TODO use minishell.h
+#include <minishell.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 4096

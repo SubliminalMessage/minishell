@@ -6,11 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 20:34:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 21:58:02 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:51:31 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug_minishell.h"
+#include <minishell.h>
 
 /**
  * @brief Opens a t_file.

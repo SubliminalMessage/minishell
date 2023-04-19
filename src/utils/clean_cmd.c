@@ -6,11 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:07:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/18 21:25:30 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:49:36 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug_minishell.h" // TODO use minishell
+#include <minishell.h>
 
 /**
  * @brief Closes the given fd. If null, nothing done.

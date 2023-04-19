@@ -6,11 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 22:16:55 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:51:07 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug_minishell.h"
+#include <minishell.h>
 
 /**
  * @brief Closes all the file descriptors and frees the cmd_lst.

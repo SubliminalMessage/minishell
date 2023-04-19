@@ -6,64 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 21:36:55 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:53:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug_minishell.h"
-
-int	*ft_create_pipes(int amount_cmds)
-{
-	int	pipes_size;
-	int	*fds;
-	int	i;
-
-	pipes_size = (amount_cmds - 1) * 2;
-	fds = ft_calloc(pipes_size, sizeof(int));
-	if (!fds)
-		return (NULL);
-	i = 0;
-	while (i < pipes_size)
-	{
-		if (pipe(&(fds[i])) != 0)
-		{
-			while (--i >= 0)
-				ft_close_fd(&fds[i]);
-			free(fds);
-			return (NULL);
-		}
-		ft_printf_fd(2, "pipe between cmds: %d, %d\n", fds[i], fds[i + 1]); // TODO debug
-		i += 2;
-	}
-	return (fds);
-}
-
-int	ft_add_pipes(t_cmd_lst *cmd, int *fds)
-{
-	int			i;
-	int			cmd_amount;
-	t_cmd_lst	*new;
-	t_cmd_lst	*tmp;
-
-	i = 0;
-	cmd_amount = ft_lstsize(cmd);
-	tmp = cmd;
-	while (i < cmd_amount - 1)
-	{
-		new = ft_lstnew(ft_newpipefd(fds[i * 2 + 1]));
-		if (!new)
-			return (free(fds), INVALID);
-		ft_lstadd_back(&get_cmd(tmp)->out, new);
-
-		new = ft_lstnew(ft_newpipefd(fds[i * 2]));
-		if (!new)
-			return (free(fds), INVALID);
-		ft_lstadd_back(&get_cmd(tmp->next)->in, new);
-		tmp = tmp->next;
-		i++;
-	}
-	return (free(fds), i);
-}
+#include <minishell.h>
 
 /**
  * @brief If no output file is specified, stdout should be used.
@@ -141,7 +88,7 @@ t_cmd_lst *ft_create_cmd(void)
 
 	// --------------------
 	int	*fds = ft_create_pipes(ft_lstsize(cmd));
-	if (!fds || ft_add_pipes(cmd, fds) == INVALID)
+	if (!fds || !ft_add_pipes(cmd, fds))
 		return (ft_free_cmd_lst(cmd), NULL);
 	if (ft_check_output(cmd) == false)
 		return (ft_free_cmd_lst(cmd), NULL);
