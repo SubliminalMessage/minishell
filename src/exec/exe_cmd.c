@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 21:45:37 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:17:07 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,11 @@ static void	ft_redirect_io(int *fd_in, int *fd_out)
 {
 	if (*fd_in != STDIN)
 	{
-		// ft_printf_fd(2, "redirecting stdin: %d -> %d\n", *fd_in, STDIN); // TODO debug
 		dup2(*fd_in, STDIN);
 		ft_close_fd(fd_in);
 	}
 	if (*fd_out != STDOUT)
 	{
-		// ft_printf_fd(2, "redirecting stdout: %d -> %d\n", *fd_out, STDOUT); // TODO debug
 		dup2(*fd_out, STDOUT);
 		ft_close_fd(fd_out);
 	}

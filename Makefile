@@ -105,15 +105,15 @@ DEBUG		=	debug
 
 DEBUG_FILES	=	utils/clean_cmd.c \
 				utils/copy_all.c \
-				debug/exe_cmd.c \
-				debug/file.c \
+				exec/exe_cmd.c \
+				utils/file.c \
 				utils/get.c \
-				debug/join_input.c \
+				exec/join_input.c \
 				debug/main.c \
-				debug/run.c \
-				utils/wait_result.c \
-				utils/openfile.c \
-				debug/heredoc.c
+				exec/run.c \
+				exec/wait_result.c \
+				exec/openfile.c \
+				exec/heredoc.c
 
 DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
 
@@ -125,4 +125,6 @@ docker:
 	docker run -it --rm -v $(PWD):/home/marvin/docker jkutkut/docker4c
 
 exec_dev: $(DEBUG)
-	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)
+	@echo "vfull ./$(DEBUG)"
+	@valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)
+	
