@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/01/18 09:46:42 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:31:06 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 # define STRUCTURES_H
 
 # include <minishell.h>
-
-typedef enum e_bool
-{
-	false,
-	true
-}	t_bool;
 
 // ! TODO Remove when new version is implemented
 typedef struct	s_redirs // TODO: there's work to be done here...
@@ -50,16 +44,33 @@ typedef struct	s_env
 
 // ------------------------------------
 
+typedef enum e_bool
+{
+	false,
+	true
+}	t_bool;
+
 typedef struct s_list t_file_lst;
 typedef struct s_list t_cmd_lst;
 
 /**
  * @brief The type of file in a t_file structure.
+ * 
+ * @note APPEND_FTYPE: Append to the output file.
+ * @note TRUNC_FTYPE: Truncate the output file.
+ * @note READ_FTYPE: Read from the input file.
+ * @note PIPE_FTYPE: Pipe between commands (both in or out).
+ * @note STD_FTYPE: stdin, stdout or stderr.
+ * @note HEREDOC_FTYPE: Heredoc (<<).
  */
 typedef enum e_ftype
 {
 	APPEND_FTYPE,
 	TRUNC_FTYPE,
+	READ_FTYPE,
+	PIPE_FTYPE,
+	STD_FTYPE,
+	HEREDOC_FTYPE
 }	t_ftype;
 
 /**
@@ -70,7 +81,6 @@ typedef enum e_ftype
  */
 typedef struct s_file
 {
-	struct s_file	*next;
 	char	*name;
 	int		fd;
 	t_ftype	type;
@@ -84,7 +94,8 @@ typedef struct s_file
  */
 typedef struct s_cmd
 {
-	// char	*cmd; // TODO
+	char	*cmd;
+	char	**args;
 	// char	**envp; // TODO
 	/**
 	 * Input files (linked list).

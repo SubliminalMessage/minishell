@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/01/11 15:34:31 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:34:44 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,26 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <libft.h>
-# include <libc.h>
+// # include <libc.h> // TODO In mac, this may be needed
 
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include <structures.h>
+# include <fcntl.h> // Open, close
+# include <sys/wait.h> // fork, WEXITSTATUS
+
 
 // Custom headers
 
-# include "libft.h"
-# include "pipex.h"
+# include <libft.h>
+# include <structures.h>
+
+// Custom defines
+
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
 
 // Colors: https://www.darklaunch.com/print-terminal-colors.html
 # define RED "\033[1;31m"
@@ -52,6 +60,9 @@
 # define PROMPT_MAX_FULL_LEN 15
 # define PROMPT_BEFORE WHITE"﴾  "PROMPT_CWD
 # define PROMPT_AFTER WHITE"  ﴿  "PROMPT_ACT"»  "RESET
+
+# define NO_FILE_OR_DIR "minishell: %s: No such file or directory" // TODO refactor with style from minishell
+# define HEREDOC_PROMPT "heredoc> " // TODO refactor with style from minishell
 
 // CWD Max String Size
 # define CWD_SIZE 1000
