@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:06:49 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 20:59:51 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:59:44 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_bool	ft_handle_here_doc(t_file *file)
 		return (false);
 	while (true)
 	{
-		ft_putstr_fd("heredoc> ", STDOUT);
+		ft_putstr_fd(HEREDOC_PROMPT, STDOUT);
 		bytes_read = read(STDIN, line, BUFFER_SIZE - 1);
 		line[bytes_read] = '\0';
 		if (bytes_read == -1)

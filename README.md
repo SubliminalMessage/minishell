@@ -1,3 +1,4 @@
 # Minishell:
 
-Allowed functions: [link](./docs/minishel.md)
+Allowed functions: [link](https://github.com/SubliminalMessage/minishell/wiki/Minishell)
+Wiki: [link](https://github.com/SubliminalMessage/minishell/wiki)
