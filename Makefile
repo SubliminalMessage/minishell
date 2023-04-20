@@ -55,19 +55,19 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(SRC_OBJS)
 	@echo $(BLUE)[Compilation]$(WHITE): $(NAME)$(NC)
-	$(CC) $(CFLAGS) $(INCLUDE) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDE) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT): $(LIBFT_REPO)
 	@make -C $(LIBFT_PATH)
 
 $(LIBFT_REPO):
 	@# TODO Remove in intra version
-	git submodule update --init --recursive
+	@git submodule update --init --recursive
 
 bin/%.o: src/%.c
 	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "$(NC)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean: $(LIBFT_REPO)
 	@echo $(RED)"[Deleting Object Files]"$(NC)
@@ -120,10 +120,10 @@ DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
 
 $(DEBUG): $(DEBUG_OBJS) $(LIBFT)
 	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
-	$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
 
 docker:
-	docker run -it --rm -v $(PWD):/home/marvin/docker jkutkut/docker4c
+	@docker run -it --rm -v $(PWD):/home/marvin/docker jkutkut/docker4c
 
 exec_dev: $(DEBUG)
 	@echo "vfull ./$(DEBUG)"
