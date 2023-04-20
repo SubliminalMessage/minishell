@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/01/11 15:34:31 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:53:54 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,33 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <libft.h>
-# include <libc.h>
+// # include <libc.h> // TODO In mac, this may be needed
 
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include <structures.h>
+# include <fcntl.h> // Open, close
+# include <sys/wait.h> // fork, WEXITSTATUS
+
 
 // Custom headers
 
-# include "libft.h"
-# include "pipex.h"
+# include <libft.h>
+# include <structures.h>
+
+// Custom defines
+
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
+
+/**
+ * @brief The value of something not valid.
+ * @note This is helpful in cases where 0 is a valid value.
+ * @note Used mainly to denote a non-existing file descriptor.
+ */
+# define INVALID -1
 
 // Colors: https://www.darklaunch.com/print-terminal-colors.html
 # define RED "\033[1;31m"
@@ -53,10 +68,14 @@
 # define PROMPT_BEFORE WHITE"﴾  "PROMPT_CWD
 # define PROMPT_AFTER WHITE"  ﴿  "PROMPT_ACT"»  "RESET
 
+# define NO_FILE_OR_DIR "minishell: %s: No such file or directory" // TODO refactor with style from minishell
+# define HEREDOC_PROMPT "heredoc> " // TODO refactor with style from minishell
+
 // CWD Max String Size
 # define CWD_SIZE 1000
 
 // All the functions
+// ----------------- ?? directory -----------------
 // TODO: Group them by file
 char    *get_full_cwd(void);
 char    *get_prompt_cwd(t_env *env_list);
@@ -80,5 +99,53 @@ void free_cmd(t_command **list);
 t_command *new_cmd(char **args);
 t_command   *parse_commands(char **cmds);
 void    free_str_array(char **array);
+
+// ----------------- exec directory -----------------
+
+// exe_cmd.c
+int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full);
+
+// heredoc.c
+t_bool	ft_handle_here_doc(t_file *file);
+
+// join_input.c
+int	ft_join_input(t_cmd	*cmd);
+
+// openfile.c
+t_bool	ft_openfile(t_file *file);
+t_file	*ft_openfiles(t_file_lst *lst);
+t_bool	ft_open_all_files(t_cmd *cmd);
+
+// pipes.c
+int		*ft_create_pipes(int amount_cmds);
+t_bool	ft_add_pipes(t_cmd_lst *cmd, int *fds);
+
+// run.c
+int	run(t_cmd_lst *cmd);
+
+// wait_result.c
+int	ft_wait_result(int *pids);
+
+// ----------------- utils directory -----------------
+// TODO
+
+// Clean_cmd.c
+void	ft_close_fd(int *fd);
+void	ft_free_file(t_file	*file);
+void	ft_free_cmd(t_cmd	*cmd);
+void	ft_close_all_fds(t_cmd_lst	*cmd);
+void	ft_free_cmd_lst(t_cmd_lst	*cmd);
+
+// copy_all.c
+int	ft_copyall(int rfd, int wfd);
+
+// file.c
+t_file	*ft_newpipefd(int fd);
+t_file	*ft_newfile(char *file, t_ftype type);
+t_file	*ft_new_here_doc(char *delimiter);
+
+// get.c
+t_file	*get_file(t_file_lst	*lst);
+t_cmd	*get_cmd(t_cmd_lst	*lst);
 
 #endif

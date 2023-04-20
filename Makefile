@@ -10,7 +10,7 @@ READLINE_FLAGS = -lreadline
 #               PROJECT PATHS                 #
 ### ---   ---   ---         ---   ---   --- ###
 
-INCLUDE				= -I include -I libft/include
+INCLUDE				= -I include -I libft/include -I src/debug/ # TODO remove debug
 SRCS_PATH			= src/
 LIBFT_PATH			= libft/
 LIBFT				= $(LIBFT_PATH)libft.a
@@ -32,15 +32,6 @@ SRC_FILES	= 	main.c \
 				utils/debug/print_debug.c # TODO This file is not meant to reach the final version of the Minishell
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
-
-DEBUG		=	debug
-
-DEBUG_FILES	=	main.c \
-				clean_cmd.c \
-				get.c \
-				file.c
-
-DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/debug/%.o)
 
 ### ---   ---   ---         ---   ---   --- ###
 #              COLORS & EXTRAS :)             #
@@ -81,7 +72,7 @@ bin/%.o: src/%.c
 clean: $(LIBFT_REPO)
 	@echo $(RED)"[Deleting Object Files]"$(NC)
 	@rm -rf bin
-	@# TODO fclean the Libft
+	@make -C $(LIBFT_PATH) fclean
 	@#make fclean -C $(LIBFT_PATH)
 
 fclean: clean
@@ -110,12 +101,31 @@ execute: all
 #                    DEBUG                    #
 ### ---   ---   ---         ---   ---   --- ###
 
-$(DEBUG): $(DEBUG_OBJS)
+DEBUG		=	debug
+
+DEBUG_FILES	=	utils/clean_cmd.c \
+				utils/copy_all.c \
+				exec/exe_cmd.c \
+				utils/file.c \
+				utils/get.c \
+				exec/join_input.c \
+				debug/main.c \
+				exec/run.c \
+				exec/wait_result.c \
+				exec/openfile.c \
+				exec/heredoc.c \
+				exec/pipes.c
+
+DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
+
+$(DEBUG): $(DEBUG_OBJS) $(LIBFT)
 	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
-	$(CC) $(CFLAGS) -I src/debug/ $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
+
+docker:
+	docker run -it --rm -v $(PWD):/home/marvin/docker jkutkut/docker4c
 
 exec_dev: $(DEBUG)
-	@#./$(DEBUG)
-	@#valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(DEBUG)
-	@#valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no ./$(DEBUG)
-	valgrind ./$(DEBUG)
+	@echo "vfull ./$(DEBUG)"
+	@valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)
+	
