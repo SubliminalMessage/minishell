@@ -3,7 +3,7 @@
 ### ---   ---   ---         ---   ---   --- ###
 
 CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra #-g3 -fsanitize=address
 READLINE_FLAGS = -lreadline
 
 ### ---   ---   ---         ---   ---   --- ###
@@ -24,10 +24,20 @@ NAME		= minishell
 
 SRC_FILES	= 	main.c \
 				parsing/handle_input.c \
-				parsing/commands.c \
 				parsing/environ.c \
 				utils/handle_str.c \
 				utils/split_quote_conscious.c \
+				utils/clean_cmd.c \
+				utils/copy_all.c \
+				utils/file.c \
+				utils/get.c \
+				exec/exe_cmd.c \
+				exec/run.c \
+				exec/wait_result.c \
+				exec/openfile.c \
+				exec/heredoc.c \
+				exec/pipes.c \
+				exec/join_input.c \
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 

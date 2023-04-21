@@ -6,14 +6,12 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/21 18:45:34 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 01:08:27 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# include <debug.h> // TODO This is not meant to get into the final version of the Minishell
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -56,8 +54,10 @@
 # define CYAN "\033[1;36m"
 # define RESET "\033[0;0m"
 
+# define INV_TKN_MSG "minishell: syntax error near unexpected token" // TODO refactor with style from minishell
+# define INVALID_TOKEN_STR INV_TKN_MSG" `%s'\n"
+# define INVALID_TOKEN_CHR INV_TKN_MSG" `%c'\n"
 
-# define INVALID_TOKEN "minishell: syntax error near unexpected token `%c'\n" // TODO refactor with style from minishell
 # define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
 # define NO_FILE_OR_DIR "minishell: %s: No such file or directory" // TODO refactor with style from minishell
 # define HEREDOC_PROMPT "heredoc> " // TODO refactor with style from minishell
@@ -70,6 +70,7 @@
 // TODO: Group them by file
 char	**get_input(void);
 t_bool is_valid_input(char *line_read);
+t_cmd	*parse_command(char *cmd_line);
 t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
 char	**ft_split_quote_conscious(const char *s, char split_char);
@@ -83,10 +84,6 @@ void    update_env(t_env **list, char *name, char *new_value);
 char    *ft_getenv(char *name, t_env *list);
 char *ft_strtrim_free(char *str, char *set);
 char	*ft_chardup(const char c);
-void	ft_cmdadd_back(t_command **lst, t_command *new);
-void free_cmd(t_command **list);
-t_command *new_cmd(char **args);
-t_command   *parse_commands(char **cmds);
 void    free_str_array(char **array);
 
 // ----------------- exec directory -----------------

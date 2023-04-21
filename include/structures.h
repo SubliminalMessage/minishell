@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/19 22:31:06 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/22 00:25:48 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,6 @@
 # define STRUCTURES_H
 
 # include <minishell.h>
-
-// ! TODO Remove when new version is implemented
-typedef struct	s_redirs // TODO: there's work to be done here...
-{
-	char *in;		// Either "<" or "<<". If NULL, no redirection. Use str_equals() to compare.
-	char *out;		// Either ">" or ">>". If NULL, no redirection.
-	char *file_in;	// Null by default. If not null, it's the file to read from.
-	char *file_out;	// Null by default. If not null, it's the file to write to.
-} t_redirs;
-
-// ! TODO Remove when new version is implemented
-typedef struct	s_command
-{
-	struct s_command	*next;
-	char		*exec;
-	char		**argv; // argv[0] is the command; but if given as a path, should it be the whole path?
-	t_redirs	*redirs; // If NULL, no redirs.
-}	t_command;
 
 typedef struct	s_env
 {
