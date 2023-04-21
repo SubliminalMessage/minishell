@@ -25,6 +25,7 @@ NAME		= minishell
 SRC_FILES	= 	main.c \
 				parsing/handle_input.c \
 				parsing/environ.c \
+				parsing/redirections.c \
 				utils/handle_str.c \
 				utils/split_quote_conscious.c \
 				utils/clean_cmd.c \

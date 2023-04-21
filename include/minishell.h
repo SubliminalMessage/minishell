@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 01:08:27 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 01:40:23 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@
 char	**get_input(void);
 t_bool is_valid_input(char *line_read);
 t_cmd	*parse_command(char *cmd_line);
+t_bool is_redirection(char *string);
+int	get_redirection_type(char *redirection);
+t_bool	fill_redirections(t_cmd **cmd, char ***str_array);
+t_bool save_redirection(t_cmd **cmd, char *redirection, char *redirects_to);
 t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
 char	**ft_split_quote_conscious(const char *s, char split_char);
