@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:46:17 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/27 12:07:17 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:33:02 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void execute_line(char *line)
 
 	// 1.3. Expand the variables
 	// TODO: expand_variables(&cmd_list);
-	print_cmds(cmd_list);
 
 	// 2. Check everything is fine
 	if (cmd_list == NULL)

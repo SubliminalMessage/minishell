@@ -6,3 +6,4 @@ minishell
 libft.a
 /debug
 *.swp
+.editorconfig

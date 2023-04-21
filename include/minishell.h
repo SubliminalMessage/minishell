@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/19 22:53:54 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:45:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,9 @@
 # define CYAN "\033[1;36m"
 # define RESET "\033[0;0m"
 
-# define PROMPT_CWD "\033[38;5;169m"
-# define PROMPT_ACT "\033[38;5;24m"
-# define PROMPT_RESET "\033[1;0m"
 
-/**
- * @brief Max length of the pwd in the prompt. If bigger,
- * the prompt is reduced (if possible).
- */
-# define PROMPT_MAX_FULL_LEN 15
-# define PROMPT_BEFORE WHITE"﴾  "PROMPT_CWD
-# define PROMPT_AFTER WHITE"  ﴿  "PROMPT_ACT"»  "RESET
-
+# define INVALID_TOKEN "minishell: syntax error near unexpected token `%c'\n" // TODO refactor with style from minishell
+# define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
 # define NO_FILE_OR_DIR "minishell: %s: No such file or directory" // TODO refactor with style from minishell
 # define HEREDOC_PROMPT "heredoc> " // TODO refactor with style from minishell
 
@@ -77,10 +68,8 @@
 // All the functions
 // ----------------- ?? directory -----------------
 // TODO: Group them by file
-char    *get_full_cwd(void);
-char    *get_prompt_cwd(t_env *env_list);
-char    *get_displayable_prompt(t_env *env_list);
-t_bool	prompt(t_env **env_list);
+char	**get_input(void);
+t_bool is_valid_input(char *line_read);
 t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
 char	**ft_split_quote_conscious(const char *s, char split_char);

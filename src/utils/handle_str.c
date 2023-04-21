@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2022/12/10 19:51:27 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:53:49 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ char *ft_strtrim_free(char *str, char *set)
 			else if (in_quote == str[i])
 				in_quote = '\0';
 		}
-	if (in_quote != '\0')
-		str = join_three(str, ft_chardup(in_quote), ft_chardup('\0')); // join_three to free 'str'. ft_strjoin() does not frees it
 	aux = ft_strtrim(str, set);
 	free(str);
 	return (aux);
@@ -102,12 +100,14 @@ char **clean_nulls(char **str)
 
 	null_count = 0;
 	str_index = -1;
-	while (str[++str_index])
+	while (str && str[++str_index])
 		if (*(str[str_index]) == '\0')
 			null_count++;
 	if (null_count == 0)
 		return (str);
 	final = malloc(sizeof(char *) * (str_index - null_count + 1));
+	if (!final)
+		return (NULL);
 	final[str_index - null_count] = NULL;
 	str_index = -1;
 	final_index = -1;

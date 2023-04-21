@@ -3,7 +3,7 @@
 ### ---   ---   ---         ---   ---   --- ###
 
 CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra #-g3 -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -g3 -fsanitize=address
 READLINE_FLAGS = -lreadline
 
 ### ---   ---   ---         ---   ---   --- ###
@@ -23,13 +23,11 @@ LIBFT_REPO			= $(LIBFT_PATH)Makefile
 NAME		= minishell
 
 SRC_FILES	= 	main.c \
-				parsing/prompt.c \
+				parsing/handle_input.c \
 				parsing/commands.c \
 				parsing/environ.c \
-				parsing/expansion.c \
 				utils/handle_str.c \
 				utils/split_quote_conscious.c \
-				utils/debug/print_debug.c # TODO This file is not meant to reach the final version of the Minishell
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
