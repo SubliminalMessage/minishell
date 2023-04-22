@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 01:40:23 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 16:37:31 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@ t_bool is_redirection(char *string);
 int	get_redirection_type(char *redirection);
 t_bool	fill_redirections(t_cmd **cmd, char ***str_array);
 t_bool save_redirection(t_cmd **cmd, char *redirection, char *redirects_to);
+t_env_lst	*init_env(void);
+t_env_lst *new_env_node(char *string);
+t_bool	is_valid_env_node(t_env *node);
+void	free_env_node(void *node_raw);
+
 t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
 char	**ft_split_quote_conscious(const char *s, char split_char);

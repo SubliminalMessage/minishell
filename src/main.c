@@ -6,15 +6,21 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 01:37:14 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 16:42:36 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int main(int argc, char **argv)
+int main(void)
 {
 	char **input;
+	t_env_lst *envp;
+	extern char		**environ;
+
+	envp = init_env();
+	if (!envp)
+		return (1);
 
 	while (true)
 	{
@@ -33,7 +39,9 @@ int main(int argc, char **argv)
 	}
 	printf("exit\n");
 
-	(void) argc;
-	(void) argv;
+	// CleanUp!
+	ft_lstclear(&envp, free_env_node);
+
+	printf("!! Minishell finished without errors !!\n"); /***/ system("leaks -q minishell");
 	return (0);
 }

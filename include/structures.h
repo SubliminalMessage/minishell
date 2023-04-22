@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 00:25:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 15:26:02 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@
 
 typedef struct	s_env
 {
-	struct s_env    *next;
-	char	*name;
+	char	*key;
 	char	*value;
-	char	*join;
 } t_env;
 
 
@@ -32,6 +30,7 @@ typedef enum e_bool
 	true
 }	t_bool;
 
+typedef struct s_list t_env_lst;
 typedef struct s_list t_file_lst;
 typedef struct s_list t_cmd_lst;
 
