@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 16:37:31 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 19:16:26 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@
 // TODO: Group them by file
 char	**get_input(void);
 t_bool is_valid_input(char *line_read);
-t_cmd	*parse_command(char *cmd_line);
+t_cmd	*parse_command(t_env_lst *envp, char *cmd_line);
 t_bool is_redirection(char *string);
 int	get_redirection_type(char *redirection);
 t_bool	fill_redirections(t_cmd **cmd, char ***str_array);
@@ -79,18 +79,16 @@ t_env_lst	*init_env(void);
 t_env_lst *new_env_node(char *string);
 t_bool	is_valid_env_node(t_env *node);
 void	free_env_node(void *node_raw);
+char *ft_getenv(t_env_lst *envp, char *key);
+char **build_envp(t_env_lst *envp);
+t_bool update_env(t_env_lst **envp, char *key, char *value);
+t_env_lst *new_env_node_splitted(char *key, char *value);
 
 t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);
 char	**ft_split_quote_conscious(const char *s, char split_char);
 char **clean_nulls(char **str);
 void execute_line(char *line);
-t_env   *new_env(char *str);
-void	ft_envadd_back(t_env **lst, t_env *new);
-void    free_environ(t_env **env_list);
-t_env   *init_environ(void);
-void    update_env(t_env **list, char *name, char *new_value);
-char    *ft_getenv(char *name, t_env *list);
 char *ft_strtrim_free(char *str, char *set);
 char	*ft_chardup(const char c);
 void    free_str_array(char **array);

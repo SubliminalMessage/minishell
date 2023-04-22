@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/21 12:53:49 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 18:14:31 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,25 @@ char *join_three(char *a, char *b, char *c)
 	char *auxOne;
 	char *auxTwo;
 
+	if (!a || !b || !c)
+	{
+		if (a)
+			free(a);
+		if (b)
+			free(b);
+		if (c)
+			free(c);
+		return (NULL);
+	}
 	auxOne = ft_strjoin(a, b);
-	auxTwo = ft_strjoin(auxOne, c);
 	free(a);
 	free(b);
+	if (!auxOne)
+	{
+		free(c);
+		return (NULL);
+	}
+	auxTwo = ft_strjoin(auxOne, c);
 	free(c);
 	free(auxOne);
 	return (auxTwo);
@@ -148,7 +163,7 @@ void    free_str_array(char **array)
 	int i;
 
 	i = -1;
-	while (*(array + ++i))
-		free(*(array + i));
+	while (array[++i])
+		free(array[i]);
 	free(array);
 }

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 16:42:36 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 19:18:56 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(void)
 	envp = init_env();
 	if (!envp)
 		return (1);
-
+		
 	while (true)
 	{
 		input = get_input();
@@ -30,7 +30,7 @@ int main(void)
 		int i = 0;
 		while (input[i])
 		{
-			t_cmd *cmd = parse_command(input[i]); // TODO: Do something with this!
+			t_cmd *cmd = parse_command(envp, input[i]); // TODO: Do something with this!
 			free(input[i]);
 			ft_free_cmd(cmd);
 			i++;

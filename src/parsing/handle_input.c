@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 01:39:19 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 17:07:01 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_bool is_valid_input(char *line_read)
 	return (is_valid);
 }
 
-t_cmd	*parse_command(char *cmd_line)
+t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 {
 	t_cmd *cmd;
 	char **splitted;
@@ -98,5 +98,6 @@ t_cmd	*parse_command(char *cmd_line)
 		return (NULL);
 	}
 	cmd->args = splitted;
+	(void) envp;
 	return (cmd);
 }

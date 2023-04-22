@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 16:37:43 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 19:18:37 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,8 @@ t_env_lst	*init_env(void)
 	t_env_lst	*node;
 	int	i;
 
-	envp = ft_calloc(1, sizeof(t_env_lst));
-	if (!envp)
-	{
-		printf(ERROR_MALLOC);
-		return (NULL);
-	}
 	i = 0;
+	envp = NULL;
 	while (environ[i])
 	{
 		node = new_env_node(environ[i]);
@@ -39,6 +34,26 @@ t_env_lst	*init_env(void)
 		i++;
 	}
 	return (envp);
+}
+
+char	*env_shell_level_exception(char *shell_level)
+{
+	int	shlvl;
+
+	shlvl = ft_atoi(shell_level) + 1;
+	free(shell_level);
+	return (ft_itoa(shlvl));
+}
+
+t_env_lst *new_env_node_splitted(char *key, char *value)
+{
+	char		*join;
+	t_env_lst	*result;
+
+	join = join_three(key, ft_strdup("="), value);
+	result = new_env_node(join);
+	free(join);
+	return (result);
 }
 
 t_env_lst *new_env_node(char *string)
@@ -55,6 +70,8 @@ t_env_lst *new_env_node(char *string)
 	separator_idx = ft_strchr(string, '=') - string;
 	node->key = ft_substr(string, 0, separator_idx);
 	node->value = ft_substr(string, separator_idx + 1, ft_strlen(string));
+	if (str_equals(node->key, "SHLVL"))
+		node->value = env_shell_level_exception(node->value);
 	if (!is_valid_env_node(node))
 		return (NULL);
 	node_wrap = ft_lstnew(node);
