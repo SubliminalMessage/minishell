@@ -122,10 +122,19 @@ $(DEBUG): $(DEBUG_OBJS) $(LIBFT)
 	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
 	$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
 
+test_signal:
+	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
+	$(CC) $(CFLAGS) src/debug/test/signal.c -o $(DEBUG)
+	./$(DEBUG)
+
+test_strerror:
+	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
+	$(CC) $(CFLAGS) src/debug/test/strerror.c -o $(DEBUG)
+	./$(DEBUG)
+
 docker:
 	docker run -it --rm -v $(PWD):/home/marvin/docker jkutkut/docker4c
 
 exec_dev: $(DEBUG)
 	@echo "vfull ./$(DEBUG)"
 	@valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)
-	
