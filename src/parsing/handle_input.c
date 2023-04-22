@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 17:07:01 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/22 23:13:41 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,23 +81,22 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 	char **splitted;
 
 	splitted = clean_nulls(ft_split_quote_conscious(cmd_line, ' '));
-	if (!splitted)
-	{
-		printf(ERROR_MALLOC);
-		return (NULL);
-	}
 	cmd = ft_calloc(1, sizeof(t_cmd));
-	if (!cmd)
+	if (!splitted || !cmd)
 	{
 		printf(ERROR_MALLOC);
+		if (cmd)
+			free(cmd);
+		if (splitted)
+			free_str_array(splitted);
 		return (NULL);
 	}
-	if (!fill_redirections(&cmd, &splitted))
+	cmd->args = splitted;
+	if (!fill_redirections(&cmd))
 	{
 		ft_free_cmd(cmd);
 		return (NULL);
 	}
-	cmd->args = splitted;
 	(void) envp;
 	return (cmd);
 }
