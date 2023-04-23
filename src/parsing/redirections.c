@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 18:34:23 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 20:00:58 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_bool is_redirection(char *string)
 {
 	if (!string)
 		return (false);
-	return (str_equals(string, ">") || str_equals(string, ">>") || str_equals(string, "<") || str_equals(string, "<<"));
+	return (string[0] == '>' || string[0] == '<');
 }
 
 int	get_redirection_type(char *redirection)
@@ -80,13 +80,7 @@ t_bool	fill_redirections(t_cmd **cmd) // TODO: echo >file does not work
 	{
 		if (is_redirection(argv[i]))
 		{
-			if (save_redirection(cmd, argv[i], argv[i + 1])) // TODO: Split into two: single arg, and double arg
-			{
-				free(argv[i]);
-				argv[i] = ft_strdup(""); // Places a '\0' on that position
-				argv[++i] = ft_strdup(""); // clean_nulls() will delete these two after
-			}
-			else
+			if (!save_redirection(cmd, &argv[i], &argv[i + 1]))
 				return (false);
 		}
 		else if (!is_invalid_argument(argv[i]))
@@ -96,7 +90,58 @@ t_bool	fill_redirections(t_cmd **cmd) // TODO: echo >file does not work
 	return (true);
 }
 
-t_bool save_redirection(t_cmd **cmd, char *redirection, char *redirects_to)
+t_bool	save_redirection(t_cmd **cmd, char **first_arg, char **second_arg)
+{
+	t_bool	did_work;
+	char	*a;
+
+	a = *first_arg;
+	if (str_equals(a, ">") || str_equals(a, ">>") || str_equals(a, "<") || str_equals(a, "<<"))
+	{
+		did_work = save_redirection_double_arg(cmd, *first_arg, *second_arg);
+		if (!did_work)
+			return (false);
+		free(*first_arg);
+		*first_arg = ft_strdup("");		
+		*second_arg = ft_strdup("");		
+		return (true);
+	}
+	did_work = save_redirection_single_arg(cmd, *first_arg);
+	if (did_work)
+	{
+		free(*first_arg);
+		*first_arg = ft_strdup("");
+	}
+	return (did_work);
+}
+
+t_bool save_redirection_single_arg(t_cmd **cmd, char *redir)
+{
+	size_t	redir_length;
+	size_t	redir_end;
+	char *redirection;
+	char *redirects_to;
+	t_bool	did_work;
+
+	redir_length = ft_strlen(redir);
+	redir_end = 1;
+	if (redir_length >= 2 && (redir[1] == '>' || redir[1] == '<'))
+		redir_end++;
+	if (redir_end == 2 && redir[0] != redir[1])
+	{
+		printf(INVALID_TOKEN_CHR, redir[1]);
+		return (false);
+	}
+	redirection = ft_substr(redir, 0, redir_end);
+	redirects_to = ft_substr(redir, redir_end, redir_length);
+	did_work = save_redirection_double_arg(cmd, redirection, redirects_to);
+	free(redirection);
+	if (!did_work)
+		free(redirects_to);
+	return (did_work);
+}
+
+t_bool save_redirection_double_arg(t_cmd **cmd, char *redirection, char *redirects_to)
 {
 	int	redirection_type;
 	t_file	*file;

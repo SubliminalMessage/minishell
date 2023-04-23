@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 18:38:24 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 19:44:28 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ char 	*expand_tkn(char *str, t_env_lst *envp, size_t *i)
 	if (!str || str[0] != '$')
 		return (NULL);
 	tkn_len = 0;
-	if (is_one_char_token(str))
+	if (is_one_char_token(str)) // TODO: Unwrap variables
 		return (expand_custom_tkn(str, envp, i));
 	while (str[tkn_len + 1]) // +1 to skip the initial '$'
 	{
@@ -207,7 +207,7 @@ t_bool expand_file_list(t_file_lst **lst_ptr, t_env_lst *envp)
 	t_file *file;
 
 	if (!lst_ptr || !*lst_ptr)
-		return (false);
+		return (true);
 	node = *lst_ptr;
 	while (node)
 	{
@@ -215,7 +215,6 @@ t_bool expand_file_list(t_file_lst **lst_ptr, t_env_lst *envp)
 		if (!file)
 			continue;
 		file->name = expand_arg(&file->name, envp);
-		printf("[FILE]: ·%s·\n", file->name);
 		if (!file->name)
 			return (false);
 		node = node->next;
@@ -237,7 +236,6 @@ t_bool expand_cmd(t_cmd **cmd_ptr, t_env_lst *envp)
 		cmd->args[i] = expand_arg(&cmd->args[i], envp);
 		if (!cmd->args[i])
 			return (false);
-		printf("Arg [%d]: ·%s·\n", i, cmd->args[i]);
 		i++;
 	}
 	if (expand_file_list(&cmd->in, envp) && expand_file_list(&cmd->out, envp))
