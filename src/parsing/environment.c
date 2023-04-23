@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 17:07:08 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 22:38:49 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_zero_variable(t_env_lst **envp)
 	if (!did_work)
 	{
 		ft_lstclear(envp, free_env_node);
-		printf(ERROR_MALLOC);
+		print_parse_error(ERROR_MALLOC, false);
 		*envp = NULL;
 	}
 }
@@ -42,7 +42,7 @@ t_env_lst	*init_env(void)
 		if (!node)
 		{
 			ft_lstclear(&envp, free_env_node);
-			printf(ERROR_MALLOC);
+			print_parse_error(ERROR_MALLOC, false);
 			return (NULL);
 		}
 		ft_lstadd_back(&envp, node);

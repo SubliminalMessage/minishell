@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:07:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 22:49:36 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/23 23:19:50 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ static void	ft_close_fds(t_cmd *cmd)
 	ft_lstclear((t_list**) &cmd->in, (void (*)(void *)) ft_free_file);
 	ft_close_fd(&cmd->fd_in);
 	ft_lstclear((t_list**) &cmd->out, (void (*)(void *)) ft_free_file);
+}
+
+void	ft_free_array_content(char **arr)
+{
+	size_t	i;
+
+	if (arr == NULL)
+		return ;
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
 }
 
 void	ft_free_cmd(t_cmd *cmd)

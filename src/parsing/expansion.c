@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 19:44:28 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 23:22:14 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ char	*dequote(char *str)
 	is_unclosed = (quote == '\'' || quote == '\"') && str[s_len - 1] != quote;
 	if ((s_len == 1 && (quote == '\'' || quote == '"')) || is_unclosed)
 	{
-		printf(INVALID_TOKEN_CHR, str[0]);
+		if (quote == '\'')
+			print_parse_error(INV_TKN_MSG"`\''", false);
+		else
+			print_parse_error(INV_TKN_MSG"`\"'", false);
 		free(str);
 		return (NULL);
 	}
@@ -120,7 +123,67 @@ char *expand_custom_tkn(char *str, t_env_lst *envp, size_t *i)
 	return (join_two(variable, result));
 }
 
-char 	*expand_tkn(char *str, t_env_lst *envp, size_t *i)
+char *handle_numeric_tkn(char *str, size_t *idx)
+{
+	size_t	num;
+	size_t	len;
+
+	if (!str)
+		return (str);
+	len = ft_strlen(str + 1);
+	if (len <= 1)
+		return (str);
+	num = ft_atoi(str + 1);
+	free(str);
+	*idx += len - 2;
+	if (num == 0)
+		return (ft_strdup("$0"));
+	return (ft_strdup("$1"));
+}
+
+char 	*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i)
+{
+	char *tkn;
+	char *aux;
+	size_t idx;
+
+	idx = 0;
+	while (str[idx] != '\0' && str[idx] != 125) //125 => Closed Curly Brace. TODO: Change this
+	{
+		if (!ft_hasany(VALID_TKN_CHARS"${}", str[idx]))
+			break;
+		idx++;
+	}
+	if (str[idx] != 125)
+	{
+		print_parse_error(BAD_SUBST, false);
+		return (NULL);
+	}
+	aux = ft_substr(str, 2, idx - 2);
+	*i += 2;
+	tkn = handle_numeric_tkn(join_two(ft_strdup("$"), aux), i);
+	aux = expand_normal_tkn(tkn, envp, i);
+	free(tkn);
+	tkn = aux;
+	aux = ft_substr(str, idx + 1, ft_strlen(str));
+	return (join_two(tkn, aux));
+}
+
+t_bool is_wrapped_token(char *str)
+{
+	if (str && str[0] == '$' && str[1] == '{')
+		return (true);
+	return (false);
+}
+
+char	*expand_tkn(char *str, t_env_lst *envp, size_t *i)
+{
+	if (is_wrapped_token(str))
+		return (expand_wrapped_tkn(str, envp, i));
+	return (expand_normal_tkn(str, envp, i));
+}
+
+char 	*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i)
 {
 	size_t tkn_len;
 	char	*variable;
@@ -152,19 +215,22 @@ char	*expand(char *str, t_env_lst *env)
 {
 	size_t	i;
 	char *aux;
+	char *expanded;
 
 	if (!str || str[0] == '\'')
 		return (str);
 	i = 0;
-	while (str[i])
+	while (i < ft_strlen(str))
 	{
 		if (str[i] == '$')
 		{
-			aux = join_two(ft_substr(str, 0, i), expand_tkn(str + i, env, &i));
+			aux = ft_substr(str, 0, i);
+			expanded = expand_tkn(str + i, env, &i);
+			aux = join_two(aux, expanded);
 			free(str);
 			if (!aux)
 			{
-				printf(ERROR_MALLOC);
+				print_parse_error(ERROR_MALLOC, false);
 				return (NULL);
 			}
 			str = aux;
@@ -196,7 +262,7 @@ char *expand_arg(char **str_ptr, t_env_lst *envp)
 	free(*str_ptr);
 	if (!expanded)
 	{
-		printf(ERROR_MALLOC);
+		print_parse_error(ERROR_MALLOC, false);
 		return (NULL);
 	}
 	return (expanded);
@@ -235,6 +301,7 @@ t_bool expand_cmd(t_cmd **cmd_ptr, t_env_lst *envp)
 	{
 		cmd->args[i] = expand_arg(&cmd->args[i], envp);
 		if (!cmd->args[i])
+			ft_free_array_content(&cmd->args[i + 1]);
 			return (false);
 		i++;
 	}

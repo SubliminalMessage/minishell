@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 20:01:23 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 23:22:32 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 # define INV_TKN_MSG "minishell: syntax error near unexpected token" // TODO refactor with style from minishell
 # define INVALID_TOKEN_STR INV_TKN_MSG" `%s'\n"
 # define INVALID_TOKEN_CHR INV_TKN_MSG" `%c'\n"
+# define BAD_SUBST "minishell: bad substitution\n"
 
 # define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
 # define NO_FILE_OR_DIR "minishell: %s: No such file or directory" // TODO refactor with style from minishell
@@ -68,6 +69,8 @@
 // All the functions
 // ----------------- ?? directory -----------------
 // TODO: Group them by file
+void	print_parse_error(char *str, t_bool clear);
+void	ft_free_array_content(char **arr);
 char	**get_input(void);
 t_bool is_valid_input(char *line_read);
 t_cmd	*parse_command(t_env_lst *envp, char *cmd_line);
@@ -89,7 +92,10 @@ t_bool expand_cmd(t_cmd **cmd, t_env_lst *envp);
 char	*dequote(char *str);
 char *expand_arg(char **str_ptr, t_env_lst *envp);
 char	*expand(char *str, t_env_lst *env);
+t_bool is_wrapped_token(char *str);
 char 	*expand_tkn(char *str, t_env_lst *envp, size_t *i);
+char 	*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i);
+char 	*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i);
 char *expand_custom_tkn(char *str, t_env_lst *envp, size_t *i);
 t_bool	is_one_char_token(char *str);
 char *join_two(char *a, char *b);

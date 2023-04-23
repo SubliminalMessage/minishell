@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 20:00:58 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 22:47:11 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_bool is_invalid_argument(char *string) // TODO: Move this function to a more a
 	return (true);
 }
 
-t_bool	fill_redirections(t_cmd **cmd) // TODO: echo >file does not work
+t_bool	fill_redirections(t_cmd **cmd)
 {
 	char **argv;
 	int	i;
@@ -158,7 +158,7 @@ t_bool save_redirection_double_arg(t_cmd **cmd, char *redirection, char *redirec
 	file = ft_newfile(redirects_to, redirection_type);
 	if (!file)
 	{
-		printf(ERROR_MALLOC);
+		print_parse_error(ERROR_MALLOC, false);
 		return (false);
 	}
 	if (redirection_type == TRUNC_FTYPE || redirection_type == APPEND_FTYPE)
