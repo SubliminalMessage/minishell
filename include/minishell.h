@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 19:30:56 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 18:02:42 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,22 @@ int	get_redirection_type(char *redirection);
 t_bool	fill_redirections(t_cmd **cmd);
 t_bool save_redirection(t_cmd **cmd, char *redirection, char *redirects_to);
 t_env_lst	*init_env(void);
-t_env_lst *new_env_node(char *string);
+t_env_lst *new_env_node(char *string, t_bool is_visible);
 t_bool	is_valid_env_node(t_env *node);
 void	free_env_node(void *node_raw);
 char *ft_getenv(t_env_lst *envp, char *key);
 char **build_envp(t_env_lst *envp);
-t_bool update_env(t_env_lst **envp, char *key, char *value);
-t_env_lst *new_env_node_splitted(char *key, char *value);
+t_bool update_env(t_env_lst **envp, char *key, char *value, t_bool visible);
+t_env_lst *new_env_node_splitted(char *key, char *value, t_bool visible);
+t_bool expand_cmd(t_cmd **cmd, t_env_lst *envp);
+char	*dequote(char *str);
+char *expand_arg(char **str_ptr, t_env_lst *envp);
+char	*expand(char *str, t_env_lst *env);
+char 	*expand_tkn(char *str, t_env_lst *envp, size_t *i);
+char *expand_custom_tkn(char *str, t_env_lst *envp, size_t *i);
+t_bool	is_one_char_token(char *str);
+char *join_two(char *a, char *b);
+char	*get_next_quote(char *str, size_t *idx);
 
 t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);

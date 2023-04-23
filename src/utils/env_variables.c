@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 19:17:05 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 17:44:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ char *ft_getenv(t_env_lst *envp, char *key)
 		envp = envp->next;
 	}
 	// TODO: Handle exceptions such as '$$' or '$?'
+	// ($_) https://unix.stackexchange.com/questions/280453/understand-the-meaning-of
 	return ("");
 }
 
-t_bool update_env(t_env_lst **envp, char *key, char *value)
+t_bool	update_env(t_env_lst **envp, char *key, char *value, t_bool visible)
 {
 	t_env_lst	*lst;
 	t_env_lst	*new_node;
@@ -47,7 +48,7 @@ t_bool update_env(t_env_lst **envp, char *key, char *value)
 		node->value = value;
 		return (true);
 	}
-	new_node = new_env_node_splitted(key, value);
+	new_node = new_env_node_splitted(key, value, visible);
 	if (!new_node)
 		return (false);
 	ft_lstadd_back(envp, new_node);
@@ -70,7 +71,7 @@ char **build_envp(t_env_lst *envp)
 	{
 		node = envp->content;
 		envp = envp->next;
-		if (!node)
+		if (!node || !node->is_visible)
 			continue ;
 		matrix[i] = join_three(ft_strdup(node->key), ft_strdup("="), ft_strdup(node->value));
 		if (!matrix[i])

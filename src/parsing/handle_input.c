@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 23:13:41 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 01:34:02 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 		return (NULL);
 	}
 	cmd->args = splitted;
-	if (!fill_redirections(&cmd))
+	if (!fill_redirections(&cmd) || !expand_cmd(&cmd, envp))
 	{
 		ft_free_cmd(cmd);
 		return (NULL);

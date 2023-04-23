@@ -26,6 +26,7 @@ SRC_FILES	= 	main.c \
 				parsing/handle_input.c \
 				parsing/environment.c \
 				parsing/redirections.c \
+				parsing/expansion.c \
 				utils/handle_str.c \
 				utils/split_quote_conscious.c \
 				utils/clean_cmd.c \

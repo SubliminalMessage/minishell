@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 15:26:02 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 16:33:49 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 # include <minishell.h>
 
-typedef struct	s_env
-{
-	char	*key;
-	char	*value;
-} t_env;
 
 
 // ------------------------------------
@@ -29,6 +24,14 @@ typedef enum e_bool
 	false,
 	true
 }	t_bool;
+
+typedef struct	s_env
+{
+	char	*key;
+	char	*value;
+	t_bool	is_visible;
+} t_env;
+
 
 typedef struct s_list t_env_lst;
 typedef struct s_list t_file_lst;

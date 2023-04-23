@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 23:15:04 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 18:34:23 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_bool is_invalid_argument(char *string) // TODO: Move this function to a more a
 	return (true);
 }
 
-t_bool	fill_redirections(t_cmd **cmd)
+t_bool	fill_redirections(t_cmd **cmd) // TODO: echo >file does not work
 {
 	char **argv;
 	int	i;
@@ -80,7 +80,7 @@ t_bool	fill_redirections(t_cmd **cmd)
 	{
 		if (is_redirection(argv[i]))
 		{
-			if (save_redirection(cmd, argv[i], argv[i + 1]))
+			if (save_redirection(cmd, argv[i], argv[i + 1])) // TODO: Split into two: single arg, and double arg
 			{
 				free(argv[i]);
 				argv[i] = ft_strdup(""); // Places a '\0' on that position

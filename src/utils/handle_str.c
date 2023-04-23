@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 18:14:31 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 18:35:53 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,7 @@ t_bool str_equals(char* a, char* b)
 */
 char *join_three(char *a, char *b, char *c)
 {
-	char *auxOne;
-	char *auxTwo;
-
-	if (!a || !b || !c)
-	{
-		if (a)
-			free(a);
-		if (b)
-			free(b);
-		if (c)
-			free(c);
-		return (NULL);
-	}
-	auxOne = ft_strjoin(a, b);
-	free(a);
-	free(b);
-	if (!auxOne)
-	{
-		free(c);
-		return (NULL);
-	}
-	auxTwo = ft_strjoin(auxOne, c);
-	free(c);
-	free(auxOne);
-	return (auxTwo);
+	return (join_two(join_two(a, b), c));
 }
 
 /**

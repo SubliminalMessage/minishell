@@ -6,11 +6,26 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/22 19:18:37 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/23 17:07:08 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	init_zero_variable(t_env_lst **envp)
+{
+	t_bool	did_work;
+	char	*underscore;
+
+	underscore = ft_strdup(ft_getenv(*envp, "_"));
+	did_work = update_env(envp, ft_strdup("0"), underscore, false); 
+	if (!did_work)
+	{
+		ft_lstclear(envp, free_env_node);
+		printf(ERROR_MALLOC);
+		*envp = NULL;
+	}
+}
 
 t_env_lst	*init_env(void)
 {
@@ -23,7 +38,7 @@ t_env_lst	*init_env(void)
 	envp = NULL;
 	while (environ[i])
 	{
-		node = new_env_node(environ[i]);
+		node = new_env_node(environ[i], true);
 		if (!node)
 		{
 			ft_lstclear(&envp, free_env_node);
@@ -33,6 +48,7 @@ t_env_lst	*init_env(void)
 		ft_lstadd_back(&envp, node);
 		i++;
 	}
+	init_zero_variable(&envp);
 	return (envp);
 }
 
@@ -45,18 +61,18 @@ char	*env_shell_level_exception(char *shell_level)
 	return (ft_itoa(shlvl));
 }
 
-t_env_lst *new_env_node_splitted(char *key, char *value)
+t_env_lst *new_env_node_splitted(char *key, char *value, t_bool visible)
 {
 	char		*join;
 	t_env_lst	*result;
 
 	join = join_three(key, ft_strdup("="), value);
-	result = new_env_node(join);
+	result = new_env_node(join, visible);
 	free(join);
 	return (result);
 }
 
-t_env_lst *new_env_node(char *string)
+t_env_lst *new_env_node(char *string, t_bool is_visible)
 {
 	t_env	*node;
 	t_env_lst *node_wrap;
@@ -70,6 +86,7 @@ t_env_lst *new_env_node(char *string)
 	separator_idx = ft_strchr(string, '=') - string;
 	node->key = ft_substr(string, 0, separator_idx);
 	node->value = ft_substr(string, separator_idx + 1, ft_strlen(string));
+	node->is_visible = is_visible;
 	if (str_equals(node->key, "SHLVL"))
 		node->value = env_shell_level_exception(node->value);
 	if (!is_valid_env_node(node))
