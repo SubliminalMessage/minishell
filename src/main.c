@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 16:47:34 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 22:59:51 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int main(void)
 	
 	while (true)
 	{
+        cmd_lst = NULL;
 		input = get_input();
 		if (!input)
 			continue;
@@ -116,7 +117,6 @@ int main(void)
         //run(cmd_lst); // Does not work :)
 
         ft_free_cmd_lst(cmd_lst);
-        cmd_lst = NULL;
 	}
 	printf("exit\n");
 
