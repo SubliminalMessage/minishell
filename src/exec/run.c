@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 22:51:07 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/24 20:03:37 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,20 @@ int	run(t_cmd_lst *cmd)
 	ite = cmd;
 	while (ite)
 	{
-		pids[i] = ft_exe_cmd(ite, cmd);
+		pids[i] = ft_exe_cmd(ite, cmd, pids);
 		// TODO can fail with fork, execve or invalid command
 		if (pids[i] == INVALID) // Fork error
 		{
 			ft_printf_fd(2, "\nError: fork failed.\n"); // TODO debug
 			// TODO ? kill all children
-			return (free(pids), close_fds_free(cmd), exit(42), INVALID); // TODO error code
+			return (close_fds_free(cmd), exit(42), INVALID); // TODO error code
 		}
 		if (pids[i] == INVALID * 2) // Child with error
 		{
 			ft_printf_fd(2, "\nChild with error\n"); // TODO debug
 			// send send EOF to the pipe
 			write(get_file(ft_lstlast(get_cmd(ite)->out))->fd, "", 1); // TODO refactor?
-			return (free(pids), close_fds_free(cmd), exit(42), INVALID); // TODO error code
+			return (close_fds_free(cmd), exit(42), INVALID); // TODO error code
 		}
 		++i;
 		ite = ite->next;

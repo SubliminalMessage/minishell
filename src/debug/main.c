@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:19:19 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 22:53:18 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/24 20:38:12 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ t_cmd_lst *ft_create_cmd(void)
 	if (!command)
 		return (ft_free_cmd_lst(cmd), NULL);
 	command->fd_in = INVALID;
-	command->args = ft_split("wc -l", ' ');
-	command->cmd = ft_strjoin("/usr/bin/", command->args[0]); // TODO should be done later
+	// command->args = ft_split("wc -l", ' ');
+	// command->cmd = ft_strjoin("/usr/bin/", command->args[0]); // TODO should be done later
+	command->args = ft_split("echo -nnnnnn hey there!", ' ');
+	command->cmd = ft_strdup(command->args[0]);
 	if (!command->cmd || !command->args)
 		return (ft_free_cmd(command), ft_free_cmd_lst(cmd), NULL);
 	ft_lstadd_back(&cmd, ft_lstnew(command));

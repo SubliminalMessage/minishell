@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/19 22:53:54 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/24 20:10:01 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void    free_str_array(char **array);
 // ----------------- exec directory -----------------
 
 // exe_cmd.c
-int	ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full);
+int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, pid_t *pids);
 
 // heredoc.c
 t_bool	ft_handle_here_doc(t_file *file);
