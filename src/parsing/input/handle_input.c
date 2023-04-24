@@ -6,33 +6,11 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 16:45:20 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:49:55 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void  print_parse_error_str(char *msg, char *str)
-{
-    char    *to_print;
-
-    to_print = join_three(ft_strdup(msg), str, ft_strdup("'\n"));
-    print_parse_error(to_print, false);
-    free(to_print);
-}
-
-void	print_parse_error(char *str, t_bool clear)
-{
-	static	t_bool	has_been_printed = false;
-
-	if (str && !has_been_printed)
-	{
-		printf("%s", str);
-		has_been_printed = true;
-	}
-	if (clear)
-		has_been_printed = false;
-}
 
 /**
  * @brief Prints a Prompt on the screen and let the user type freely.
@@ -42,7 +20,7 @@ void	print_parse_error(char *str, t_bool clear)
 */
 char	**get_input(void)
 {
-	char    *raw_input;
+	char	*raw_input;
 	char	*input;
 	char	**splitted;
 
@@ -50,13 +28,11 @@ char	**get_input(void)
 	raw_input = readline("minishell > ");
 	if (!raw_input)
 		return (NULL);
-	/* *** *** *** *** DEBUG *** *** *** *** **/
-	/**/if (str_equals(raw_input, "exit")) 	/**/
-	/**/{									/**/
-	/**/	system("leaks -q minishell");	/**/
-	/**/	exit(0);						/**/
-	/**/}									/**/
-	/* *** *** *** *** DEBUG *** *** *** *** **/
+	if (str_equals(raw_input, "exit"))
+	{
+		system("leaks -q minishell");
+		exit(0);
+	}
 	add_history(raw_input);
 	input = join_three(ft_strdup(" "), raw_input, ft_strdup(" "));
 	if (!is_valid_input(input))
@@ -71,10 +47,10 @@ char	**get_input(void)
 	return (splitted);
 }
 
-t_bool is_valid_input(char *line_read)
+t_bool	is_valid_input(char *line_read)
 {
-	int	i;
-	char **split;
+	int		i;
+	char	**split;
 	t_bool	is_valid;
 
 	split = ft_split_quote_conscious(line_read, '|');
@@ -94,14 +70,14 @@ t_bool is_valid_input(char *line_read)
 	}
 	free(split);
 	if (!is_valid && i != 1)
-		print_parse_error(INV_TKN_MSG"`|'", false);
+		print_parse_error(INV_TKN_MSG" `|'", false);
 	return (is_valid);
 }
 
 t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 {
-	t_cmd *cmd;
-	char **splitted;
+	t_cmd	*cmd;
+	char	**splitted;
 
 	splitted = clean_nulls(ft_split_quote_conscious(cmd_line, ' '));
 	cmd = ft_calloc(1, sizeof(t_cmd));
@@ -120,8 +96,8 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 		ft_free_cmd(cmd);
 		return (NULL);
 	}
-    if (cmd->args)
-        cmd->cmd = ft_strdup(cmd->args[0]);
-    cmd->fd_in = INVALID;
+	if (cmd->args)
+		cmd->cmd = ft_strdup(cmd->args[0]);
+	cmd->fd_in = INVALID;
 	return (cmd);
 }

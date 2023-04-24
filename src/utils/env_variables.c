@@ -6,13 +6,16 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 17:44:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 19:04:42 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char *ft_getenv(t_env_lst *envp, char *key)
+// TODO: Handle exceptions such as '$$' or '$?'
+// ($_) Info:
+// https://unix.stackexchange.com/questions/280453/understand-the-meaning-of
+char	*ft_getenv(t_env_lst *envp, char *key)
 {
 	t_env	*node;
 
@@ -23,8 +26,6 @@ char *ft_getenv(t_env_lst *envp, char *key)
 			return (node->value);
 		envp = envp->next;
 	}
-	// TODO: Handle exceptions such as '$$' or '$?'
-	// ($_) https://unix.stackexchange.com/questions/280453/understand-the-meaning-of
 	return ("");
 }
 
@@ -55,10 +56,10 @@ t_bool	update_env(t_env_lst **envp, char *key, char *value, t_bool visible)
 	return (true);
 }
 
-char **build_envp(t_env_lst *envp)
+char	**build_envp(t_env_lst *envp)
 {
-	int	size;
-	int i;
+	int		size;
+	int		i;
 	t_env	*node;
 	char	**matrix;
 
@@ -73,7 +74,8 @@ char **build_envp(t_env_lst *envp)
 		envp = envp->next;
 		if (!node || !node->is_visible)
 			continue ;
-		matrix[i] = join_three(ft_strdup(node->key), ft_strdup("="), ft_strdup(node->value));
+		matrix[i] = join_three(ft_strdup(node->key),
+				ft_strdup("="), ft_strdup(node->value));
 		if (!matrix[i])
 		{
 			free_str_array(matrix);

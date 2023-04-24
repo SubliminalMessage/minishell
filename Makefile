@@ -23,17 +23,25 @@ LIBFT_REPO			= $(LIBFT_PATH)Makefile
 NAME		= minishell
 
 SRC_FILES	= 	main.c \
-				parsing/handle_input.c \
-				parsing/environment.c \
-				parsing/redirections.c \
-				parsing/expansion.c \
+				parsing/input/handle_input.c \
+				parsing/input/input_utils.c \
+				parsing/environment/environment.c \
+				parsing/environment/environment_utils.c \
+				parsing/redirections/redirection_utils.c \
+				parsing/redirections/redirections.c \
+				parsing/expansion/command_expansion.c \
+				parsing/expansion/handle_quotes.c \
+				parsing/expansion/token_expansion.c \
+				parsing/expansion/token_utils.c \
 				utils/handle_str.c \
 				utils/split_quote_conscious.c \
-				utils/clean_cmd.c \
+				utils/clean/cmds.c \
+				utils/clean/files.c \
 				utils/copy_all.c \
 				utils/file.c \
 				utils/get.c \
 				utils/env_variables.c \
+                utils/str_utils.c \
 				exec/exe_cmd.c \
 				exec/run.c \
 				exec/wait_result.c \

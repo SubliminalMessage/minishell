@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 22:38:49 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:41:41 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_zero_variable(t_env_lst **envp)
 	char	*underscore;
 
 	underscore = ft_strdup(ft_getenv(*envp, "_"));
-	did_work = update_env(envp, ft_strdup("0"), underscore, false); 
+	did_work = update_env(envp, ft_strdup("0"), underscore, false);
 	if (!did_work)
 	{
 		ft_lstclear(envp, free_env_node);
@@ -29,10 +29,10 @@ void	init_zero_variable(t_env_lst **envp)
 
 t_env_lst	*init_env(void)
 {
-	extern char **environ;
+	extern char	**environ;
 	t_env_lst	*envp;
 	t_env_lst	*node;
-	int	i;
+	int			i;
 
 	i = 0;
 	envp = NULL;
@@ -52,31 +52,11 @@ t_env_lst	*init_env(void)
 	return (envp);
 }
 
-char	*env_shell_level_exception(char *shell_level)
+t_env_lst	*new_env_node(char *string, t_bool is_visible)
 {
-	int	shlvl;
-
-	shlvl = ft_atoi(shell_level) + 1;
-	free(shell_level);
-	return (ft_itoa(shlvl));
-}
-
-t_env_lst *new_env_node_splitted(char *key, char *value, t_bool visible)
-{
-	char		*join;
-	t_env_lst	*result;
-
-	join = join_three(key, ft_strdup("="), value);
-	result = new_env_node(join, visible);
-	free(join);
-	return (result);
-}
-
-t_env_lst *new_env_node(char *string, t_bool is_visible)
-{
-	t_env	*node;
-	t_env_lst *node_wrap;
-	int		separator_idx;
+	t_env		*node;
+	t_env_lst	*node_wrap;
+	int			separator_idx;
 
 	if (!string)
 		return (NULL);
@@ -98,28 +78,4 @@ t_env_lst *new_env_node(char *string, t_bool is_visible)
 		return (NULL);
 	}
 	return (node_wrap);
-}
-
-void	free_env_node(void *node_raw)
-{
-	t_env *node;
-
-	node = (t_env*) node_raw;
-	if (!node)
-		return ;
-	if (node->key)
-		free(node->key);
-	if (node->value)
-		free(node->value);
-	free(node);
-}
-
-t_bool	is_valid_env_node(t_env *node)
-{
-	if (!node || !node->key || !node->value)
-	{
-		free_env_node(node);
-		return (false);
-	}
-	return (true);
 }

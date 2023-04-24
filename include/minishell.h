@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 16:10:57 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 19:08:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@
 # define NO_FILE_OR_DIR "minishell: %s: No such file or directory" // TODO refactor with style from minishell
 # define HEREDOC_PROMPT "heredoc> " // TODO refactor with style from minishell
 
+#define VALID_TKN_CHARS "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY_0123456789"
+#define SINGLE_CHAR_TKN "$?-#*@!0123456789" // $_ is not considered SingleCharToken, because '$_a' is a valid one
+
 // CWD Max String Size
 # define CWD_SIZE 1000
 
@@ -77,10 +80,15 @@ t_bool is_valid_input(char *line_read);
 t_cmd	*parse_command(t_env_lst *envp, char *cmd_line);
 t_bool is_redirection(char *string);
 int	get_redirection_type(char *redirection);
+char	*env_shell_level_exception(char *shell_level);
+void	ft_close_fds(t_cmd *cmd);
 t_bool	fill_redirections(t_cmd **cmd);
 t_bool save_redirection(t_cmd **cmd, char **redirection, char **redirects_to);
 t_bool save_redirection_single_arg(t_cmd **cmd, char *redir);
-t_bool save_redirection_double_arg(t_cmd **cmd, char *redirection, char *redirects_to);
+t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identifier);
+t_bool	contains_outside_quotes(char *str, char c);
+t_bool	is_invalid_argument(char *string);
+t_file	*create_file(char *identifier, int redirection_type);
 t_env_lst	*init_env(void);
 t_env_lst *new_env_node(char *string, t_bool is_visible);
 t_bool	is_valid_env_node(t_env *node);
@@ -101,6 +109,7 @@ char *expand_custom_tkn(char *str, t_env_lst *envp, size_t *i);
 t_bool	is_one_char_token(char *str);
 char *join_two(char *a, char *b);
 char	*get_next_quote(char *str, size_t *idx);
+char *handle_numeric_tkn(char *str, size_t *idx);
 
 t_bool str_equals(char* a, char* b);
 char *join_three(char *a, char *b, char *c);

@@ -6,10 +6,9 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:07:48 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/21 13:06:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:53:02 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <minishell.h>
 
@@ -65,7 +64,8 @@ static void	inner_whiles(const char *s, int *i, char c, size_t *slen)
 	if (*(s + (*i)) == c)
 		*i = *i + 1;
 	*slen = 0;
-	while (s[(*i) + (*slen)] != '\0' && (in_quote != '\0' || s[(*i) + (*slen)] != c))
+	while (s[(*i) + (*slen)] != '\0'
+		&& (in_quote != '\0' || s[(*i) + (*slen)] != c))
 	{
 		if (s[(*i) + (*slen)] == '"' || s[(*i) + (*slen)] == '\'')
 		{
