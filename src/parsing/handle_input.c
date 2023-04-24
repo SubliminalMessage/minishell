@@ -6,11 +6,20 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 22:50:22 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:10:38 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void  print_parse_error_str(char *msg, char *str)
+{
+    char    *to_print;
+
+    to_print = join_three(ft_strdup(msg), str, ft_strdup("'\n"));
+    print_parse_error(to_print, false);
+    free(to_print);
+}
 
 void	print_parse_error(char *str, t_bool clear)
 {

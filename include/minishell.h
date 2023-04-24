@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 23:22:32 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:10:57 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@
 // ----------------- ?? directory -----------------
 // TODO: Group them by file
 void	print_parse_error(char *str, t_bool clear);
+void    print_parse_error_str(char *msg, char *str);
 void	ft_free_array_content(char **arr);
 char	**get_input(void);
 t_bool is_valid_input(char *line_read);

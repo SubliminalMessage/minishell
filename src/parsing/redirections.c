@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 22:47:11 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:11:59 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_bool contains_outside_quotes(char *str, char c) // TODO: Move this function to
 		}
 		if (str[i] == c && in_quote == '\0')
 		{
-			printf(INVALID_TOKEN_CHR, c);
+			print_parse_error_str(INV_TKN_MSG" `", ft_chardup(c));
 			return (true);
 		}
 		i++;
@@ -129,7 +129,7 @@ t_bool save_redirection_single_arg(t_cmd **cmd, char *redir)
 		redir_end++;
 	if (redir_end == 2 && redir[0] != redir[1])
 	{
-		printf(INVALID_TOKEN_CHR, redir[1]);
+		print_parse_error_str(INV_TKN_MSG" `", ft_chardup(redir[1]));
 		return (false);
 	}
 	redirection = ft_substr(redir, 0, redir_end);
@@ -149,9 +149,9 @@ t_bool save_redirection_double_arg(t_cmd **cmd, char *redirection, char *redirec
 	if (!redirects_to || redirects_to[0] == '>' || redirects_to[0] == '<')
 	{
 		if (!redirects_to)
-			printf(INVALID_TOKEN_STR, "\\n");
+			print_parse_error_str(INV_TKN_MSG" `", ft_strdup("\\n"));
 		else
-			printf(INVALID_TOKEN_CHR, redirects_to[0]);
+			print_parse_error_str(INV_TKN_MSG" `", ft_chardup(redirects_to[0]));
 		return (false);
 	}
 	redirection_type = get_redirection_type(redirection);
