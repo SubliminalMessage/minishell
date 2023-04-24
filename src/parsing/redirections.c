@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 16:11:59 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:25:11 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,13 @@ t_bool save_redirection_single_arg(t_cmd **cmd, char *redir)
 	return (did_work);
 }
 
+t_file *create_file(char *identifier, int redirection_type)
+{
+    if (redirection_type == HEREDOC_FTYPE)
+        return (ft_new_here_doc(identifier));
+    return (ft_newfile(identifier, redirection_type));
+}
+
 t_bool save_redirection_double_arg(t_cmd **cmd, char *redirection, char *redirects_to)
 {
 	int	redirection_type;
@@ -155,7 +162,7 @@ t_bool save_redirection_double_arg(t_cmd **cmd, char *redirection, char *redirec
 		return (false);
 	}
 	redirection_type = get_redirection_type(redirection);
-	file = ft_newfile(redirects_to, redirection_type);
+	file = create_file(redirects_to, redirection_type);
 	if (!file)
 	{
 		print_parse_error(ERROR_MALLOC, false);
