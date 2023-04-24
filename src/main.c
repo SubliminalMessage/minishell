@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 20:01:17 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:07:09 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_cmd(t_cmd *cmd)
 {
-	printf("[CMD]:\n");
+	printf("\n\n[CMD]:\n");
 	if (!cmd)
 	{
 		printf("\t(null)\n");
@@ -52,7 +52,6 @@ int main(void)
 {
 	char **input;
 	t_env_lst *envp;
-	extern char		**environ;
 
 	envp = init_env();
 	if (!envp)

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 23:27:40 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:33:25 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,18 @@ char	*get_next_quote(char *str, size_t *idx)
 	quote = '\0';
 	if (str[0] == '\'' || str[0] == '"')
 		quote = str[0];
-	quote_idx = 1;
-	while (str[quote_idx])
-	{
+	quote_idx = 0;
+	while (str[++quote_idx])
 		if (str[quote_idx] == '\'' || str[quote_idx] == '"')
 			if (quote == '\0' || str[quote_idx] == quote)
 				break ;
-		quote_idx++;
-	}
 	if (quote != '\'' && quote != '"')
 		quote_idx--;
+    if (str[quote_idx] == '$' && quote == '\0' && str[quote_idx + 1] != '\0')
+    {
+        quote_idx--;
+        *idx += 1;
+    }
 	quoted_str = ft_substr(str, 0, quote_idx + 1);
 	*idx += quote_idx + 1;
 	return (quoted_str);
@@ -202,7 +204,7 @@ char 	*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i)
 		tkn_len++;
 	}
 	if (tkn_len == 0)
-		return (ft_strdup(""));
+		return (ft_strdup(str));
 	token = ft_substr(str, 1, tkn_len);
 	variable = ft_strdup( ft_getenv(envp, token) );
 	*i += ft_strlen(variable);
