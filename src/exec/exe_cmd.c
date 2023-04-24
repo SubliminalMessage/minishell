@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/24 20:38:42 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/24 21:22:15 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,35 @@ int	ft_echo(t_cmd *cmd)
 	return (0);
 }
 
+int ft_exit(t_cmd *cmd)
+{
+	int	exit_code;
+
+	// TODO if no pipes, FULL exit
+	exit_code = 0;
+	if (!cmd->args[1])
+		exit_code = 0;
+	else if (cmd->args[1] && !cmd->args[2]) // TODO check is number (if not, print error and exit 2)
+	{
+		if (0) // invalid number
+		{
+			ft_printf_fd(2, "exit: %s: numeric argument required", cmd->args[1]);
+			exit_code = 2;
+		}
+		else {
+			exit_code = ft_atoi(cmd->args[1]); // TODO boost atoi
+			// echo | exit 0000000000000000000021 -> 21
+			exit_code = (int) ((char) exit_code); // TODO test this work with big and negative numbers
+		}
+	}
+	else
+	{
+		ft_printf_fd(2, "exit: too many arguments"); // TODO refactor. perror?
+		exit_code = 1;
+	}
+	return (exit_code);
+}
+
 int ft_handle_specials(t_cmd *cmd, t_cmd_lst *full)
 {
 	int	exit_code;
@@ -74,8 +103,8 @@ int ft_handle_specials(t_cmd *cmd, t_cmd_lst *full)
 		ft_copyall(STDIN, STDOUT);
 	else if (ft_strncmp(cmd->cmd, "echo", 4) == 0)
 		exit_code = ft_echo(cmd);
-	// else if (ft_strcmp(cmd->cmd, "exit") == 0)
-	// 	exit_code = ft_exit(cmd, full);
+	else if (ft_strcmp(cmd->cmd, "exit") == 0)
+		exit_code = ft_exit(cmd);
 	// else if (ft_strcmp(cmd->cmd, "cd") == 0)
 	// 	exit_code = ft_cd(cmd);
 	// else if (ft_strcmp(cmd->cmd, "pwd") == 0)
