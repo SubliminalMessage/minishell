@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 15:33:25 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:41:22 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char *handle_numeric_tkn(char *str, size_t *idx)
 	if (!str)
 		return (str);
 	len = ft_strlen(str + 1);
-	if (len <= 1)
+	if (len <= 1 || !ft_hasany("0123456789", str[1]))
 		return (str);
 	num = ft_atoi(str + 1);
 	free(str);
