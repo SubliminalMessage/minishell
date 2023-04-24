@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 16:18:38 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:47:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	print_cmd(t_cmd *cmd)
 		printf("\t(null)\n");
 		return ;
 	}
+    printf("\tExec: ·%s·\n", cmd->cmd);
 	printf("\tArgs: [");
 	int i = 0;
 	while (cmd->args[i] && cmd->args[i + 1])
@@ -78,7 +79,7 @@ int main(void)
 	envp = init_env();
 	if (!envp)
 		return (1);
-		
+	
 	while (true)
 	{
 		input = get_input();
@@ -105,13 +106,15 @@ int main(void)
         while (lst)
         {
             t_cmd *cmd_node = lst->content;
-            printf("\t:: [%d] -> ·%s·\n", x, cmd_node->args[0]);
+            printf("\t:: [%d] -> ·%s·\n", x, cmd_node->cmd);
             x++;
             lst = lst->next;
         }
         printf("\n\n");
         /////////////////////////// DEBUG ///////////////////////////
         
+        //run(cmd_lst); // Does not work :)
+
         ft_free_cmd_lst(cmd_lst);
         cmd_lst = NULL;
 	}
