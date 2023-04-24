@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 19:08:34 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 23:53:20 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_bool save_redirection(t_cmd **cmd, char **redirection, char **redirects_to);
 t_bool save_redirection_single_arg(t_cmd **cmd, char *redir);
 t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identifier);
 t_bool	contains_outside_quotes(char *str, char c);
-t_bool	is_invalid_argument(char *string);
+t_bool	is_valid_argument(char *string);
 t_file	*create_file(char *identifier, int redirection_type);
 t_env_lst	*init_env(void);
 t_env_lst *new_env_node(char *string, t_bool is_visible);
@@ -102,7 +102,7 @@ char	*dequote(char *str);
 char *expand_arg(char **str_ptr, t_env_lst *envp);
 char	*expand(char *str, t_env_lst *env);
 t_bool is_wrapped_token(char *str);
-char 	*expand_tkn(char *str, t_env_lst *envp, size_t *i);
+char 	*expand_tkn(char *str, t_env_lst *envp, size_t *idx);
 char 	*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i);
 char 	*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i);
 char *expand_custom_tkn(char *str, t_env_lst *envp, size_t *i);

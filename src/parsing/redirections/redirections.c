@@ -6,17 +6,27 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 18:46:21 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 23:16:47 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief Given a Command, converts all redirections into f_files and
+ * 		  saves them into their corresponding structure of the command.
+ * 
+ * @param cmd Double pointer to the command. Will be modified
+ * 
+ * @return t_bool, whether if everything went OK or not.
+*/
 t_bool	fill_redirections(t_cmd **cmd)
 {
 	char	**argv;
 	int		i;
 
+	if (!cmd || !*cmd || !(*cmd)->args)
+		return (false);
 	argv = (*cmd)->args;
 	i = -1;
 	while (argv[++i])
@@ -26,13 +36,23 @@ t_bool	fill_redirections(t_cmd **cmd)
 			if (!save_redirection(cmd, &argv[i], &argv[i + 1]))
 				return (false);
 		}
-		else if (!is_invalid_argument(argv[i]))
+		else if (!is_valid_argument(argv[i]))
 			return (false);
 	}
 	(*cmd)->args = clean_nulls((*cmd)->args);
 	return (true);
 }
 
+/**
+ * @brief Given two arguments of a command, being one of them a redirection,
+ * 		  saves it into the command.
+ * 
+ * @param cmd, the Command where the redirection will be saved to
+ * @param first_arg, the First Argument (normally, the redirection, e.g.: '>')
+ * @param second_arg, the Second Argument (normally, the file name)
+ * 
+ * @return t_bool, whether if everything went OK or not.
+*/
 t_bool	save_redirection(t_cmd **cmd, char **first_arg, char **second_arg)
 {
 	t_bool	did_work;
@@ -59,6 +79,15 @@ t_bool	save_redirection(t_cmd **cmd, char **first_arg, char **second_arg)
 	return (did_work);
 }
 
+/**
+ * @brief Given a single argument representing both a redirection and the
+ *        identifier of the redirection, saves it into a command.
+ * 
+ * @param cmd, the Command to where the redirection will be saved to
+ * @param redir, the redirection + identifier (e.g.: '>file')
+ * 
+ * @return t_bool, whether if it went OK or not.
+*/
 t_bool	save_redirection_single_arg(t_cmd **cmd, char *redir)
 {
 	size_t	redir_length;
@@ -85,6 +114,16 @@ t_bool	save_redirection_single_arg(t_cmd **cmd, char *redir)
 	return (did_work);
 }
 
+/**
+ * @brief Given a redirection and the identifier, creates and saves the
+ *        redirection file into the command.
+ * 
+ * @param cmd, the Command where the redirection will be saved to
+ * @param redir, the redirection (e.g.: '>')
+ * @param identifier, the identifier (e.g.: 'file')
+ * 
+ * @return t_bool, whether if it went OK or not.
+*/
 t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identifier)
 {
 	int		redir_type;
