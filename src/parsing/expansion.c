@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 15:41:22 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:43:45 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,10 @@ char 	*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i)
 	char *aux;
 	size_t idx;
 
-	idx = 0;
+	idx = 2;
 	while (str[idx] != '\0' && str[idx] != 125) //125 => Closed Curly Brace. TODO: Change this
 	{
-		if (!ft_hasany(VALID_TKN_CHARS"${}", str[idx]))
+		if (!ft_hasany(VALID_TKN_CHARS, str[idx]))
 			break;
 		idx++;
 	}
