@@ -6,12 +6,20 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:45:54 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 19:02:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:15:29 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief Given two strings, joins them and free()-s its content.
+ * 
+ * @param a, the first string
+ * @param b, the second string
+ * 
+ * @return char*, the string resulting of joining those two
+*/
 char	*join_two(char *a, char *b)
 {
 	char	*final;

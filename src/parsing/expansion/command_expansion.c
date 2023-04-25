@@ -6,12 +6,23 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 17:56:12 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:58:13 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief Given a String (normally, one of the arguments of a command), checks
+ *        for Environment Variables and expands them.
+ * 
+ * @param str, the String to check
+ * @param env, the Env. Var. List. Will be used to expand those variables it
+ *        encounters (if any).
+ * 
+ * @return char*, the original string, but with all of the variables expanded.
+ *         can be NULL, if anything fails in the process.
+*/
 char	*expand(char *str, t_env_lst *env)
 {
 	size_t	i;
@@ -41,6 +52,19 @@ char	*expand(char *str, t_env_lst *env)
 	return (str);
 }
 
+/**
+ * @brief Given an Array of Arguments of a command, loops through all of them
+ *        and expands their environment variables. Note this function uses
+ *        expand() interally.
+ * 
+ * @param str_ptr, the Array of Strings, representing the arguments of a
+ *        command
+ * @param envp, the Env. Var. List that will be used for expanding the Env.
+ *        Variables it ecounters (if any).
+ * 
+ * @return char*, the argument with their variables expanded. Can be NULL if
+ *         something failed in the process 
+*/
 char	*expand_arg(char **str_ptr, t_env_lst *envp)
 {
 	char	*str;
@@ -69,6 +93,15 @@ char	*expand_arg(char **str_ptr, t_env_lst *envp)
 	return (expanded);
 }
 
+/**
+ * @brief Given a File List of a command, it expands their identifiers's
+ *        names (e.g.: 'echo "test" > $USER' -> echo "test" > "dangonza"' ).
+ * 
+ * @param lst_ptr, double pointer to the File List.
+ * @param envp, the Env. Var. List that will be used to expand the variables.
+ * 
+ * @return t_bool, whether everything went OK or not.
+*/
 t_bool	expand_file_list(t_file_lst **lst_ptr, t_env_lst *envp)
 {
 	t_file_lst	*node;
@@ -90,6 +123,14 @@ t_bool	expand_file_list(t_file_lst **lst_ptr, t_env_lst *envp)
 	return (true);
 }
 
+/**
+ * @brief Given a Command Structure, it expands its variables (from everywhere)
+ * 
+ * @param cmd_ptr, double pointer to the Command
+ * @param envp, the Env. Var. List that will be used to expand the variables
+ * 
+ * @param t_bool, whether everything went OK or not
+*/
 t_bool	expand_cmd(t_cmd **cmd_ptr, t_env_lst *envp)
 {
 	int		i;

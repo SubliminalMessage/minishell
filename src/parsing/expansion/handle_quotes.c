@@ -6,21 +6,43 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:27:52 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 18:46:15 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:49:06 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// Norminette issues. 
-// For some reason Logic Operations causes 'Missing tabs for indent level'
-static t_bool	check_if_unclosed(char quote, char char_at)
+/**
+ * @brief Given a type of quote, and the last char of a string,
+ *        returns if the String Quotes are closed or not.
+ * 
+ * @param quote, que type of quote. (\' for simple quotes, \" for double, 
+ *        and \0 for no-quotes).
+ * @param last_char, the last char of the string
+ * 
+ * @return t_bool, whether the string's quotes are closed or not
+ * 
+ * @note This function were created because Norminette Issues.
+ *       For some reason, Logic Operations as a Variable Asignation
+ *       (e.g.: 't_bool a = b || c;' ) causes 'Missing tabs for indent level',
+ * 		 or at least this logic operation does :(
+*/
+static t_bool	check_if_closed(char quote, char last_char)
 {
-	if ((quote == '\'' || quote == '\"') && char_at != quote)
-		return (true);
-	return (false);
+	if ((quote == '\'' || quote == '\"') && last_char != quote)
+		return (false);
+	return (true);
 }
 
+/**
+ * @brief Given a string wrapped in quotes (or not), dequotes them if needed
+ *        and returns the result.
+ * 
+ * @param str, the String wrapped in quotes (or not)
+ * 
+ * @return char*, the new String after De-Quoting it. Can be NULL if the quotes
+ *         are not closed.
+*/
 char	*dequote(char *str)
 {
 	size_t	s_len;
@@ -32,7 +54,7 @@ char	*dequote(char *str)
 		return (NULL);
 	quote = str[0];
 	s_len = ft_strlen(str);
-	is_unclosed = check_if_unclosed(quote, str[s_len - 1]);
+	is_unclosed = !check_if_closed(quote, str[s_len - 1]);
 	if ((s_len == 1 && (quote == '\'' || quote == '"')) || is_unclosed)
 	{
 		if (quote == '\'')
@@ -49,6 +71,17 @@ char	*dequote(char *str)
 	return (dequoted);
 }
 
+/**
+ * @brief Given a String that contains zero or more quoted-characters,
+ *        returns the first quoted group of characters it encounters.
+ * 
+ * @param str, the String to check
+ * @param idx, the index of the original string, to skip the characters
+ *       we're about to remove. It's just to ensure correct behaviour!
+ * 
+ * @return char*, the next quoted group of chars. If there are none, the
+ *         whole string will be returned.
+*/
 char	*get_next_quote(char *str, size_t *idx)
 {
 	char	quote;

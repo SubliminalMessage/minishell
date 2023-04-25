@@ -6,12 +6,26 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:44:22 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 17:55:47 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:41:28 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief given a String representing the start of a Variable (Token) that
+ *        is NOT wrapped (e.g.: $USER), returns the token in its expanded
+ *        form.
+ * 
+ * @param str, the String that contains the Token to expand
+ * @note str is not the token itself. It is a string starting with a token.
+ *       (e.g.: '$USER is so cool!')
+ * @param envp, the Env. Var. List. Will be used to expand the token
+ * @param i, the index of the original string, to skip the characters
+ *        we're about to remove. It's just to ensure correct behaviour!
+ * 
+ * @return char*, the original String, but with the Token already expanded
+*/
 char	*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i)
 {
 	size_t	tkn_len;
@@ -40,6 +54,20 @@ char	*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i)
 	return (result);
 }
 
+/**
+ * @brief given a String representing the start of a Variable (Token) that
+ *        IS wrapped (e.g.: ${USER}), returns the token in its expanded
+ *        form. Note that this function uses expand_normal_tkn() internally.
+ * 
+ * @param str, the String that contains the Token to expand
+ * @note str is not the token itself. It is a string starting with a token.
+ *       (e.g.: '${USER} is so cool!')
+ * @param envp, the Env. Var. List. Will be used to expand the token
+ * @param i,the index of the original string, to skip the characters
+ *        we're about to remove. It's just to ensure correct behaviour!
+ * 
+ * @return char*, the original String, but with the Token already expanded
+*/
 char	*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i)
 {
 	char	*tkn;
@@ -68,6 +96,23 @@ char	*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i)
 	return (join_two(tkn, aux));
 }
 
+/**
+ * @brief given a String representing the start of a Variable (Token) whose
+ *        value is (normally) not saved in a Env. Variable (e.g.: $#, $0),
+ *        expands it and returns the result!
+ * 
+ * @param str, the String that contains the Token to expand
+ * @note str is not the token itself. It is a string starting with a token.
+ *       (e.g.: "I have $# friends :')!")
+ * @param envp, the Env. Var. List. Will be used to expand the token
+ * @note envp, is used for those variables who are stored in the Env. List
+ *       (such as '$0', although hidden), or those whose content will be
+ *       handled in the ft_getenv() function (such as '$?')
+ * @param i,the index of the original string, to skip the characters
+ *        we're about to remove. It's just to ensure correct behaviour!
+ * 
+ * @return char*, the original String, but with the Token already expanded
+*/
 char	*expand_custom_tkn(char *str, t_env_lst *envp, size_t *i)
 {
 	char	*token;

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 19:03:02 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:23:28 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ t_bool	str_equals(char *a, char *b)
 }
 
 /**
- * @brief Normalizes the quotes in a string, adding the missing quotes.
- *        Then, it trims the string, and frees the original one.
- * 
+ * @brief Trims the string, and frees the original one.
+ *        
  * @param str, the string to be trimmed
  * @param set, the set of characters to be trimmed off
  * 
@@ -41,28 +40,18 @@ t_bool	str_equals(char *a, char *b)
 char	*ft_strtrim_free(char *str, char *set)
 {
 	char	*aux;
-	char	in_quote;
-	int		i;
 
 	if (!str)
 		return (NULL);
-	in_quote = '\0';
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-		{
-			if (in_quote == '\0')
-				in_quote = str[i];
-			else if (in_quote == str[i])
-				in_quote = '\0';
-		}
-	}
 	aux = ft_strtrim(str, set);
 	free(str);
 	return (aux);
 }
 
+/**
+ * @brief Aux function to clean_nulls() because of Norminette Issues.
+ *        It just initializes some variables to its default value.
+*/
 static void	clean_nulls_init_vars(int *n_count, int *str_idx, int *f_idx)
 {
 	*n_count = 0;
@@ -71,11 +60,11 @@ static void	clean_nulls_init_vars(int *n_count, int *str_idx, int *f_idx)
 }
 
 /**
- * @brief Filters a string array, removing all the NULL elements
+ * @brief Filters a string array, removing all the '\0' elements
  * 
  * @param str, the array of strings to be filtered 
  * 
- * @return char**, the filtered array with no NULL elements (or '\0' strings)
+ * @return char**, the filtered array with no '\0' elements (empty strings)
 */
 char	**clean_nulls(char **str)
 {

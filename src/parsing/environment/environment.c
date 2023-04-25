@@ -6,12 +6,22 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 18:41:41 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:14:01 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief Init the Zero Variable '$0' at the start of the minishell.
+ * 
+ * @note In bash, '$0' prints the executable it's running on ('bash'). In
+ *       order to replicate this behaviour, we 'read' the variable $_, whose
+ *       content at the start of the Shell is the Absolute Path to
+ *       the Minishell.
+ * 
+ * @param envp, the Env. Var. List, for both reading and writing to.
+*/
 void	init_zero_variable(t_env_lst **envp)
 {
 	t_bool	did_work;
@@ -27,6 +37,12 @@ void	init_zero_variable(t_env_lst **envp)
 	}
 }
 
+/**
+ * @brief Initializes the t_env_lst that will be used all through the Shell
+ *        to expand Variables and such.
+ * 
+ * @return t_env_lst, the List created. NULL if something failed.
+*/
 t_env_lst	*init_env(void)
 {
 	extern char	**environ;
@@ -52,6 +68,19 @@ t_env_lst	*init_env(void)
 	return (envp);
 }
 
+/**
+ * @brief Given a String in the form 'KEY=VALUE', transforms it into a
+ *       t_env_lst, that will be appended to the corresponding Env. List.
+ * 
+ * @param string, the String that will be transformed.
+ * @param is_visible, to set the visibility of a variable.
+ * @note is_visible should be 'true' by default. If a variable has 'false' as
+ *       it's visibility, it will only be possible to 'read' and 'write' the
+ *       variable (just like any other), but other functions like build_env()
+ *       will ignore them.
+ * 
+ * @return t_env_lst, the node created.
+*/
 t_env_lst	*new_env_node(char *string, t_bool is_visible)
 {
 	t_env		*node;

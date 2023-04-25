@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:07:48 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 18:53:02 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:19:58 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@ static int	get_total_words(const char *s, char c);
 static void	inner_whiles(const char *s, int *i, char c, size_t *slen);
 static char	**free_all(char **words, int saved);
 
+/**
+ * @brief Similar to ft_split(), but taking in mind the split_char could be
+ *        inside of quotes. In those cases, it won't split them.
+ * 
+ * @param s, the String to split
+ * @param split_char, the char to split the String by
+ * 
+ * @return char**, a array of the resulting string pieces.
+ * @note This ft_split() does not remove the empty strings (e.g: if the
+ *       splitting_char is '|' and the string is 'hello || world', the 
+ *       result will be: ['hello ', '\0', 'world']). This is intended,
+ *       because that way, we can detect empty pipes. If this behaviour
+ *       is not wanted, you can use clean_nulls() function right after
+ *       splitting it.
+ * 
+ * @note All the functions in this file but this are static. All of those
+ *       are auxiliar functions to the main one, which is this one. Docs of
+ *       those functions will be omitted.
+*/
 char	**ft_split_quote_conscious(const char *s, char split_char)
 {
 	size_t	s_len;
