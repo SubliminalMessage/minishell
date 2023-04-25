@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 19:04:42 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:52:12 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 // TODO: Handle exceptions such as '$$' or '$?'
 // ($_) Info:
 // https://unix.stackexchange.com/questions/280453/understand-the-meaning-of
+/**
+ * @brief Acts exactly like getenv(), but it takes the variables from a
+ *        t_env_lst structure.
+ * 
+ * @param envp, the Env. Var. List where the Variable is going to be searched
+ * @param key, the Name of the Variable (e.g.: 'USER')
+ * 
+ * @return char*, the value of the variable. Empty string if not found.
+ * @note The return string MUST BE ft_strdup() right after calling the function.
+ *       Free()-ing this return value will cause a double-free error.
+*/
 char	*ft_getenv(t_env_lst *envp, char *key)
 {
 	t_env	*node;
@@ -29,15 +40,27 @@ char	*ft_getenv(t_env_lst *envp, char *key)
 	return ("");
 }
 
-t_bool	update_env(t_env_lst **envp, char *key, char *value, t_bool visible)
+/**
+ * @brief Given a Key and a Value, updates the variable (or creates it)
+ *        with the new value.
+ * 
+ * @param env, double pointer to the Env. Var. List to update the var from
+ * @param key, the name of the variable (e.g.: 'USER')
+ * @param value, the value of that variable (e.g.: 'dangonza')
+ * @param vsbl, if the variable is visible or not. More on this on the docs
+ *        of the function new_env_node()
+ * 
+ * @return t_bool, whether if everything went OK or not.
+*/
+t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 {
 	t_env_lst	*lst;
 	t_env_lst	*new_node;
 	t_env		*node;
 
-	if (!envp || !*envp || !key || !value)
+	if (!env || !*env || !key || !value)
 		return (false);
-	lst = *envp;
+	lst = *env;
 	while (lst)
 	{
 		node = lst->content;
@@ -49,13 +72,19 @@ t_bool	update_env(t_env_lst **envp, char *key, char *value, t_bool visible)
 		node->value = value;
 		return (true);
 	}
-	new_node = new_env_node_splitted(key, value, visible);
+	new_node = new_env_node_splitted(key, value, vsbl);
 	if (!new_node)
 		return (false);
-	ft_lstadd_back(envp, new_node);
+	ft_lstadd_back(env, new_node);
 	return (true);
 }
-
+/**
+ * @brief Given a Env. Var. List, builds a char** to use in execve()
+ * 
+ * @param envp, the Env. Var. List
+ * 
+ * @return char**, the String Array containing the Variables
+*/
 char	**build_envp(t_env_lst *envp)
 {
 	int		size;
