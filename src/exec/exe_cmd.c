@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 22:50:19 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/26 16:23:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 	ft_printf_fd(2, "******************* post redirect *******************\n");
 	ft_close_all_fds(full);
 	ft_printf_fd(2, "******************* Executing *******************\n");
-	execve(cmd->cmd, cmd->args, NULL);
+	//char **envp = build_envp(envp);
+	execve(cmd->cmd, cmd->args, NULL); // NULL -> envp tol royo
+	//free_array_double(envp)
 	ft_printf_fd(2, "Error executing execve!\n"); // TODO
 	return (INVALID * 2);
 }

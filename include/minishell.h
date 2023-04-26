@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/25 18:53:12 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:41:14 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ t_bool		save_redirection_single_arg(t_cmd **cmd, char *redir);
 t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identifier);
 
 // ----------------- exec directory -----------------
+
+t_bool	ft_check_output(t_cmd_lst *cmd);
 
 // exe_cmd.c
 int			ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full);

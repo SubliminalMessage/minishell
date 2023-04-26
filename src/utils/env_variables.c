@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/25 18:52:12 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/26 23:32:59 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,12 @@ char	*ft_getenv(t_env_lst *envp, char *key)
  * 
  * @param env, double pointer to the Env. Var. List to update the var from
  * @param key, the name of the variable (e.g.: 'USER')
- * @param value, the value of that variable (e.g.: 'dangonza')
+ * @param value, the value of that variable (e.g.: 'dangonza').
  * @param vsbl, if the variable is visible or not. More on this on the docs
  *        of the function new_env_node()
+ * 
+ * @note Please, do not malloc() neither key nor value. Or, if you do so,
+ *       be sure to free it afterwards.
  * 
  * @return t_bool, whether if everything went OK or not.
 */
@@ -67,12 +70,14 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 		lst = lst->next;
 		if (!node || !str_equals(node->key, key))
 			continue ;
+		value = ft_strdup(value);
+		if (!value)
+			return (false);
 		free(node->value);
-		free(key);
 		node->value = value;
 		return (true);
 	}
-	new_node = new_env_node_splitted(key, value, vsbl);
+	new_node = new_env_node_splitted(ft_strdup(key), ft_strdup(value), vsbl);
 	if (!new_node)
 		return (false);
 	ft_lstadd_back(env, new_node);
