@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 23:34:26 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/26 23:48:10 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ int main(void)
 			printf("ha petao :(!\n");
 			continue ;
 		}
-        run(cmd_lst); // Does not work :)
 
         /////////////////////////// DEBUG ///////////////////////////
        t_cmd_lst *lst = cmd_lst;
@@ -145,7 +144,7 @@ int main(void)
         printf("\n\n");
         /////////////////////////// DEBUG ///////////////////////////
         
-
+        run(cmd_lst); // Does not work if the executabe does not have the correct path :)
 	}
 	printf("exit\n");
 

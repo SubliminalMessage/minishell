@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 15:21:43 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/26 23:47:21 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,10 @@ t_bool	expand_file_list(t_file_lst **lst_ptr, t_env_lst *envp)
 	{
 		file = node->content;
 		if (!file || file->type == HEREDOC_FTYPE)
+		{
+			node = node->next;
 			continue ;
+		}
 		file->name = expand_arg(&file->name, envp);
 		if (!file->name)
 			return (false);
