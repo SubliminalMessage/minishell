@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/27 20:14:11 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/27 22:02:39 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,17 @@ int ft_exit(t_cmd *cmd)
 	exit_code = 0;
 	if (!cmd->args[1])
 		exit_code = 0;
-	else if (cmd->args[1] && !cmd->args[2]) // TODO check is number (if not, print error and exit 2)
+	else if (cmd->args[1] && !cmd->args[2])
 	{
-		if (0) // invalid number
-		{
-			ft_printf_fd(2, "exit: %s: numeric argument required", cmd->args[1]);
-			exit_code = 2;
-		}
-		else {
-			exit_code = ft_atoi(cmd->args[1]); // TODO boost atoi
-			// echo | exit 0000000000000000000021 -> 21
-			exit_code = (int) ((char) exit_code); // TODO test this work with big and negative numbers
-		}
+		exit_code = 2;
+		if (ft_isnbr(cmd->args[1]))
+			exit_code = (int) ((char) ft_atoi(cmd->args[1]));
+		else
+			ft_printf_fd(2, "exit: %s: numeric argument required\n", cmd->args[1]); // TODO refactor msg. perror?
 	}
 	else
 	{
-		ft_printf_fd(2, "exit: too many arguments"); // TODO refactor. perror?
+		ft_printf_fd(2, "exit: too many arguments\n"); // TODO refactor. perror?
 		exit_code = 1;
 	}
 	return (exit_code);

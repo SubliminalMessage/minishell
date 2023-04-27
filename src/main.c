@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 23:48:10 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/27 21:26:05 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+int g_status_code;
 
 /**
  * @brief If no output file is specified, stdout should be used.
@@ -130,21 +131,22 @@ int main(void)
 			continue ;
 		}
 
-        /////////////////////////// DEBUG ///////////////////////////
-       t_cmd_lst *lst = cmd_lst;
-        int x = 0;
-        printf("CMDS: \n");
-        while (lst)
-        {
-            t_cmd *cmd_node = lst->content;
-            printf("\t:: [%d] -> ·%s·\n", x, cmd_node->cmd);
-            x++;
-            lst = lst->next;
-        }
-        printf("\n\n");
-        /////////////////////////// DEBUG ///////////////////////////
-        
-        run(cmd_lst); // Does not work if the executabe does not have the correct path :)
+		/////////////////////////// DEBUG ///////////////////////////
+		t_cmd_lst *lst = cmd_lst;
+		int x = 0;
+		printf("CMDS: \n");
+		while (lst)
+		{
+			t_cmd *cmd_node = lst->content;
+			printf("\t:: [%d] -> ·%s·\n", x, cmd_node->cmd);
+			x++;
+			lst = lst->next;
+		}
+		printf("\n\n");
+		/////////////////////////// DEBUG ///////////////////////////
+		
+		g_status_code = run(cmd_lst); // Does not work if the executabe does not have the correct path :)
+		printf("run finished. Result code: %d\n", g_status_code);
 	}
 	printf("exit\n");
 

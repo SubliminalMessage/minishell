@@ -57,8 +57,7 @@ SRC_FILES	= 	main.c \
 				exec/openfile.c \
 				exec/heredoc.c \
 				exec/pipes.c \
-				exec/join_input.c \
-				debug/tools.c # TODO remove
+				exec/join_input.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
@@ -127,6 +126,10 @@ execute: all
 
 run: all
 	@clear
+	@./minishell
+
+run_valgrind: all
+	@clear
 	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
 
 ### ---   ---   ---         ---   ---   --- ###
@@ -146,8 +149,7 @@ DEBUG_FILES	=	utils/clean_cmd.c \
 				exec/wait_result.c \
 				exec/openfile.c \
 				exec/heredoc.c \
-				exec/pipes.c \
-				debug/tools.c
+				exec/pipes.c
 
 DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
 
@@ -166,7 +168,7 @@ test_strerror:
 	./$(DEBUG)
 
 docker:
-	docker run -it --rm -v $(PWD):/home/marvin/docker -u root jkutkut/docker4c
+	docker run -it --rm -v $(PWD):/docker jkutkut/docker4c
 
 exec_dev: $(DEBUG)
 	@echo "vfull ./$(DEBUG)"

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/27 20:25:03 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/27 21:05:12 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,5 @@ char		**ft_split_quote_conscious(const char *s, char split_char);
 char		*join_two(char *a, char *b);
 char		*join_three(char *a, char *b, char *c);
 char		*ft_chardup(const char c);
-
-// tools.c
-int	ft_strcmp(char *s1, char *s2);
 
 #endif
