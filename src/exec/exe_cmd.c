@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/24 21:22:15 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/27 19:55:51 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,9 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, pid_t *pids)
 	// TODO check path with env
 	// ? no command given
 	ft_printf_fd(2, "******************* Executing *******************\n");
-	execve(cmd->cmd, cmd->args, NULL);
+	//char **envp = build_envp(envp);
+	execve(cmd->cmd, cmd->args, NULL); // NULL -> envp tol royo
+	//free_array_double(envp)
 	ft_printf_fd(2, "Error executing execve!\n"); // TODO
 	return (INVALID * 2);
 }

@@ -23,13 +23,32 @@ LIBFT_REPO			= $(LIBFT_PATH)Makefile
 NAME		= minishell
 
 SRC_FILES	= 	main.c \
-				parsing/prompt.c \
-				parsing/commands.c \
-				parsing/environ.c \
-				parsing/expansion.c \
+				parsing/input/handle_input.c \
+				parsing/input/input_utils.c \
+				parsing/environment/environment.c \
+				parsing/environment/environment_utils.c \
+				parsing/redirections/redirection_utils.c \
+				parsing/redirections/redirections.c \
+				parsing/expansion/command_expansion.c \
+				parsing/expansion/handle_quotes.c \
+				parsing/expansion/token_expansion.c \
+				parsing/expansion/token_utils.c \
 				utils/handle_str.c \
 				utils/split_quote_conscious.c \
-				utils/debug/print_debug.c # TODO This file is not meant to reach the final version of the Minishell
+				utils/clean/cmds.c \
+				utils/clean/files.c \
+				utils/copy_all.c \
+				utils/file.c \
+				utils/get.c \
+				utils/env_variables.c \
+                utils/str_utils.c \
+				exec/exe_cmd.c \
+				exec/run.c \
+				exec/wait_result.c \
+				exec/openfile.c \
+				exec/heredoc.c \
+				exec/pipes.c \
+				exec/join_input.c \
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
@@ -55,19 +74,19 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(SRC_OBJS)
 	@echo $(BLUE)[Compilation]$(WHITE): $(NAME)$(NC)
-	$(CC) $(CFLAGS) $(INCLUDE) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDE) $(READLINE_FLAGS) $(SRC_OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT): $(LIBFT_REPO)
 	@make -C $(LIBFT_PATH)
 
 $(LIBFT_REPO):
 	@# TODO Remove in intra version
-	git submodule update --init --recursive
+	@git submodule update --init --recursive
 
 bin/%.o: src/%.c
 	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "$(NC)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean: $(LIBFT_REPO)
 	@echo $(RED)"[Deleting Object Files]"$(NC)
@@ -120,7 +139,17 @@ DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
 
 $(DEBUG): $(DEBUG_OBJS) $(LIBFT)
 	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
-	$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
+
+test_signal:
+	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
+	$(CC) $(CFLAGS) src/debug/test/signal.c -o $(DEBUG)
+	./$(DEBUG)
+
+test_strerror:
+	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
+	$(CC) $(CFLAGS) src/debug/test/strerror.c -o $(DEBUG)
+	./$(DEBUG)
 
 test_signal:
 	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
@@ -133,7 +162,7 @@ test_strerror:
 	./$(DEBUG)
 
 docker:
-	docker run -it --rm -v $(PWD):/home/marvin/docker jkutkut/docker4c
+	@docker run -it --rm -v $(PWD):/home/marvin/docker jkutkut/docker4c
 
 exec_dev: $(DEBUG)
 	@echo "vfull ./$(DEBUG)"
