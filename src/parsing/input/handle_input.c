@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/24 23:39:25 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/27 20:45:38 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**get_input(void)
 		return (NULL);
 	if (str_equals(raw_input, "exit"))
 	{
-		system("leaks -q minishell");
+		// system("leaks -q minishell"); // TODO remove
 		exit(0);
 	}
 	add_history(raw_input);

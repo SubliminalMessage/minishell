@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/27 19:55:51 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/27 20:14:11 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int ft_handle_specials(t_cmd *cmd, t_cmd_lst *full)
  */
 // TODO builtins
 // ? ? builtin and args
-int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, pid_t *pids)
+int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 {
 	int		pid;
 	t_cmd	*cmd;
@@ -147,7 +147,6 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, pid_t *pids)
 		return (INVALID * 2);
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
 	ft_close_all_fds(full);
-	free(pids);
 	if (ft_handle_specials(cmd, full) == INVALID)
 		return (INVALID * 4);
 	// TODO check path with env
