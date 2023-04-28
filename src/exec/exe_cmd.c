@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/27 22:02:39 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:01:19 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_echo(t_cmd *cmd)
 
 	i = 1;
 	n = true;
-	if (cmd->args[i] && ft_strncmp(cmd->args[i], "-n", 2) == 0)
+	if (cmd->args[i] && ft_strcmp(cmd->args[i], "-n") == 0)
 	{
 		n = false;
 		i++;
