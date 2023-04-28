@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 15:41:14 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/04/27 21:05:12 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identifier);
 t_bool	ft_check_output(t_cmd_lst *cmd);
 
 // exe_cmd.c
-int			ft_exe_cmd(t_cmd_lst	*cmd_lst, t_cmd_lst *full);
+int			ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full);
 
 // heredoc.c
 t_bool		ft_handle_here_doc(t_file *file);

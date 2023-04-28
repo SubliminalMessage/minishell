@@ -11,6 +11,15 @@ READLINE_FLAGS = -lreadline
 ### ---   ---   ---         ---   ---   --- ###
 
 INCLUDE				= -I include -I libft/include -I src/debug/ # TODO remove debug
+
+OS = $(shell uname -s)
+ifeq ($(OS),Linux)
+# install libreadline-dev
+# gcc does not work with readline in linux
+	CC	= clang
+	INCLUDE += -I/usr/include
+endif
+
 SRCS_PATH			= src/
 LIBFT_PATH			= libft/
 LIBFT				= $(LIBFT_PATH)libft.a
@@ -48,7 +57,7 @@ SRC_FILES	= 	main.c \
 				exec/openfile.c \
 				exec/heredoc.c \
 				exec/pipes.c \
-				exec/join_input.c \
+				exec/join_input.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
@@ -115,6 +124,13 @@ TODO:
 execute: all
 	@clear && ./minishell --debug
 
+run: all
+	@clear
+	@./minishell
+
+run_valgrind: all
+	@clear
+	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
 
 ### ---   ---   ---         ---   ---   --- ###
 #                    DEBUG                    #
@@ -151,18 +167,8 @@ test_strerror:
 	$(CC) $(CFLAGS) src/debug/test/strerror.c -o $(DEBUG)
 	./$(DEBUG)
 
-test_signal:
-	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
-	$(CC) $(CFLAGS) src/debug/test/signal.c -o $(DEBUG)
-	./$(DEBUG)
-
-test_strerror:
-	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
-	$(CC) $(CFLAGS) src/debug/test/strerror.c -o $(DEBUG)
-	./$(DEBUG)
-
 docker:
-	@docker run -it --rm -v $(PWD):/home/marvin/docker jkutkut/docker4c
+	docker run -it --rm -v $(PWD):/docker jkutkut/docker4c
 
 exec_dev: $(DEBUG)
 	@echo "vfull ./$(DEBUG)"
