@@ -131,9 +131,9 @@ run: all
 	@clear
 	@./minishell
 
-run_valgrind: all
+run_valgrind: all #--show-leak-kinds=all
 	@clear
-	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
+	valgrind --leak-check=full --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
 
 ### ---   ---   ---         ---   ---   --- ###
 #                    DEBUG                    #

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/29 19:32:12 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 20:14:19 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int		ft_exit(t_cmd *cmd);
 int		ft_echo(t_cmd *cmd);
 
 // builtins/builtins.c
-int		ft_builtins(t_cmd *cmd, t_cmd_lst *full);
+void	ft_builtins(t_cmd *cmd, t_cmd_lst *full);
 
 t_bool	ft_check_output(t_cmd_lst *cmd);
 
