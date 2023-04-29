@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 22:22:07 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 23:12:09 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,25 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp)
 {
 	int		pid;
 	t_cmd	*cmd;
+	char	**envp_arr;
 
 	pid = fork();
 	if (pid)
 		return (pid);
 	cmd = get_cmd(cmd_lst);
+	envp_arr = build_envp(envp);
+	if (!cmd->cmd || !cmd->args || !envp_arr)
+		return (ft_error_in_cmd(cmd_lst, full));
 	if (!ft_open_all_files(cmd) || ft_join_input(cmd) == INVALID)
 		return (ft_error_in_cmd(cmd_lst, full));
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
 	ft_close_all_fds(full);
 	ft_builtins(cmd, full);
-
 	if (!ft_get_path(cmd, envp))
-	{
-		ft_free_cmd_lst(full);
-		exit(INVALID);
-	}
-
-	ft_printf_fd(2, "******************* Executing *******************\n");
-	ft_printf_fd(2, "cmd: %s\n", cmd->cmd);
-	char **envp_arr = build_envp(envp); // TODO malloc
+		return (ft_free_cmd_lst(full), exit(INVALID), INVALID);
+	ft_printf_fd(2, "-- executing --> cmd: %s\n", cmd->cmd);
 	execve(cmd->cmd, cmd->args, envp_arr);
 	ft_free_array(envp_arr);
-	ft_printf_fd(2, "Error executing execve!\n"); // TODO
+	ft_printf_fd(2, "<-- error -- execve failed\n"); // TODO remove
 	return (exit(INVALID), INVALID); // TODO error code?
 }

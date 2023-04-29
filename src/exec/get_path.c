@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:58 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 23:05:58 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 23:14:36 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ static t_bool	ft_handle_cmd(t_cmd *cmd, char **path)
 		{
 			free(cmd->cmd);
 			cmd->cmd = path_cmd;
-			ft_printf_fd(2, "Command found: %s\n", cmd->cmd); // TODO remove
 			return (true);
 		}
 		free(path_cmd);

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 21:26:13 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 23:14:21 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	ft_builtins(t_cmd *cmd, t_cmd_lst *full)
 	else if (ft_strcmp(cmd->cmd, "cd") == 0)
 		exit_code = TODO(cmd);
 	// 	exit_code = ft_cd(cmd);
-	// else if (ft_strcmp(cmd->cmd, "pwd") == 0)
-	// 	exit_code = TODO(cmd);
+	else if (ft_strcmp(cmd->cmd, "pwd") == 0)
+		exit_code = TODO(cmd);
 	// 	exit_code = ft_pwd(cmd);
 	else if (ft_strcmp(cmd->cmd, "export") == 0)
 		exit_code = TODO(cmd);
