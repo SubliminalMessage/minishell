@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 19:31:32 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 20:03:54 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,27 @@ static void	ft_redirect_io(int *fd_in, int *fd_out)
 }
 
 /**
+ * @brief Handles when the command could not be set up correctly.
+ * 
+ * @note This command ends the execution of the calling process.
+ * The function returns a value so it can be used in a return statement,
+ * making the code more readable.
+ * 
+ * @note sends EOF to the pipe / output fd
+ * 
+ * @param cmd_lst current command.
+ * @param full full list of commands.
+ * @return int INVALID.
+ */
+static int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
+{
+	write(get_file(ft_lstlast(get_cmd(cmd_lst)->out))->fd, "", 1);
+	ft_close_all_fds(full);
+	ft_free_cmd_lst(full);
+	return (exit(INVALID), INVALID);
+}
+
+/**
  * @brief Executes the command in a child process.
  * @note The full list is needed to finish the execution in case of error.
  * 
@@ -59,16 +80,12 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp)
 	if (pid)
 		return (pid);
 	cmd = get_cmd(cmd_lst);
-	if (!ft_open_all_files(cmd))
-		return (INVALID * 2); // TODO refactor INVALID logic
-	if (ft_join_input(cmd) == INVALID)
-		return (INVALID * 2);
+	if (!ft_open_all_files(cmd) || ft_join_input(cmd) == INVALID)
+		return (ft_error_in_cmd(cmd_lst, full));
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
 	ft_close_all_fds(full);
-	if (ft_builtins(cmd, full) == INVALID)
-		return (INVALID * 4);
+	ft_builtins(cmd, full);  // TODO needs handleling?
 	// TODO check path with env
-	// ? no command given
 	ft_printf_fd(2, "******************* Executing *******************\n");
 	char **envp_arr = build_envp(envp); // TODO malloc
 	execve(cmd->cmd, cmd->args, envp_arr);
