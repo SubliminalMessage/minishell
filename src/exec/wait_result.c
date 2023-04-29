@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:17:14 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 22:51:18 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 22:24:10 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
  * @param pids Array of pids to wait for.
  * @return int Exit status of the last pid.
  */
+// TODO: echo "hey there!" | cat | cat | wc -> 0 but 113 found
 int	ft_wait_result(int *pids)
 {
 	int		i;

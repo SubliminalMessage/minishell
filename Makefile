@@ -55,6 +55,7 @@ SRC_FILES	= 	main.c \
 				exec/builtins/exit.c \
 				exec/builtins/echo.c \
 				exec/exe_cmd.c \
+				exec/get_path.c \
 				exec/run.c \
 				exec/wait_result.c \
 				exec/openfile.c \
