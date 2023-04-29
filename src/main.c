@@ -6,13 +6,13 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/27 21:26:05 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 18:27:47 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int g_status_code;
+int g_status_code; // TODO remove
 
 /**
  * @brief If no output file is specified, stdout should be used.
@@ -110,7 +110,7 @@ int main(void)
 	{
         cmd_lst = NULL;
 		input = get_input();
-		if (!input)
+		if (!input) // TODO handle ctrl + D
 			continue;
 		int i = 0;
 		while (input[i])
@@ -145,7 +145,7 @@ int main(void)
 		printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
 		
-		g_status_code = run(cmd_lst); // Does not work if the executabe does not have the correct path :)
+		g_status_code = run(cmd_lst, envp);
 		printf("run finished. Result code: %d\n", g_status_code);
 	}
 	printf("exit\n");

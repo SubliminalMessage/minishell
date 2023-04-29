@@ -50,7 +50,8 @@ SRC_FILES	= 	main.c \
 				utils/file.c \
 				utils/get.c \
 				utils/env_variables.c \
-                utils/str_utils.c \
+				utils/str_utils.c \
+				exec/builtins.c \
 				exec/exe_cmd.c \
 				exec/run.c \
 				exec/wait_result.c \
