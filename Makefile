@@ -51,7 +51,9 @@ SRC_FILES	= 	main.c \
 				utils/get.c \
 				utils/env_variables.c \
 				utils/str_utils.c \
-				exec/builtins.c \
+				exec/builtins/builtins.c \
+				exec/builtins/exit.c \
+				exec/builtins/echo.c \
 				exec/exe_cmd.c \
 				exec/run.c \
 				exec/wait_result.c \

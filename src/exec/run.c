@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 19:04:58 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 19:38:44 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ int	run(t_cmd_lst *cmd, t_env_lst *envp)
 		return (INVALID);
 	if (ft_lstsize(cmd) == 1 && ft_strcmp(get_cmd(cmd)->cmd, "exit") == 0)
 	{
-		i = ft_exit(get_cmd(cmd));
 		close_fds_free(cmd);
-		exit(i);
+		exit(ft_exit(get_cmd(cmd)));
 	}
 	i = 0;
 	pids = ft_calloc(sizeof(pid_t) , 2 + 1);

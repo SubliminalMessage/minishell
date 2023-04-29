@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 19:05:20 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 19:31:32 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ static void	ft_redirect_io(int *fd_in, int *fd_out)
  * @param envp List with the environment variables.
  * @return int INVALID if error, the pid of the child process otherwise.
  */
-// TODO builtins
-// ? ? builtin and args
 int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp)
 {
 	int		pid;

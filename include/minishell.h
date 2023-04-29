@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/29 19:07:32 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 19:32:12 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,13 @@ t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identifier);
 
 // ----------------- exec directory -----------------
 
-// builtins.c
+// builtins/exit.c
 int		ft_exit(t_cmd *cmd);
+
+// builtins/echo.c
 int		ft_echo(t_cmd *cmd);
+
+// builtins/builtins.c
 int		ft_builtins(t_cmd *cmd, t_cmd_lst *full);
 
 t_bool	ft_check_output(t_cmd_lst *cmd);
