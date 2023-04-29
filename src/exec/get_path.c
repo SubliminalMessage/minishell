@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:58 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 22:31:09 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 23:05:58 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ static char	*ft_make_path(char *path, char *cmd)
 	return (str);
 }
 
-static t_bool	ft_absolute_path(char *path)
-{
-	return (ft_strnstr(path, "/", ft_strlen(path)) != NULL);
-}
-
+/**
+ * @brief Checks if the given path is a directory.
+ * 
+ * @param path The path to check.
+ * @return t_bool
+ */
 static t_bool	ft_is_dir(char *path)
 {
 	struct stat	buf;
@@ -54,42 +55,82 @@ static t_bool	ft_is_dir(char *path)
 	return (S_ISDIR(buf.st_mode));
 }
 
-t_bool	ft_get_path(t_cmd *cmd, t_env_lst *envp)
+/**
+ * @brief Handles the case when the command does not need the $PATH.
+ * @note this function does not check absolute paths necessarily.
+ * It checks all commands that contain a '/', like "./", "../".
+ *
+ * @param cmd The command to use.
+ * @return t_bool true if the command is valid, false otherwise.
+ */
+static t_bool	ft_handle_absolute_path(char *cmd)
 {
-	char	**path;
-	char	*path_cmd;
-	int		i;
-
-	if (ft_absolute_path(cmd->cmd))
+	if (ft_is_dir(cmd))
 	{
-		if (ft_is_dir(cmd->cmd))
-		{
-			ft_printf_fd(2, "minishell: %s: Is a directory\n", cmd->cmd); // TODO refactor
-			return (false);
-		}
-		if (access(cmd->cmd, X_OK) == 0)
-			return (true);
-		ft_printf_fd(2, "minishell: %s: Permission denied\n", cmd->cmd); // TODO refactor
+		ft_printf_fd(2, "minishell: %s: Is a directory\n", cmd); // TODO refactor
 		return (false);
 	}
-	path = ft_split(ft_getenv(envp, "PATH"), ':');
-	if (!path)
-		return (false);
+	if (access(cmd, X_OK) == 0)
+		return (true);
+	ft_printf_fd(2, "minishell: %s: Permission denied\n", cmd); // TODO refactor
+	return (false);
+}
+
+/**
+ * @brief Attempts to find the command in the $PATH array given
+ * @note Updates the cmd->cmd to the path of the command if found.
+ * 
+ * @param cmd
+ * @param path
+ * @return t_bool true if the command is valid, false otherwise.
+ */
+static t_bool	ft_handle_cmd(t_cmd *cmd, char **path)
+{
+	int		i;
+	char	*path_cmd;
+
 	i = 0;
 	while (path[i])
 	{
 		path_cmd = ft_make_path(path[i], cmd->cmd);
 		if (!path_cmd)
-			return (ft_free_array(path), false);
-		if (access(path_cmd, X_OK) == 0)
+			return (false);
+		if (!ft_is_dir(path_cmd) && access(path_cmd, X_OK) == 0)
 		{
 			free(cmd->cmd);
 			cmd->cmd = path_cmd;
-			return (ft_free_array(path), true);
+			ft_printf_fd(2, "Command found: %s\n", cmd->cmd); // TODO remove
+			return (true);
 		}
 		free(path_cmd);
 		i++;
 	}
 	ft_printf_fd(2, "minishell: %s: command not found\n", cmd->cmd); // TODO refactor
-	return (ft_free_array(path), false);
+	return (false);
+}
+
+/**
+ * @brief Checks if the command with the given environment variables
+ * can be executed.
+ * @note The command is updated to the path of the command if found.
+ * @note Expects the cmd->cmd to be allocated.
+ * 
+ * @param cmd Command to check.
+ * @param envp Environment variables to use.
+ * @return t_bool true if the command is valid, false otherwise.
+ */
+t_bool	ft_get_path(t_cmd *cmd, t_env_lst *envp)
+{
+	t_bool	r;
+	char	**path;
+
+	if (!cmd || !cmd->cmd)
+		return (false);
+	if (ft_strnstr(cmd->cmd, "/", ft_strlen(cmd->cmd)) != NULL)
+		return (ft_handle_absolute_path(cmd->cmd));
+	path = ft_split(ft_getenv(envp, "PATH"), ':');
+	if (!path)
+		return (false);
+	r = ft_handle_cmd(cmd, path);
+	return (ft_free_array(path), r);
 }
