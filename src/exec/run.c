@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/27 20:12:50 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 20:11:59 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ static void	close_fds_free(t_cmd_lst *cmd)
  * TODO error code?
  * 
  * @param cmd List of commands.
+ * @param envp List of environment variables.
  * @return int INVALID if error, the exit code of the last command otherwise.
  */
-int	run(t_cmd_lst *cmd)
+int	run(t_cmd_lst *cmd, t_env_lst *envp)
 {
 	int			i;
 	t_cmd_lst	*ite;
@@ -38,6 +39,8 @@ int	run(t_cmd_lst *cmd)
 
 	if (!cmd)
 		return (INVALID);
+	if (ft_lstsize(cmd) == 1 && ft_strcmp(get_cmd(cmd)->cmd, "exit") == 0)
+		return (close_fds_free(cmd), exit(ft_exit(get_cmd(cmd))), 0);
 	i = 0;
 	pids = ft_calloc(sizeof(pid_t) , 2 + 1);
 	if (!pids)
@@ -45,20 +48,12 @@ int	run(t_cmd_lst *cmd)
 	ite = cmd;
 	while (ite)
 	{
-		pids[i] = ft_exe_cmd(ite, cmd);
-		// TODO can fail with fork, execve or invalid command
+		pids[i] = ft_exe_cmd(ite, cmd, envp);
 		if (pids[i] == INVALID) // Fork error
 		{
 			ft_printf_fd(2, "\nError: fork failed.\n"); // TODO debug
 			// TODO ? kill all children
-			return (close_fds_free(cmd), exit(42), INVALID); // TODO error code
-		}
-		if (pids[i] == INVALID * 2) // Child with error
-		{
-			ft_printf_fd(2, "\nChild with error\n"); // TODO debug
-			// send send EOF to the pipe
-			write(get_file(ft_lstlast(get_cmd(ite)->out))->fd, "", 1); // TODO refactor?
-			return (close_fds_free(cmd), exit(42), INVALID); // TODO error code
+			return (close_fds_free(cmd), exit(INVALID), INVALID);
 		}
 		++i;
 		ite = ite->next;

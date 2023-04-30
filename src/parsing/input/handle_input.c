@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/27 20:45:38 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 20:28:07 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,8 @@ char	**get_input(void)
 
 	print_parse_error(NULL, true);
 	raw_input = readline("minishell > ");
-	if (!raw_input)
+	if (!raw_input) // TODO handle exit with ctrl + D
 		return (NULL);
-	if (str_equals(raw_input, "exit"))
-	{
-		// system("leaks -q minishell"); // TODO remove
-		exit(0);
-	}
 	add_history(raw_input);
 	input = join_three(ft_strdup(" "), raw_input, ft_strdup(" "));
 	if (!is_valid_input(input))

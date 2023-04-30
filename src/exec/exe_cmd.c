@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/27 22:02:39 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 23:12:09 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,80 +41,25 @@ static void	ft_redirect_io(int *fd_in, int *fd_out)
 	}
 }
 
-int	ft_echo(t_cmd *cmd)
+/**
+ * @brief Handles when the command could not be set up correctly.
+ * 
+ * @note This command ends the execution of the calling process.
+ * The function returns a value so it can be used in a return statement,
+ * making the code more readable.
+ * 
+ * @note sends EOF to the pipe / output fd
+ * 
+ * @param cmd_lst current command.
+ * @param full full list of commands.
+ * @return int INVALID.
+ */
+static int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 {
-	int	i;
-	t_bool	n;
-
-	i = 1;
-	n = true;
-	if (cmd->args[i] && ft_strncmp(cmd->args[i], "-n", 2) == 0)
-	{
-		n = false;
-		i++;
-	}
-	while (cmd->args[i])
-	{
-		ft_putstr_fd(cmd->args[i], STDOUT);
-		if (cmd->args[i + 1])
-			ft_putchar_fd(' ', STDOUT);
-		i++;
-	}
-	if (n)
-		ft_putchar_fd('\n', STDOUT);
-	return (0);
-}
-
-int ft_exit(t_cmd *cmd)
-{
-	int	exit_code;
-
-	// TODO if no pipes, FULL exit
-	exit_code = 0;
-	if (!cmd->args[1])
-		exit_code = 0;
-	else if (cmd->args[1] && !cmd->args[2])
-	{
-		exit_code = 2;
-		if (ft_isnbr(cmd->args[1]))
-			exit_code = (int) ((char) ft_atoi(cmd->args[1]));
-		else
-			ft_printf_fd(2, "exit: %s: numeric argument required\n", cmd->args[1]); // TODO refactor msg. perror?
-	}
-	else
-	{
-		ft_printf_fd(2, "exit: too many arguments\n"); // TODO refactor. perror?
-		exit_code = 1;
-	}
-	return (exit_code);
-}
-
-int ft_handle_specials(t_cmd *cmd, t_cmd_lst *full)
-{
-	int	exit_code;
-
-	exit_code = 0;
-	if (cmd->cmd == NULL)
-		ft_copyall(STDIN, STDOUT);
-	else if (ft_strncmp(cmd->cmd, "echo", 4) == 0)
-		exit_code = ft_echo(cmd);
-	else if (ft_strcmp(cmd->cmd, "exit") == 0)
-		exit_code = ft_exit(cmd);
-	// else if (ft_strcmp(cmd->cmd, "cd") == 0)
-	// 	exit_code = ft_cd(cmd);
-	// else if (ft_strcmp(cmd->cmd, "pwd") == 0)
-	// 	exit_code = ft_pwd(cmd);
-	// else if (ft_strcmp(cmd->cmd, "export") == 0)
-	// 	exit_code = ft_export(cmd);
-	// else if (ft_strcmp(cmd->cmd, "unset") == 0)
-	// 	exit_code = ft_unset(cmd);
-	// else if (ft_strcmp(cmd->cmd, "env") == 0)
-	// 	exit_code = ft_env(cmd);
-	else
-		return (0);
+	write(get_file(ft_lstlast(get_cmd(cmd_lst)->out))->fd, "", 1);
+	ft_close_all_fds(full);
 	ft_free_cmd_lst(full);
-	exit(exit_code);
-	return (INVALID);
+	return (exit(INVALID), INVALID);
 }
 
 /**
@@ -123,33 +68,32 @@ int ft_handle_specials(t_cmd *cmd, t_cmd_lst *full)
  * 
  * @param cmd_lst List element with the command to execute.
  * @param full List with all the commands.
+ * @param envp List with the environment variables.
  * @return int INVALID if error, the pid of the child process otherwise.
  */
-// TODO builtins
-// ? ? builtin and args
-int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
+int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp)
 {
 	int		pid;
 	t_cmd	*cmd;
+	char	**envp_arr;
 
 	pid = fork();
 	if (pid)
 		return (pid);
 	cmd = get_cmd(cmd_lst);
-	if (!ft_open_all_files(cmd))
-		return (INVALID * 2); // TODO refactor INVALID logic
-	if (ft_join_input(cmd) == INVALID)
-		return (INVALID * 2);
+	envp_arr = build_envp(envp);
+	if (!cmd->cmd || !cmd->args || !envp_arr)
+		return (ft_error_in_cmd(cmd_lst, full));
+	if (!ft_open_all_files(cmd) || ft_join_input(cmd) == INVALID)
+		return (ft_error_in_cmd(cmd_lst, full));
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
 	ft_close_all_fds(full);
-	if (ft_handle_specials(cmd, full) == INVALID)
-		return (INVALID * 4);
-	// TODO check path with env
-	// ? no command given
-	ft_printf_fd(2, "******************* Executing *******************\n");
-	//char **envp = build_envp(envp);
-	execve(cmd->cmd, cmd->args, NULL); // NULL -> envp tol royo
-	//free_array_double(envp)
-	ft_printf_fd(2, "Error executing execve!\n"); // TODO
-	return (INVALID * 2);
+	ft_builtins(cmd, full);
+	if (!ft_get_path(cmd, envp))
+		return (ft_free_cmd_lst(full), exit(INVALID), INVALID);
+	ft_printf_fd(2, "-- executing --> cmd: %s\n", cmd->cmd);
+	execve(cmd->cmd, cmd->args, envp_arr);
+	ft_free_array(envp_arr);
+	ft_printf_fd(2, "<-- error -- execve failed\n"); // TODO remove
+	return (exit(INVALID), INVALID); // TODO error code?
 }

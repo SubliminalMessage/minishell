@@ -50,8 +50,12 @@ SRC_FILES	= 	main.c \
 				utils/file.c \
 				utils/get.c \
 				utils/env_variables.c \
-                utils/str_utils.c \
+				utils/str_utils.c \
+				exec/builtins/builtins.c \
+				exec/builtins/exit.c \
+				exec/builtins/echo.c \
 				exec/exe_cmd.c \
+				exec/get_path.c \
 				exec/run.c \
 				exec/wait_result.c \
 				exec/openfile.c \
@@ -128,9 +132,9 @@ run: all
 	@clear
 	@./minishell
 
-run_valgrind: all
+run_valgrind: all #--show-leak-kinds=all
 	@clear
-	valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
+	valgrind --leak-check=full --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
 
 ### ---   ---   ---         ---   ---   --- ###
 #                    DEBUG                    #

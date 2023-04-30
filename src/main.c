@@ -6,13 +6,13 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/27 21:26:05 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/29 23:40:58 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int g_status_code;
+int g_status_code; // TODO remove
 
 /**
  * @brief If no output file is specified, stdout should be used.
@@ -38,6 +38,20 @@ t_bool	ft_check_output(t_cmd_lst *cmd)
 	return (true);
 }
 
+void	print_file(void *file_void)
+{
+	t_file *file;
+
+	// file = get_file((t_file_lst *) file_lst);
+	file = (t_file *) file_void;
+	if (file->type == STD_FTYPE)
+		printf("(stdin/stdout)-> ");
+	else if (file->type == HEREDOC_FTYPE)
+		printf("(heredoc: %s)-> ", file->name);
+	else
+		printf("(%s)-> ", file->name);
+}
+
 void	print_cmd(t_cmd *cmd)
 {
 	printf("\n\n[CMD]:\n");
@@ -46,7 +60,7 @@ void	print_cmd(t_cmd *cmd)
 		printf("\t(null)\n");
 		return ;
 	}
-    printf("\tExec: ·%s·\n", cmd->cmd);
+	printf("\tExec: ·%s·\n", cmd->cmd);
 	printf("\tArgs: [");
 	int i = 0;
 	while (cmd->args[i] && cmd->args[i + 1])
@@ -57,21 +71,11 @@ void	print_cmd(t_cmd *cmd)
 	printf("·%s·];\n", cmd->args[i]);
 
 	printf("\tFiles In:  ");
-	t_file_lst *node_in = cmd->in;
-	while (node_in)
-	{
-		printf("(%s)-> ", ((t_file *)node_in->content)->name);
-		node_in = node_in->next;
-	}
+	ft_lstiter(cmd->in, print_file);
 	printf("(<null>);\n");
 
 	printf("\tFiles Out: ");
-	t_file_lst *node_out = cmd->out;
-	while (node_out)
-	{
-		printf("(%s)-> ", ((t_file *)node_out->content)->name);
-		node_out = node_out->next;
-	}
+	ft_lstiter(cmd->out, print_file);
 	printf("(<null>);\n\n");
 }
 
@@ -110,18 +114,15 @@ int main(void)
 	{
         cmd_lst = NULL;
 		input = get_input();
-		if (!input)
+		if (!input) // TODO handle ctrl + D
 			continue;
 		int i = 0;
 		while (input[i])
 		{
-            node = parse_command_node(envp, input[i]);
-            if (!node)
-                break ;
-            ft_lstadd_back(&cmd_lst, node);
-			//////// DEBUG ////////
-			/**/print_cmd(node->content);/**/
-			//////// DEBUG ////////
+			node = parse_command_node(envp, input[i]);
+			if (!node)
+				break ;
+			ft_lstadd_back(&cmd_lst, node);
 			i++;
 		}
 		free(input);
@@ -133,6 +134,12 @@ int main(void)
 
 		/////////////////////////// DEBUG ///////////////////////////
 		t_cmd_lst *lst = cmd_lst;
+		while (lst)
+		{
+			/**/print_cmd(node->content);/**/
+			lst = lst->next;
+		}
+		lst = cmd_lst;
 		int x = 0;
 		printf("CMDS: \n");
 		while (lst)
@@ -145,7 +152,7 @@ int main(void)
 		printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
 		
-		g_status_code = run(cmd_lst); // Does not work if the executabe does not have the correct path :)
+		g_status_code = run(cmd_lst, envp);
 		printf("run finished. Result code: %d\n", g_status_code);
 	}
 	printf("exit\n");

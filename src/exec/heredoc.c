@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:06:49 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/27 20:57:39 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:54:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,13 @@ t_bool	ft_handle_here_doc(t_file *file)
 		if (!line)
 			return (ft_close_fd(&p[1]), ft_close_fd(&p[0]), false);
 		if (ft_isdelimeter(file->name, line))
+		{
+			free(line);
 			break ;
+		}
 		ft_putstr_fd(line, p[1]);
 		free(line);
 	}
-	free(line);
 	ft_close_fd(&p[1]);
 	file->fd = p[0];
 	return (true);
