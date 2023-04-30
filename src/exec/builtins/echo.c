@@ -6,20 +6,42 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:14:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 19:20:20 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/04/30 10:49:06 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 /**
+ * @brief Checks if the given flag is -n.
+ * 
+ * @note In the original bash implementation, the flag can be repeated
+ * as many times as the user wants.
+ * Therefore, `echo -n -nnnnnn -n hey` is the same as `echo -n hey`.
+ * 
+ * @param flag 
+ * @return t_bool 
+ */
+t_bool	ft_is_minus_n(char *flag)
+{
+	int	i;
+
+	if (!flag || ft_strncmp(flag, "-n", 2) != 0)
+		return (false);
+	i = 2;
+	while (flag[i])
+	{
+		if (flag[i++] != 'n')
+			return (false);
+	}
+	return (true);
+}
+
+/**
  * @brief echo builtin.
  * 
  * @note usage: echo [-n] [string ...]
  * 
- * TODO -nnnnnnnnnnn should be implemented?
- * - If the -n option is present, it works like in bash.
- * - Adding the logic to handle it is not worth it without any more flags.
  * 
  * @param cmd command struct.
  * @return int exit code.
@@ -31,7 +53,7 @@ int	ft_echo(t_cmd *cmd)
 
 	i = 1;
 	n = true;
-	if (cmd->args[i] && ft_strcmp(cmd->args[i], "-n") == 0)
+	while (ft_is_minus_n(cmd->args[i]))
 	{
 		n = false;
 		i++;
