@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:55:49 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:15:02 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,7 @@ t_file		*ft_openfiles(t_file_lst *lst);
 t_bool		ft_open_all_files(t_cmd *cmd);
 
 // pipes.c
-int			*ft_create_pipes(int amount_cmds);
-t_bool		ft_add_pipes(t_cmd_lst *cmd, int *fds);
+t_bool	ft_add_pipes(t_cmd_lst *cmd);
 
 // run.c
 void		run(t_cmd_lst *cmd, t_env_lst *envp);

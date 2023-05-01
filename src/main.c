@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:56:03 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:19:59 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,21 +132,8 @@ int main(void)
 
 		/////////////////////////// DEBUG ///////////////////////////
 
-		int	*fds = ft_create_pipes(ft_lstsize(cmd_lst));
-		if (!fds || !ft_add_pipes(cmd_lst, fds))
-		{
-			printf("ha petao :(!\n");
-			ft_free_cmd_lst(cmd_lst);
-			continue ;
-		}
-
+		ft_lstiter(cmd_lst, (void (*)(void *)) print_cmd);
 		t_cmd_lst *lst = cmd_lst;
-		while (lst)
-		{
-			/**/print_cmd(lst->content);/**/
-			lst = lst->next;
-		}
-		lst = cmd_lst;
 		int x = 0;
 		printf("CMDS: \n");
 		while (lst)
