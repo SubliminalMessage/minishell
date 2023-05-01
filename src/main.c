@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/29 23:40:58 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:28:35 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_bool	ft_check_output(t_cmd_lst *cmd)
 	t_cmd		*last_cmd;
 	t_file_lst	*new_fd;
 
+	if (!cmd)
+		return (false);
 	last_cmd = get_cmd(ft_lstlast(cmd));
 	if (ft_lstsize(last_cmd->out) > 0)
 		return (true);
