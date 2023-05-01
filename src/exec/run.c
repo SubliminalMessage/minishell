@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 14:31:09 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:43:36 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ static void	close_free_exit(t_cmd_lst *cmd, int exit_code)
 {
 	close_fds_free(cmd);
 	exit(exit_code);
+}
+
+static void	kill_all_children(pid_t *pids)
+{
+	int	i;
+
+	i = 0;
+	while (pids[i])
+		kill(pids[i++], SIGKILL);
+	free(pids);
 }
 
 /**
@@ -57,9 +67,7 @@ void	run(t_cmd_lst *cmd, t_env_lst *envp)
 		pids[i] = ft_exe_cmd(ite, cmd, envp);
 		if (pids[i] == INVALID) // Fork error
 		{
-			ft_printf_fd(2, "\nError: fork failed.\n"); // TODO debug
-			// TODO ? kill all children
-			// return (close_fds_free(cmd), exit(INVALID), INVALID);
+			kill_all_children(pids);
 			close_free_exit(cmd, INVALID);
 		}
 		++i;
