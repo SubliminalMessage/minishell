@@ -84,7 +84,7 @@ char	last_char(char *str)
 	if (!str)
 		return ('\0');
 	len = ft_strlen(str);
-	if (len <= 0)
+	if (len == 0)
 		return (str[0]);
 	return (str[len - 1]);
 }
