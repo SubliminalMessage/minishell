@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:45:54 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/25 16:15:29 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:20:18 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,23 @@ char	*ft_chardup(const char c)
 	str[0] = c;
 	str[1] = '\0';
 	return (str);
+}
+/**
+ * @brief Given a string, returns the last character
+ * 
+ * @param str, the String to read
+ * 
+ * @return char, the last character of the string. If the string is Empty ("")
+ *         or NULL, it will be '\0'.
+*/
+char	last_char(char *str)
+{
+	size_t	len;
+
+	if (!str)
+		return ('\0');
+	len = ft_strlen(str);
+	if (len <= 0)
+		return (str[0]);
+	return (str[len - 1]);
 }

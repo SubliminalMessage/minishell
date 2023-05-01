@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:27:57 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:29:07 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void		print_parse_error_str(char *msg, char *str);
 t_bool		is_redirection(char *string);
 int			get_redirection_type(char *redirection);
 t_bool		is_valid_argument(char *string);
-t_file		*create_file(char *identifier, int redirection_type);
+t_bool		create_file(t_file **file, char *identifier, int redirection_type);
 t_bool		contains_outside_quotes(char *str, char *c);
 int			index_of_outside_quotes(char *str, char *c);
 
@@ -213,5 +213,14 @@ char		**ft_split_quote_conscious(const char *s, char split_char);
 char		*join_two(char *a, char *b);
 char		*join_three(char *a, char *b, char *c);
 char		*ft_chardup(const char c);
+char		last_char(char *str);
+
+// todo
+
+void	split_redirection(char **arg, char **redir);
+t_bool	handle_redirection_argument(char **arg, char **redir);
+void	get_next_redirection(char **identifier, char **leftover);
+void	add_redirection_back(t_cmd **cmd, int redir_type, t_file *file);
+
 
 #endif
