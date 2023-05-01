@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:28:35 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:06:35 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-int g_status_code; // TODO remove
 
 /**
  * @brief If no output file is specified, stdout should be used.
@@ -135,13 +133,9 @@ int main(void)
 		}
 
 		/////////////////////////// DEBUG ///////////////////////////
+
+		ft_lstiter(cmd_lst, (void (*)(void *)) print_cmd);
 		t_cmd_lst *lst = cmd_lst;
-		while (lst)
-		{
-			/**/print_cmd(node->content);/**/
-			lst = lst->next;
-		}
-		lst = cmd_lst;
 		int x = 0;
 		printf("CMDS: \n");
 		while (lst)
@@ -153,9 +147,9 @@ int main(void)
 		}
 		printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
-		
-		g_status_code = run(cmd_lst, envp);
-		printf("run finished. Result code: %d\n", g_status_code);
+
+		run(cmd_lst, envp);
+		printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
 	}
 	printf("exit\n");
 

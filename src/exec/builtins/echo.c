@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:14:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/30 10:49:06 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 15:16:27 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ int	ft_echo(t_cmd *cmd)
 		n = false;
 		i++;
 	}
-	while (cmd->args[i])
+	while (cmd->args[i] && cmd->args[i + 1])
 	{
-		ft_putstr_fd(cmd->args[i], STDOUT);
-		if (cmd->args[i + 1])
-			ft_putchar_fd(' ', STDOUT);
-		i++;
+		ft_putstr_fd(cmd->args[i++], STDOUT);
+		ft_putchar_fd(' ', STDOUT);
 	}
+	if (cmd->args[i])
+		ft_putstr_fd(cmd->args[i], STDOUT);
 	if (n)
 		ft_putchar_fd('\n', STDOUT);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:41:41 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 22:53:47 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:15:19 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param amount_cmds Amount of commands.
  * @return int* Array of pipes (read, write, read...) or NULL if error.
  */
-int	*ft_create_pipes(int amount_cmds)
+static int	*ft_create_pipes(int amount_cmds)
 {
 	int	pipes_size;
 	int	*fds;
@@ -47,32 +47,36 @@ int	*ft_create_pipes(int amount_cmds)
  * @brief Links the commands with the given pipes.
  * 
  * @param cmd Command list.
- * @param fds Array of pipes (read, write, read...)
  * @return t_bool false if error, true otherwise.
  */
-t_bool	ft_add_pipes(t_cmd_lst *cmd, int *fds)
+t_bool	ft_add_pipes(t_cmd_lst *cmd)
 {
 	int			i;
 	int			cmd_amount;
+	int			*pipes;
 	t_cmd_lst	*new;
 	t_cmd_lst	*tmp;
 
+
 	i = 0;
 	cmd_amount = ft_lstsize(cmd);
+	pipes = ft_create_pipes(cmd_amount);
+	if (!pipes)
+		return (false);
 	tmp = cmd;
 	while (i < cmd_amount - 1)
 	{
-		new = ft_lstnew(ft_newpipefd(fds[i * 2 + 1]));
+		new = ft_lstnew(ft_newpipefd(pipes[i * 2 + 1]));
 		if (!new)
-			return (free(fds), false);
+			return (free(pipes), false);
 		ft_lstadd_back(&get_cmd(tmp)->out, new);
 
-		new = ft_lstnew(ft_newpipefd(fds[i * 2]));
+		new = ft_lstnew(ft_newpipefd(pipes[i * 2]));
 		if (!new)
-			return (free(fds), false);
+			return (free(pipes), false);
 		ft_lstadd_back(&get_cmd(tmp->next)->in, new);
 		tmp = tmp->next;
 		i++;
 	}
-	return (free(fds), true);
+	return (free(pipes), true);
 }

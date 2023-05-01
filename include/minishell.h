@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:29:07 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:03:30 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <fcntl.h> // Open, close
 # include <sys/wait.h> // fork, WEXITSTATUS
 # include <sys/stat.h> // stat
+ #include <signal.h> // kill
 
 // Custom headers
 
@@ -68,6 +69,12 @@
 # define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
 # define NO_FILE_OR_DIR "minishell: %s: No such file or directory"
 # define HEREDOC_PROMPT "heredoc> "
+# define IS_DIR_MSG "minishell: %s: Is a directory\n"
+# define PERMISSION_DENIED_MSG "minishell: %s: Permission denied\n"
+# define EXIT_MSG "exit\n"
+# define EXIT_ARG_NUM_MSG "exit: %s: numeric argument required\n"
+# define EXIT_NUM_ARGS_MSG "exit: too many arguments\n"
+# define CMD_NOT_FOUND_MSG "minishell: %s: command not found\n"
 
 // CWD Max String Size
 //# define CWD_SIZE 1000
@@ -161,11 +168,10 @@ t_file		*ft_openfiles(t_file_lst *lst);
 t_bool		ft_open_all_files(t_cmd *cmd);
 
 // pipes.c
-int			*ft_create_pipes(int amount_cmds);
-t_bool		ft_add_pipes(t_cmd_lst *cmd, int *fds);
+t_bool	ft_add_pipes(t_cmd_lst *cmd);
 
 // run.c
-int			run(t_cmd_lst *cmd, t_env_lst *envp);
+void		run(t_cmd_lst *cmd, t_env_lst *envp);
 
 // wait_result.c
 int			ft_wait_result(int *pids);
