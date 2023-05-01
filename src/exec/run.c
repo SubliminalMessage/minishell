@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 14:43:36 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 15:06:11 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,20 @@ static void	kill_all_children(pid_t *pids)
 	while (pids[i])
 		kill(pids[i++], SIGKILL);
 	free(pids);
+}
+
+static void ft_store_result_code(int result_code, t_env_lst *envp)
+{
+	t_bool	updated;
+	char	*result_code_str;
+
+	result_code_str = ft_itoa(result_code);
+	if (!result_code_str)
+		exit(INVALID);
+	updated = update_env(&envp, "?", result_code_str, false);
+	free(result_code_str);
+	if (!updated)
+		exit(INVALID);
 }
 
 /**
@@ -73,9 +87,6 @@ void	run(t_cmd_lst *cmd, t_env_lst *envp)
 		++i;
 		ite = ite->next;
 	}
-	// return (close_fds_free(cmd), ft_wait_result(pids));
 	close_fds_free(cmd);
-	// TODO store exit code in envp
-	i = ft_wait_result(pids);
-	printf("run finished. Result code: %d\n", i);
+	ft_store_result_code(ft_wait_result(pids), envp);
 }

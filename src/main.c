@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 14:22:15 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:58:09 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ int main(void)
 		/////////////////////////// DEBUG ///////////////////////////
 		
 		run(cmd_lst, envp);
+		printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
 	}
 	printf("exit\n");
 
