@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 17:48:18 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:38:32 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp)
 	envp_arr = build_envp(envp);
 	if (!cmd->cmd || !cmd->args || !envp_arr)
 		return (ft_error_in_cmd(cmd_lst, full));
-	if (!ft_open_all_files(cmd) || ft_join_input(cmd) == INVALID)
+	// if (!ft_open_all_files(cmd) || ft_join_input(cmd) == INVALID)
+	// 	return (ft_error_in_cmd(cmd_lst, full));
+	if (!ft_ready_input(cmd))
 		return (ft_error_in_cmd(cmd_lst, full));
 	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
 	ft_close_all_fds(full);

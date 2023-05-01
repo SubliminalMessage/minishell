@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:41:41 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 18:15:19 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:48:36 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ t_bool	ft_add_pipes(t_cmd_lst *cmd)
 		new = ft_lstnew(ft_newpipefd(pipes[i * 2]));
 		if (!new)
 			return (free(pipes), false);
-		ft_lstadd_back(&get_cmd(tmp->next)->in, new);
+		// ft_lstadd_back(&get_cmd(tmp->next)->in, new);
+		ft_lstadd_front(&get_cmd(tmp->next)->in, new);
 		tmp = tmp->next;
 		i++;
 	}
