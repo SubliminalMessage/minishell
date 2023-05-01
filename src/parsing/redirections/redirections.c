@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:24:38 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:10:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,15 @@ t_bool	fill_redirections(t_cmd **cmd)
 	(*cmd)->args = clean_nulls((*cmd)->args);
 	return (save_redirection_single_arg(cmd, redirs));
 }
-
+/**
+ * @brief Auxiliar function of 'save_redirection_single_arg()', due to
+ *        Norminette's rules :(
+ * 		  Given a 'single-argument redirection', calls to
+ *        'save_redirection_double()' with the proper arguments, and
+ *        cleans everything up.
+ * 
+ * @return t_bool, whether if everything did work out OK or not
+*/
 t_bool	save_and_clear_single_arg(t_cmd **cmd, char *redir, size_t redir_end)
 {
 	char	*redirection;
