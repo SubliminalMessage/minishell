@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 14:58:09 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:47:12 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,15 @@ int main(void)
 		}
 
 		/////////////////////////// DEBUG ///////////////////////////
+
+		int	*fds = ft_create_pipes(ft_lstsize(cmd_lst));
+		if (!fds || !ft_add_pipes(cmd_lst, fds))
+		{
+			printf("ha petao :(!\n");
+			ft_free_cmd_lst(cmd_lst);
+			continue ;
+		}
+
 		t_cmd_lst *lst = cmd_lst;
 		while (lst)
 		{
@@ -149,7 +158,7 @@ int main(void)
 		}
 		printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
-		
+
 		run(cmd_lst, envp);
 		printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
 	}

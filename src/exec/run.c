@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 15:06:11 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:13:07 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	run(t_cmd_lst *cmd, t_env_lst *envp)
 	if (ft_lstsize(cmd) == 1 && ft_strcmp(get_cmd(cmd)->cmd, "exit") == 0)
 		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
 	i = 0;
-	pids = ft_calloc(sizeof(pid_t) , 2 + 1);
+	pids = ft_calloc(sizeof(pid_t), 2 + 1);
 	if (!pids)
 		close_free_exit(cmd, INVALID);
 	ite = cmd;
