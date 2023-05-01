@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/29 21:58:16 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:19:40 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,12 @@
 # define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
 # define NO_FILE_OR_DIR "minishell: %s: No such file or directory"
 # define HEREDOC_PROMPT "heredoc> "
+# define IS_DIR_MSG "minishell: %s: Is a directory\n"
+# define PERMISSION_DENIED_MSG "minishell: %s: Permission denied\n"
+# define EXIT_MSG "exit\n"
+# define EXIT_ARG_NUM_MSG "exit: %s: numeric argument required\n"
+# define EXIT_NUM_ARGS_MSG "exit: too many arguments\n"
+# define CMD_NOT_FOUND_MSG "minishell: %s: command not found\n"
 
 // CWD Max String Size
 # define CWD_SIZE 1000

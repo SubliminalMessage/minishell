@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:58 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 23:14:36 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:17:32 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ static t_bool	ft_handle_absolute_path(char *cmd)
 {
 	if (ft_is_dir(cmd))
 	{
-		ft_printf_fd(2, "minishell: %s: Is a directory\n", cmd); // TODO refactor
+		ft_printf_fd(2, IS_DIR_MSG, cmd);
 		return (false);
 	}
 	if (access(cmd, X_OK) == 0)
 		return (true);
-	ft_printf_fd(2, "minishell: %s: Permission denied\n", cmd); // TODO refactor
+	ft_printf_fd(2, PERMISSION_DENIED_MSG, cmd);
 	return (false);
 }
 
@@ -104,7 +104,7 @@ static t_bool	ft_handle_cmd(t_cmd *cmd, char **path)
 		free(path_cmd);
 		i++;
 	}
-	ft_printf_fd(2, "minishell: %s: command not found\n", cmd->cmd); // TODO refactor
+	ft_printf_fd(2, CMD_NOT_FOUND_MSG, cmd->cmd);
 	return (false);
 }
 
