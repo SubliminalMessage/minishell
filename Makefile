@@ -36,6 +36,8 @@ SRC_FILES	= 	main.c \
 				parsing/input/input_utils.c \
 				parsing/environment/environment.c \
 				parsing/environment/environment_utils.c \
+				parsing/redirections/redirection_quote_utils.c \
+				parsing/redirections/redirection_save_utils.c \
 				parsing/redirections/redirection_utils.c \
 				parsing/redirections/redirections.c \
 				parsing/expansion/command_expansion.c \

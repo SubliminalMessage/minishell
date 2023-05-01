@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 23:32:53 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:10:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,60 +22,56 @@
 */
 t_bool	fill_redirections(t_cmd **cmd)
 {
-	char	**argv;
+	char	*redirs;
 	int		i;
 
 	if (!cmd || !*cmd || !(*cmd)->args)
 		return (false);
-	argv = (*cmd)->args;
 	i = -1;
-	while (argv[++i])
+	redirs = ft_strdup("");
+	while (((*cmd)->args)[++i])
 	{
-		if (is_redirection(argv[i]))
+		if (!is_valid_argument(((*cmd)->args)[i]))
 		{
-			if (!save_redirection(cmd, &argv[i], &argv[i + 1]))
-				return (false);
-		}
-		else if (!is_valid_argument(argv[i]))
+			free(redirs);
 			return (false);
+		}
+		if (handle_redirection_argument(&((*cmd)->args)[i], &redirs))
+			break ;
+	}
+	if (ft_hasany("<>", last_char(redirs)))
+	{
+		print_parse_error_str(INV_TKN_MSG" `", ft_chardup(last_char(redirs)));
+		free(redirs);
+		return (false);
 	}
 	(*cmd)->args = clean_nulls((*cmd)->args);
-	return (true);
+	return (save_redirection_single_arg(cmd, redirs));
 }
-
 /**
- * @brief Given two arguments of a command, being one of them a redirection,
- * 		  saves it into the command.
+ * @brief Auxiliar function of 'save_redirection_single_arg()', due to
+ *        Norminette's rules :(
+ * 		  Given a 'single-argument redirection', calls to
+ *        'save_redirection_double()' with the proper arguments, and
+ *        cleans everything up.
  * 
- * @param cmd, the Command where the redirection will be saved to
- * @param first_arg, the First Argument (normally, the redirection, e.g.: '>')
- * @param second_arg, the Second Argument (normally, the file name)
- * 
- * @return t_bool, whether if everything went OK or not.
+ * @return t_bool, whether if everything did work out OK or not
 */
-t_bool	save_redirection(t_cmd **cmd, char **first_arg, char **second_arg)
+t_bool	save_and_clear_single_arg(t_cmd **cmd, char *redir, size_t redir_end)
 {
+	char	*redirection;
+	char	*redirects_to;
 	t_bool	did_work;
-	char	*a;
+	size_t	redir_length;
 
-	a = *first_arg;
-	if (str_equals(a, ">") || str_equals(a, ">>")
-		|| str_equals(a, "<") || str_equals(a, "<<"))
-	{
-		did_work = save_redirection_double(cmd, *first_arg, *second_arg);
-		if (!did_work)
-			return (false);
-		free(*first_arg);
-		*first_arg = ft_strdup("");
-		*second_arg = ft_strdup("");
-		return (true);
-	}
-	did_work = save_redirection_single_arg(cmd, *first_arg);
-	if (did_work)
-	{
-		free(*first_arg);
-		*first_arg = ft_strdup("");
-	}
+	redir_length = ft_strlen(redir);
+	redirection = ft_substr(redir, 0, redir_end);
+	redirects_to = ft_substr(redir, redir_end, redir_length);
+	did_work = save_redirection_double(cmd, redirection, redirects_to);
+	free(redirection);
+	if (!did_work)
+		free(redirects_to);
+	free(redir);
 	return (did_work);
 }
 
@@ -92,26 +88,23 @@ t_bool	save_redirection_single_arg(t_cmd **cmd, char *redir)
 {
 	size_t	redir_length;
 	size_t	redir_end;
-	char	*redirection;
-	char	*redirects_to;
-	t_bool	did_work;
 
 	redir_length = ft_strlen(redir);
+	if (redir_length <= 0)
+	{
+		free(redir);
+		return (true);
+	}
 	redir_end = 1;
 	if (redir_length >= 2 && (redir[1] == '>' || redir[1] == '<'))
 		redir_end++;
 	if (redir_end == 2 && redir[0] != redir[1])
 	{
 		print_parse_error_str(INV_TKN_MSG" `", ft_chardup(redir[1]));
+		free(redir);
 		return (false);
 	}
-	redirection = ft_substr(redir, 0, redir_end);
-	redirects_to = ft_substr(redir, redir_end, redir_length);
-	did_work = save_redirection_double(cmd, redirection, redirects_to);
-	free(redirection);
-	if (!did_work)
-		free(redirects_to);
-	return (did_work);
+	return (save_and_clear_single_arg(cmd, redir, redir_end));
 }
 
 /**
@@ -127,6 +120,7 @@ t_bool	save_redirection_single_arg(t_cmd **cmd, char *redir)
 t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identifier)
 {
 	int		redir_type;
+	char	*leftover;
 	t_file	*file;
 
 	if (!identifier || identifier[0] == '>' || identifier[0] == '<')
@@ -138,15 +132,16 @@ t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identifier)
 		return (false);
 	}
 	redir_type = get_redirection_type(redir);
-	file = create_file(identifier, redir_type);
-	if (!file)
+	get_next_redirection(&identifier, &leftover);
+	if (!create_file(&file, identifier, redir_type))
 	{
 		print_parse_error(ERROR_MALLOC, false);
+		if (leftover)
+			free(leftover);
 		return (false);
 	}
-	if (redir_type == TRUNC_FTYPE || redir_type == APPEND_FTYPE)
-		ft_lstadd_back(&(*cmd)->out, ft_lstnew(file));
-	else if (redir_type == READ_FTYPE || redir_type == HEREDOC_FTYPE)
-		ft_lstadd_back(&(*cmd)->in, ft_lstnew(file));
+	add_redirection_back(cmd, redir_type, file);
+	if (leftover != NULL)
+		return (save_redirection_single_arg(cmd, leftover));
 	return (true);
 }
