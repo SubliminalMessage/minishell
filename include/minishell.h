@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 14:19:40 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:23:13 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int			*ft_create_pipes(int amount_cmds);
 t_bool		ft_add_pipes(t_cmd_lst *cmd, int *fds);
 
 // run.c
-int			run(t_cmd_lst *cmd, t_env_lst *envp);
+void		run(t_cmd_lst *cmd, t_env_lst *envp);
 
 // wait_result.c
 int			ft_wait_result(int *pids);

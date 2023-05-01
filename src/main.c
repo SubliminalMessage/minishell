@@ -6,13 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/29 23:40:58 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:22:15 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-int g_status_code; // TODO remove
 
 /**
  * @brief If no output file is specified, stdout should be used.
@@ -152,8 +150,7 @@ int main(void)
 		printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
 		
-		g_status_code = run(cmd_lst, envp);
-		printf("run finished. Result code: %d\n", g_status_code);
+		run(cmd_lst, envp);
 	}
 	printf("exit\n");
 

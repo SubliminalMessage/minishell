@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 14:09:47 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:31:09 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,34 @@ static void	close_fds_free(t_cmd_lst *cmd)
 	ft_free_cmd_lst(cmd);
 }
 
+static void	close_free_exit(t_cmd_lst *cmd, int exit_code)
+{
+	close_fds_free(cmd);
+	exit(exit_code);
+}
+
 /**
  * @brief Runs the command given by the list.
- * TODO error code?
+ * TODO check what is needed to handle $?
  * 
  * @param cmd List of commands.
  * @param envp List of environment variables.
  * @return int INVALID if error, the exit code of the last command otherwise.
  */
-int	run(t_cmd_lst *cmd, t_env_lst *envp)
+void	run(t_cmd_lst *cmd, t_env_lst *envp)
 {
 	int			i;
 	t_cmd_lst	*ite;
 	pid_t		*pids;
 
 	if (!cmd)
-		return (INVALID);
+		return ;
 	if (ft_lstsize(cmd) == 1 && ft_strcmp(get_cmd(cmd)->cmd, "exit") == 0)
-	{
-		i = ft_exit(get_cmd(cmd));
-		return (close_fds_free(cmd), exit(i), 0);
-	}
+		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
 	i = 0;
 	pids = ft_calloc(sizeof(pid_t) , 2 + 1);
 	if (!pids)
-		return (close_fds_free(cmd), INVALID);
+		close_free_exit(cmd, INVALID);
 	ite = cmd;
 	while (ite)
 	{
@@ -56,10 +59,15 @@ int	run(t_cmd_lst *cmd, t_env_lst *envp)
 		{
 			ft_printf_fd(2, "\nError: fork failed.\n"); // TODO debug
 			// TODO ? kill all children
-			return (close_fds_free(cmd), exit(INVALID), INVALID);
+			// return (close_fds_free(cmd), exit(INVALID), INVALID);
+			close_free_exit(cmd, INVALID);
 		}
 		++i;
 		ite = ite->next;
 	}
-	return (close_fds_free(cmd), ft_wait_result(pids));
+	// return (close_fds_free(cmd), ft_wait_result(pids));
+	close_fds_free(cmd);
+	// TODO store exit code in envp
+	i = ft_wait_result(pids);
+	printf("run finished. Result code: %d\n", i);
 }
