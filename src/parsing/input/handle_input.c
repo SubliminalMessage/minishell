@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/29 20:28:07 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:51:09 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 		ft_free_cmd(cmd);
 		return (NULL);
 	}
-	if (cmd->args)
+	if (cmd->args && cmd->args[0])
 		cmd->cmd = ft_strdup(cmd->args[0]);
 	cmd->fd_in = INVALID;
 	return (cmd);

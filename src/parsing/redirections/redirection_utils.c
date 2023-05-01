@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:15:42 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/25 21:17:31 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:09:53 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,14 @@ int	get_redirection_type(char *redirection)
 */
 t_bool	is_valid_argument(char *string)
 {
-	if (contains_outside_quotes(string, ';'))
+	int	idx;
+
+	idx = index_of_outside_quotes(string, ";\\");
+	if (idx != -1)
+	{
+		print_parse_error_str(INV_TKN_MSG" `", ft_chardup(string[idx]));
 		return (false);
-	if (contains_outside_quotes(string, '\\'))
-		return (false);
+	}
 	return (true);
 }
 
@@ -71,51 +75,20 @@ t_bool	is_valid_argument(char *string)
  * 
  * @note Not to be confused with 'ft_newfile()'
  * 
+ * @param file, a pointer to the file (where it will be saved)
  * @param identifier, the identifier of the redirection (e.g.: 'end')
  * @param redirection_type, the redirection type, (e.g.: HEREDOC_FTYPE)
  * 
- * @return t_file*, the file created.
+ * @return t_bool, whether the file was created successfully or not.
 */
-t_file	*create_file(char *identifier, int redirection_type)
+t_bool	create_file(t_file **file, char *identifier, int redirection_type)
 {
+	*file = NULL;
 	if (redirection_type == HEREDOC_FTYPE)
-		return (ft_new_here_doc(dequote(identifier)));
-	return (ft_newfile(identifier, redirection_type));
-}
-
-/**
- * @brief Given a string and a character, checks if that character is present
- *        in the string, but outside quotes.
- * 
- * @brief str, the String to check
- * @brief c, the Char to look for
- * 
- * @return t_bool, whether the character is present and outside quotes, or not
-*/
-t_bool	contains_outside_quotes(char *str, char c)
-{
-	char	in_quote;
-	int		i;
-
-	if (c == '\'' || c == '"')
-		return (false);
-	in_quote = '\0';
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '"')
-		{
-			if (str[i] == in_quote)
-				in_quote = '\0';
-			else if (in_quote == '\0')
-				in_quote = str[i];
-		}
-		if (str[i] == c && in_quote == '\0')
-		{
-			print_parse_error_str(INV_TKN_MSG" `", ft_chardup(c));
-			return (true);
-		}
-		i++;
-	}
+		*file = ft_new_here_doc(dequote(identifier));
+	else
+		*file = ft_newfile(identifier, redirection_type);
+	if (*file)
+		return (true);
 	return (false);
 }
