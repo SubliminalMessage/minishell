@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:58 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 23:14:36 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:10:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,15 @@ t_bool	ft_get_path(t_cmd *cmd, t_env_lst *envp)
 {
 	t_bool	r;
 	char	**path;
+	char	*variable;
 
 	if (!cmd || !cmd->cmd)
 		return (false);
 	if (ft_strnstr(cmd->cmd, "/", ft_strlen(cmd->cmd)) != NULL)
 		return (ft_handle_absolute_path(cmd->cmd));
-	path = ft_split(ft_getenv(envp, "PATH"), ':');
+	variable = ft_strdup(ft_getenv(envp, "PATH"));
+	path = ft_split(variable, ':');
+	free(variable);
 	if (!path)
 		return (false);
 	r = ft_handle_cmd(cmd, path);

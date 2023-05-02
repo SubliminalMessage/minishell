@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:12:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 19:31:02 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:07:59 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ft_exit(t_cmd *cmd)
 	int	exit_code;
 
 	ft_putstr_fd("exit\n", STDOUT); // TODO refactor msg
+	system("leaks -q minishell"); // TODO remove
 	exit_code = 0;
 	if (!cmd->args[1])
 		exit_code = 0;

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:29:07 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:07:22 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@
 
 # include <libft.h>
 # include <structures.h>
+
+// Global Variable
+int	g_status_code;
 
 // Custom defines
 

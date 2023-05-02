@@ -6,13 +6,11 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:28:35 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:12:17 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-int g_status_code; // TODO remove
 
 /**
  * @brief If no output file is specified, stdout should be used.
