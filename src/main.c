@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/04 18:14:15 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:14:42 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,16 @@ t_cmd_lst   *parse_command_node(t_env_lst *envp, char *input)
     return (node);
 }
 
-int main(void)
+int main(int argc, char **argv, char **environ)
 {
 	char        **input;
 	t_env_lst   *envp;
     t_cmd_lst   *cmd_lst;
     t_cmd_lst   *node;
 
-	envp = init_env();
+	(void) argc;
+	(void) argv;
+	envp = init_env(environ);
 	if (!envp)
 		return (1);
 	

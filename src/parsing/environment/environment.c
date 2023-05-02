@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/02 14:09:53 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:15:30 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,12 @@ void	init_zero_variable(t_env_lst **envp)
  * @brief Initializes the t_env_lst that will be used all through the Shell
  *        to expand Variables and such.
  * 
+ * @param environ, the Environment List from the main()
+ * 
  * @return t_env_lst, the List created. NULL if something failed.
 */
-t_env_lst	*init_env(void)
+t_env_lst	*init_env(char **environ)
 {
-	extern char	**environ;
 	t_env_lst	*envp;
 	t_env_lst	*node;
 	int			i;
