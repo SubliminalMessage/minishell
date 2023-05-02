@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/02 14:07:22 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:15:42 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_env_lst	*new_env_node_splitted(char *key, char *value, t_bool visible);
 
 // environment/environment.c
 void		init_zero_variable(t_env_lst **envp);
-t_env_lst	*init_env(void);
+t_env_lst	*init_env(char **environ);
 t_env_lst	*new_env_node(char *string, t_bool is_visible);
 
 // expansion/command_expansion.c
