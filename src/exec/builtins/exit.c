@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/04 18:18:46 by dangonza         ###   ########.fr       */
+/*   Created: 2023/04/29 19:12:27 by jre-gonz          #+#    #+#             */
+/*   Updated: 2023/05/29 19:13:17 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	ft_exit(t_cmd *cmd)
 {
 	int	exit_code;
 
-	ft_putstr_fd(EXIT_MSG, STDOUT);
+	ft_putstr_fd("exit\n", STDOUT); // TODO refactor msg
+	system("leaks -q minishell"); // TODO remove
+	exit_code = 0;
 	if (!cmd->args[1])
 		exit_code = 0;
 	else if (cmd->args[1] && !cmd->args[2])

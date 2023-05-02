@@ -6,11 +6,37 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/29 19:12:47 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:13:45 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+/**
+ * @brief If no output file is specified, stdout should be used.
+ * @note If no ouput is specified, a new fd representing stdout is created.
+ * @note The case of stdin does not need to be checked.
+ * 
+ * @param cmd Structure containing the command.
+ * @return int false if error, true otherwise.
+ */
+t_bool	ft_check_output(t_cmd_lst *cmd)
+{
+	t_cmd		*last_cmd;
+	t_file_lst	*new_fd;
+
+	if (!cmd)
+		return (false);
+	last_cmd = get_cmd(ft_lstlast(cmd));
+	if (ft_lstsize(last_cmd->out) > 0)
+		return (true);
+	new_fd = ft_lstnew(ft_newpipefd(STDOUT));
+	if (!new_fd)
+		return (false);
+	get_file(new_fd)->type = STD_FTYPE;
+	ft_lstadd_back(&last_cmd->out, new_fd);
+	return (true);
+}
 
 void	print_file(void *file_void)
 {
