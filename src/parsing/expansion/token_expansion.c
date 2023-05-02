@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:44:22 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/25 15:41:28 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:09:12 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i)
 	if (tkn_len == 0)
 		return (ft_strdup(str));
 	token = ft_substr(str, 1, tkn_len);
-	variable = ft_strdup(ft_getenv(envp, token));
+	variable = ft_getenv(envp, token);
 	*i += ft_strlen(variable);
 	result = join_two(variable, ft_substr(str, tkn_len + 1, ft_strlen(str)));
 	free(token);
@@ -127,7 +127,7 @@ char	*expand_custom_tkn(char *str, t_env_lst *envp, size_t *i)
 	else if (str_equals(token, "#"))
 		variable = ft_strdup("0");
 	else
-		variable = ft_strdup(ft_getenv(envp, token));
+		variable = ft_getenv(envp, token);
 	free(token);
 	if (!result || !variable)
 	{
