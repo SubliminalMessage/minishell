@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:58:17 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/04 18:00:06 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:09:17 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,10 @@ void	set_heredoc_signals(void)
 	signal(SIGINT, SIG_DFL); // Default behaviour (quit program) // TODO: Remove the ^C (??)
 	signal(SIGQUIT, SIG_IGN);
 }
+/* // TODO: Use this function once the execution of 'infinite' commands (such as 'cat', or 'top') works well
+void	set_son_signals(void)
+{
+	signal(SIGINT, SIG_DFL); // Default behaviour (quit program)
+	signal(SIGQUIT, SIG_DFL); // Default behaviour (quit program)
+}
+*/
