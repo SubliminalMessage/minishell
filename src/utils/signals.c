@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:58:17 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/04 17:53:58 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:00:06 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,10 @@ void	set_readline_signals(void)
 {
 	signal(SIGINT, handle_readline_signal);
 	signal(SIGQUIT, SIG_IGN); // Ignore
+}
+
+void	set_heredoc_signals(void)
+{
+	signal(SIGINT, SIG_DFL); // Default behaviour (quit program) // TODO: Remove the ^C (??)
+	signal(SIGQUIT, SIG_IGN);
 }

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/04 18:17:02 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:17:48 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	g_status_code;
 
 void	rl_replace_line(const char *text, int clear_undo);
 void	set_readline_signals(void);
+void	set_heredoc_signals(void);
 
 // All the functions
 // ----------------- parsing directory -----------------
