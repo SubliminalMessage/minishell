@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/04 18:14:42 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:17:15 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,14 @@ int main(int argc, char **argv, char **environ)
 	if (!envp)
 		return (1);
 	
+	// Test
+	set_readline_signals();
+	///////
 	while (true)
 	{
         cmd_lst = NULL;
 		input = get_input();
-		if (!input) // TODO handle ctrl + D
+		if (!input)
 			continue;
 		int i = 0;
 		while (input[i])

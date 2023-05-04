@@ -4,7 +4,7 @@
 
 CC	= gcc
 CFLAGS	= -Wall -Werror -Wextra #-g3 -fsanitize=address
-READLINE_FLAGS = -lreadline
+READLINE_FLAGS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$(USER)/.brew/opt/readline/include
 
 ### ---   ---   ---         ---   ---   --- ###
 #               PROJECT PATHS                 #
@@ -53,6 +53,7 @@ SRC_FILES	= 	main.c \
 				utils/get.c \
 				utils/env_variables.c \
 				utils/str_utils.c \
+				utils/signals.c \
 				exec/builtins/builtins.c \
 				exec/builtins/exit.c \
 				exec/builtins/echo.c \

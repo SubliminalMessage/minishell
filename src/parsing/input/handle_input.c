@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 18:51:09 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/04 17:48:39 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ char	**get_input(void)
 	char	**splitted;
 
 	print_parse_error(NULL, true);
-	raw_input = readline("minishell > ");
-	if (!raw_input) // TODO handle exit with ctrl + D
-		return (NULL);
+	raw_input = readline(RL_PROMPT);
+	if (!raw_input) // Ctrl + D
+	{
+		printf("exit\n"); // TODO: Exit should be written on the same line (??)
+		exit(g_status_code);
+	}
 	add_history(raw_input);
 	input = join_three(ft_strdup(" "), raw_input, ft_strdup(" "));
 	if (!is_valid_input(input))

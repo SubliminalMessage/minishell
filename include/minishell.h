@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/04 18:14:47 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:17:02 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	g_status_code;
 # define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
 # define NO_FILE_OR_DIR "minishell: %s: No such file or directory"
 # define HEREDOC_PROMPT "heredoc> "
+# define RL_PROMPT "minishell > "
 # define IS_DIR_MSG "minishell: %s: Is a directory\n"
 # define PERMISSION_DENIED_MSG "minishell: %s: Permission denied\n"
 # define EXIT_MSG "exit\n"
@@ -81,6 +82,10 @@ int	g_status_code;
 
 // CWD Max String Size
 //# define CWD_SIZE 1000
+# define DEL_SIG "\b\b\033[K"
+
+void	rl_replace_line(const char *text, int clear_undo);
+void	set_readline_signals(void);
 
 // All the functions
 // ----------------- parsing directory -----------------
