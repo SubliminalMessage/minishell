@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 20:38:32 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/10 22:29:31 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,42 @@
 #define STDOUT 1
 
 /**
- * @brief Set's the given file descriptors as stdin and stdout.
- * Closes the given file descriptors.
- *
- * Note: Both fd_in and fd_out must be valid fds.
- * Note: dup2 is not checked because it can only fail if:
+ * @brief Redirects the given file descriptors with dup2. Closes the fd
+ * once it's setup on the new fd.
+ * 
+ * @note - Both fds must be valid.
+ * @note - dup2 is not checked because it can only fail if:
  * "If oldfd is not a valid file descriptor, then the call fails, and newfd is
  * not closed."
- *
- * @param fd_in File descriptor for stdin.
- * @param fd_out File descriptor for stdout.
+ * @note - The fds must be different. If not, this function will do nothing.
+ * In this project, this condition is always met.
+ * 
+ * @param fd_new The new file descriptor to use.
+ * @param fd_old The old file descriptor to close (example: STDIN)
  */
-static void	ft_redirect_io(int *fd_in, int *fd_out)
+static void ft_redirect(int *fd_new, int fd_old)
 {
-	if (*fd_in != STDIN)
+	if (*fd_new != fd_old)
 	{
-		dup2(*fd_in, STDIN);
-		ft_close_fd(fd_in);
+		dup2(*fd_new, fd_old);
+		ft_close_fd(fd_new);
 	}
-	if (*fd_out != STDOUT)
-	{
-		dup2(*fd_out, STDOUT);
-		ft_close_fd(fd_out);
-	}
+}
+
+/**
+ * @brief Set the appropriate file descriptors as stdin and stdout to execute
+ * the given command.
+ * 
+ * @note Keep in mind that the redirect will only be done if needed.
+ * 
+ * @param cmd The command to execute.
+ */
+static void	ft_redirect_io(t_cmd *cmd)
+{
+	if (cmd->in)
+		ft_redirect(&get_file(ft_lstlast(cmd->in))->fd, STDIN);
+	if (cmd->out)
+		ft_redirect(&get_file(ft_lstlast(cmd->out))->fd, STDOUT);
 }
 
 /**
@@ -82,18 +95,14 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp)
 		return (pid);
 	cmd = get_cmd(cmd_lst);
 	envp_arr = build_envp(envp);
-	if (!cmd->cmd || !cmd->args || !envp_arr)
+	if (!cmd->cmd || !cmd->args || !envp_arr || !ft_open_all_files(cmd))
 		return (ft_error_in_cmd(cmd_lst, full));
-	// if (!ft_open_all_files(cmd) || ft_join_input(cmd) == INVALID)
-	// 	return (ft_error_in_cmd(cmd_lst, full));
-	if (!ft_ready_input(cmd))
-		return (ft_error_in_cmd(cmd_lst, full));
-	ft_redirect_io(&cmd->fd_in, &get_file(cmd->out)->fd);
+	ft_redirect_io(cmd);
 	ft_close_all_fds(full);
 	ft_builtins(cmd, full);
 	if (!ft_get_path(cmd, envp))
 		return (ft_free_cmd_lst(full), exit(INVALID), INVALID);
-	ft_printf_fd(2, "-- executing --> cmd: %s\n", cmd->cmd);
+	ft_printf_fd(2, "-- executing --> cmd: %s\n", cmd->cmd); // TODO remove
 	execve(cmd->cmd, cmd->args, envp_arr);
 	ft_free_array(envp_arr);
 	ft_printf_fd(2, "<-- error -- execve failed\n"); // TODO remove
