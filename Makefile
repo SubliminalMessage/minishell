@@ -62,8 +62,7 @@ SRC_FILES	= 	main.c \
 				exec/wait_result.c \
 				exec/openfile.c \
 				exec/heredoc.c \
-				exec/pipes.c \
-				exec/ready_input.c
+				exec/pipes.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
