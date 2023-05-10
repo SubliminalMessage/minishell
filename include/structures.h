@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 21:45:33 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/10 22:55:20 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef struct s_cmd
 {
 	char	*cmd;
 	char	**args;
-	// char	**envp; // TODO
 	/**
 	 * Input files (linked list). The whole collection of fds to consider
 	 * for the fd_in.
@@ -90,13 +89,9 @@ typedef struct s_cmd
 	 */
 	t_file_lst	*in;
 	/**
-	 * File descriptor used as input.
-	*/
-	int		fd_in;
-	/**
 	 * Output files (Linked list).
 	 * @note The pipe's fd with the output will be on the last position (if existing).
-	 * @note The content is sent to the first element of this list.
+	 * @note The content is sent to the last element of this list.
 	 */
 	t_file_lst	*out;
 }	t_cmd;

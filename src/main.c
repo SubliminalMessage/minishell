@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/29 19:12:30 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:12:47 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,22 +108,22 @@ int main(int argc, char **argv, char **environ)
 
 		/////////////////////////// DEBUG ///////////////////////////
 
-		ft_lstiter(cmd_lst, (void (*)(void *)) print_cmd);
-		t_cmd_lst *lst = cmd_lst;
-		int x = 0;
-		printf("CMDS: \n");
-		while (lst)
-		{
-			t_cmd *cmd_node = lst->content;
-			printf("\t:: [%d] -> ·%s·\n", x, cmd_node->cmd);
-			x++;
-			lst = lst->next;
-		}
-		printf("\n\n");
+		// ft_lstiter(cmd_lst, (void (*)(void *)) print_cmd);
+		// t_cmd_lst *lst = cmd_lst;
+		// int x = 0;
+		// printf("CMDS: \n");
+		// while (lst)
+		// {
+		// 	t_cmd *cmd_node = lst->content;
+		// 	printf("\t:: [%d] -> ·%s·\n", x, cmd_node->cmd);
+		// 	x++;
+		// 	lst = lst->next;
+		// }
+		// printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
 
 		run(cmd_lst, envp);
-		printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
+		// printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
 	}
 	printf("exit\n");
 

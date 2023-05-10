@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/10 22:29:31 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/10 23:15:05 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,7 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp)
 	ft_builtins(cmd, full);
 	if (!ft_get_path(cmd, envp))
 		return (ft_free_cmd_lst(full), exit(INVALID), INVALID);
-	ft_printf_fd(2, "-- executing --> cmd: %s\n", cmd->cmd); // TODO remove
 	execve(cmd->cmd, cmd->args, envp_arr);
 	ft_free_array(envp_arr);
-	ft_printf_fd(2, "<-- error -- execve failed\n"); // TODO remove
 	return (exit(INVALID), INVALID); // TODO error code?
 }

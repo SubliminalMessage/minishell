@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 18:13:00 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/10 23:13:56 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static void ft_store_result_code(int result_code, t_env_lst *envp)
 
 /**
  * @brief Runs the command given by the list.
- * TODO check what is needed to handle $?
  * 
  * @param cmd List of commands.
  * @param envp List of environment variables.

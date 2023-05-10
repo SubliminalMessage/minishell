@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/04 17:48:39 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:12:42 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /**
  * @brief Prints a Prompt on the screen and let the user type freely.
  * 		  Stores the line in the history. Clears the print_parse_error() funct.
- * 		  TODO: If the readline is exactly 'exit' it exits the minishell.
  * 		  Splits the line read by pipes ('|') and returns the result
  * 
  * @return char**, the line read splitted by pipes (array of raw commands)
@@ -120,6 +119,5 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 	}
 	if (cmd->args && cmd->args[0])
 		cmd->cmd = ft_strdup(cmd->args[0]);
-	cmd->fd_in = INVALID;
 	return (cmd);
 }
