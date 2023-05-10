@@ -74,7 +74,7 @@ void	run(t_cmd_lst *cmd, t_env_lst *envp)
 	if (ft_lstsize(cmd) == 1 && ft_strcmp(get_cmd(cmd)->cmd, "exit") == 0)
 		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
 	i = 0;
-	pids = ft_calloc(sizeof(pid_t), 2 + 1);
+	pids = ft_calloc(sizeof(pid_t), ft_lstsize(cmd) + 1); // TODO
 	if (!pids)
 		close_free_exit(cmd, INVALID);
 	ite = cmd;
