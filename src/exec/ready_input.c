@@ -6,11 +6,12 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:25:53 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 22:57:39 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/10 22:27:33 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+// TODO Remove file if really not needed
 
 /**
  * @brief Makes the input ready for the command.
