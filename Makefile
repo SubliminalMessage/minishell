@@ -144,40 +144,19 @@ run_valgrind: all #--show-leak-kinds=all
 #                    DEBUG                    #
 ### ---   ---   ---         ---   ---   --- ###
 
-DEBUG		=	debug
-
-DEBUG_FILES	=	utils/clean_cmd.c \
-				utils/copy_all.c \
-				exec/exe_cmd.c \
-				utils/file.c \
-				utils/get.c \
-				exec/join_input.c \
-				debug/main.c \
-				exec/run.c \
-				exec/wait_result.c \
-				exec/openfile.c \
-				exec/heredoc.c \
-				exec/pipes.c
-
-DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
-
-$(DEBUG): $(DEBUG_OBJS) $(LIBFT)
-	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
-	@$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
-
-test_signal:
-	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
-	$(CC) $(CFLAGS) src/debug/test/signal.c -o $(DEBUG)
-	./$(DEBUG)
-
-test_strerror:
-	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
-	$(CC) $(CFLAGS) src/debug/test/strerror.c -o $(DEBUG)
-	./$(DEBUG)
-
 docker:
 	docker run -it --rm -v $(PWD):/docker jkutkut/docker4c
 
-exec_dev: $(DEBUG)
-	@echo "vfull ./$(DEBUG)"
-	@valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)
+# TESTER=../42_minishell_tester/tester.sh
+TESTER=${HOME}/42_minishell_tester/tester.sh
+# TESTER_REPO=git@github.com:zstenger93/42_minishell_tester.git
+TESTER_REPO=https://github.com/zstenger93/42_minishell_tester.git
+
+run_tester: $(TESTER) all
+	@echo "Use this syntax to pass arguments to the tester:"
+	@echo "make run_tester ARGS=\"-h\""
+	@echo $(BLUE)"[Running Tester]"$(WHITE)$(NC)
+	bash $(TESTER) $(ARGS)
+
+$(TESTER):
+	@git clone $(TESTER_REPO) $(dir $(TESTER))
