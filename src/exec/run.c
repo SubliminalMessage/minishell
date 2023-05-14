@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 18:13:00 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/10 23:13:56 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static void ft_store_result_code(int result_code, t_env_lst *envp)
 
 /**
  * @brief Runs the command given by the list.
- * TODO check what is needed to handle $?
  * 
  * @param cmd List of commands.
  * @param envp List of environment variables.
@@ -74,7 +73,7 @@ void	run(t_cmd_lst *cmd, t_env_lst *envp)
 	if (ft_lstsize(cmd) == 1 && ft_strcmp(get_cmd(cmd)->cmd, "exit") == 0)
 		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
 	i = 0;
-	pids = ft_calloc(sizeof(pid_t), 2 + 1);
+	pids = ft_calloc(sizeof(pid_t), ft_lstsize(cmd) + 1); // TODO
 	if (!pids)
 		close_free_exit(cmd, INVALID);
 	ite = cmd;

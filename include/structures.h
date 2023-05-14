@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/23 16:33:49 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/10 22:55:20 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,22 +80,18 @@ typedef struct s_cmd
 {
 	char	*cmd;
 	char	**args;
-	// char	**envp; // TODO
 	/**
-	 * Input files (linked list).
+	 * Input files (linked list). The whole collection of fds to consider
+	 * for the fd_in.
 	 * 
-	 * @note The pipe's fd with the input will be on the first position (if existing).
-	 * @note All are concatenated into fd_in before execution.
+	 * @note If no pipe as input, All are concatenated into fd_in.
+	 * @note If pipe as input, the last element is used.
 	 */
 	t_file_lst	*in;
 	/**
-	 * File descriptor used as input.
-	*/
-	int		fd_in;
-	/**
 	 * Output files (Linked list).
 	 * @note The pipe's fd with the output will be on the last position (if existing).
-	 * @note The content is sent to the first element of this list.
+	 * @note The content is sent to the last element of this list.
 	 */
 	t_file_lst	*out;
 }	t_cmd;

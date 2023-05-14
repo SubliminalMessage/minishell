@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 20:03:30 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:42:57 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,6 @@ t_bool		ft_get_path(t_cmd *cmd, t_env_lst *envp);
 // heredoc.c
 t_bool		ft_handle_here_doc(t_file *file);
 
-// join_input.c
-int			ft_join_input(t_cmd	*cmd);
-
 // openfile.c
 t_bool		ft_openfile(t_file *file);
 t_file		*ft_openfiles(t_file_lst *lst);
@@ -169,6 +166,9 @@ t_bool		ft_open_all_files(t_cmd *cmd);
 
 // pipes.c
 t_bool	ft_add_pipes(t_cmd_lst *cmd);
+
+// ready_input.c
+t_bool		ft_ready_input(t_cmd *cmd);
 
 // run.c
 void		run(t_cmd_lst *cmd, t_env_lst *envp);

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 20:34:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/19 22:51:31 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/10 23:16:23 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ t_file	*ft_openfiles(t_file_lst *lst)
 
 /**
  * @brief Opens all the files in the command.
- * TODO use perror
  * 
  * @param cmd The command.
  * @return t_bool false if not able to open all, true otherwise.
