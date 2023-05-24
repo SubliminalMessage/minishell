@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/10 22:56:28 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:45:10 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	print_cmd(t_cmd *cmd)
 	printf("·%s·];\n", cmd->args[i]);
 
 	printf("\tFiles In:  ");
-	ft_lstiter(cmd->in, print_file);
+	//ft_lstiter(cmd->in, print_file);
 	printf("(<null>);\n");
 
 	printf("\tFiles Out: ");
@@ -63,7 +63,7 @@ t_cmd_lst   *parse_command_node(t_env_lst *envp, char *input)
     node = ft_lstnew(cmd);
     if (!cmd || !node)
     {
-        print_parse_error(ERROR_MALLOC, false);
+        //print_parse_error(ERROR_MALLOC, false);
         if (cmd)
             ft_free_cmd(cmd);
         if (node)
@@ -71,6 +71,31 @@ t_cmd_lst   *parse_command_node(t_env_lst *envp, char *input)
         return (NULL);
     }
     return (node);
+}
+
+char	**get_input_gnl(void)
+{
+	char	*raw_input;
+	char	*input;
+	char	**splitted;
+
+	print_parse_error(NULL, true);
+	raw_input = get_next_line(fileno(stdin));
+	if (!raw_input) // TODO handle exit with ctrl + D
+		return (NULL);
+	add_history(raw_input);
+	input = join_three(ft_strdup(" "), ft_strtrim(raw_input, "\n"), ft_strdup(" "));
+	free(raw_input);
+	if (!is_valid_input(input))
+	{
+		free(input);
+		return (NULL);
+	}
+	splitted = ft_split_quote_conscious(input, '|');
+	free(input);
+	if (!splitted)
+		print_parse_error(ERROR_MALLOC, false);
+	return (splitted);
 }
 
 int main(void)
@@ -87,7 +112,10 @@ int main(void)
 	while (true)
 	{
         cmd_lst = NULL;
-		input = get_input();
+		if (isatty(fileno(stdin)))
+			input = get_input();
+		else
+			input = get_input_gnl();
 		if (!input) // TODO handle ctrl + D
 			continue;
 		int i = 0;
@@ -120,11 +148,11 @@ int main(void)
 		run(cmd_lst, envp);
 		// printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
 	}
-	printf("exit\n");
+	//printf("exit\n");
 
 	// CleanUp!
 	ft_lstclear(&envp, free_env_node);
 
-	printf("!! Minishell finished without errors !!\n"); /***/ system("leaks -q minishell");
+	//printf("!! Minishell finished without errors !!\n"); /***/ system("leaks -q minishell");
 	return (0);
 }

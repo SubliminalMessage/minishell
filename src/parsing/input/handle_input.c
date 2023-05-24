@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/10 23:17:57 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:45:06 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**get_input(void)
 	char	**splitted;
 
 	print_parse_error(NULL, true);
-	raw_input = readline("minishell > ");
+	raw_input = readline();
 	if (!raw_input) // TODO handle exit with ctrl + D
 		return (NULL);
 	add_history(raw_input);
