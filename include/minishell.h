@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 20:42:57 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:44:15 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 
 # include <libft.h>
 # include <structures.h>
+
+// Global Variable
+int	g_status_code;
 
 // Custom defines
 
@@ -90,7 +93,7 @@ t_env_lst	*new_env_node_splitted(char *key, char *value, t_bool visible);
 
 // environment/environment.c
 void		init_zero_variable(t_env_lst **envp);
-t_env_lst	*init_env(void);
+t_env_lst	*init_env(char **environ);
 t_env_lst	*new_env_node(char *string, t_bool is_visible);
 
 // expansion/command_expansion.c

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 16:58:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:43:15 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	init_zero_variable(t_env_lst **envp)
 
 	underscore = ft_getenv(*envp, "_");
 	did_work = update_env(envp, "0", underscore, false);
+	free(underscore);
 	if (!did_work)
 	{
 		ft_lstclear(envp, free_env_node);
@@ -43,9 +44,8 @@ void	init_zero_variable(t_env_lst **envp)
  * 
  * @return t_env_lst, the List created. NULL if something failed.
 */
-t_env_lst	*init_env(void)
+t_env_lst	*init_env(char **environ)
 {
-	extern char	**environ;
 	t_env_lst	*envp;
 	t_env_lst	*node;
 	int			i;

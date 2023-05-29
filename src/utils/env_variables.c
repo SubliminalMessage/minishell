@@ -6,13 +6,13 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 23:32:59 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:41:46 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// TODO: Handle exceptions such as '$$' or '$?'
+// TODO: Handle exceptions such as '$$'
 // ($_) Info:
 // https://unix.stackexchange.com/questions/280453/understand-the-meaning-of
 /**
@@ -23,21 +23,23 @@
  * @param key, the Name of the Variable (e.g.: 'USER')
  * 
  * @return char*, the value of the variable. Empty string if not found.
- * @note The return string MUST BE ft_strdup() right after calling the function.
- *       Free()-ing this return value will cause a double-free error.
+ * @note The return string DOES NOT HAVE TO BE ft_strdup() right after calling
+ *       the function. The caller MUST free() this return value.
 */
 char	*ft_getenv(t_env_lst *envp, char *key)
 {
 	t_env	*node;
 
+	if (str_equals(key, "?"))
+		return (ft_itoa(g_status_code));
 	while (envp)
 	{
 		node = envp->content;
 		if (node && str_equals(node->key, key))
-			return (node->value);
+			return (ft_strdup(node->value));
 		envp = envp->next;
 	}
-	return ("");
+	return (ft_strdup(""));
 }
 
 /**

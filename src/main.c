@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/10 22:56:28 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:43:56 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,16 @@ t_cmd_lst   *parse_command_node(t_env_lst *envp, char *input)
     return (node);
 }
 
-int main(void)
+int main(int argc, char **argv, char **environ)
 {
 	char        **input;
 	t_env_lst   *envp;
     t_cmd_lst   *cmd_lst;
     t_cmd_lst   *node;
 
-	envp = init_env();
+	(void) argc;
+	(void) argv;
+	envp = init_env(environ);
 	if (!envp)
 		return (1);
 	
