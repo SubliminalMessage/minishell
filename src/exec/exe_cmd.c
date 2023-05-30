@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/10 23:15:05 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:01:37 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp)
 		return (ft_error_in_cmd(cmd_lst, full));
 	ft_redirect_io(cmd);
 	ft_close_all_fds(full);
-	ft_builtins(cmd, full);
+	ft_builtins(cmd, full, envp);
 	if (!ft_get_path(cmd, envp))
 		return (ft_free_cmd_lst(full), exit(INVALID), INVALID);
 	execve(cmd->cmd, cmd->args, envp_arr);

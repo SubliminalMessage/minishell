@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/29 19:44:15 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:24:40 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,14 @@ int			ft_exit(t_cmd *cmd);
 // builtins/echo.c
 int			ft_echo(t_cmd *cmd);
 
+// builtins/pwd.c
+int	ft_pwd(t_cmd *cmd, t_env_lst *envp);
+
+// builtins/env.c
+int	ft_env(t_cmd *cmd, t_env_lst *envp);
+
 // builtins/builtins.c
-void		ft_builtins(t_cmd *cmd, t_cmd_lst *full);
+void		ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst *envp);
 
 t_bool	ft_check_output(t_cmd_lst *cmd); // TODO find place
 

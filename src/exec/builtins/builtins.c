@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 23:14:21 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:28:14 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,26 @@ static int	TODO(t_cmd *cmd)
 	return (INVALID);
 }
 
+static t_bool	str_equal_cmd(char *a, char *b)
+{
+	char	*str_a;
+	char	*str_b;
+	t_bool	return_value;
+
+	str_a = ft_strdup(a);
+	str_b = ft_strdup(b);
+	if (str_a)
+		ft_strtoupper(str_a);
+	if (str_b)
+		ft_strtoupper(str_b);
+	return_value = str_equals(str_a, str_b);
+	if (str_a)
+		free(str_a);
+	if (str_b)
+		free(str_b);
+	return (return_value);
+}
+
 /**
  * @brief Checks if the command is a builtin and executes it.
  * @note If the command is not a builtin, it does nothing.
@@ -27,31 +47,30 @@ static int	TODO(t_cmd *cmd)
  * @param cmd command to check.
  * @param full list of all commands.
  */
-void	ft_builtins(t_cmd *cmd, t_cmd_lst *full)
+void	ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst *envp)
 {
 	int	exit_code;
 
 	exit_code = 0;
 	if (cmd->cmd == NULL)
 		ft_copyall(STDIN, STDOUT);
-	else if (ft_strncmp(cmd->cmd, "echo", 4) == 0)
+	else if (str_equal_cmd(cmd->cmd, "ECHO")) // Done
 		exit_code = ft_echo(cmd);
-	else if (ft_strcmp(cmd->cmd, "exit") == 0)
+	else if (str_equal_cmd(cmd->cmd, "EXIT")) // Done
 		exit_code = ft_exit(cmd);
-	else if (ft_strcmp(cmd->cmd, "cd") == 0)
+	else if (str_equal_cmd(cmd->cmd, "CD"))
 		exit_code = TODO(cmd);
 	// 	exit_code = ft_cd(cmd);
-	else if (ft_strcmp(cmd->cmd, "pwd") == 0)
-		exit_code = TODO(cmd);
-	// 	exit_code = ft_pwd(cmd);
-	else if (ft_strcmp(cmd->cmd, "export") == 0)
+	else if (str_equal_cmd(cmd->cmd, "PWD")) // Done
+		exit_code = ft_pwd(cmd, envp);
+	else if (str_equal_cmd(cmd->cmd, "EXPORT"))
 		exit_code = TODO(cmd);
 	// 	exit_code = ft_export(cmd);
-	else if (ft_strcmp(cmd->cmd, "unset") == 0)
+	else if (str_equal_cmd(cmd->cmd, "UNSET"))
 		exit_code = TODO(cmd);
 	// 	exit_code = ft_unset(cmd);
-	else if (ft_strcmp(cmd->cmd, "env") == 0)
-		exit_code = TODO(cmd);
+	else if (str_equal_cmd(cmd->cmd, "ENV"))
+		exit_code = ft_env(cmd, envp);
 	// 	exit_code = ft_env(cmd);
 	else
 		return ;
