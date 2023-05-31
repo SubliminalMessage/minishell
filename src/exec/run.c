@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/10 23:13:56 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/05/31 21:27:07 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,9 @@ static void	kill_all_children(pid_t *pids)
 	free(pids);
 }
 
-static void ft_store_result_code(int result_code, t_env_lst *envp)
+static void ft_store_result_code(int result_code)
 {
-	t_bool	updated;
-	char	*result_code_str;
-
-	result_code_str = ft_itoa(result_code);
-	if (!result_code_str)
-		exit(INVALID);
-	updated = update_env(&envp, "?", result_code_str, false);
-	free(result_code_str);
-	if (!updated)
-		exit(INVALID);
+	g_status_code = result_code;
 }
 
 /**
@@ -60,7 +51,7 @@ static void ft_store_result_code(int result_code, t_env_lst *envp)
  * @param envp List of environment variables.
  * @return int INVALID if error, the exit code of the last command otherwise.
  */
-void	run(t_cmd_lst *cmd, t_env_lst *envp)
+void	run(t_cmd_lst *cmd, t_env_lst **envp)
 {
 	int			i;
 	t_cmd_lst	*ite;
@@ -72,6 +63,8 @@ void	run(t_cmd_lst *cmd, t_env_lst *envp)
 		close_free_exit(cmd, INVALID);
 	if (ft_lstsize(cmd) == 1 && ft_strcmp(get_cmd(cmd)->cmd, "exit") == 0)
 		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
+	if (ft_lstsize(cmd) == 1)
+		execute_write_builtin(get_cmd(cmd), envp);
 	i = 0;
 	pids = ft_calloc(sizeof(pid_t), ft_lstsize(cmd) + 1); // TODO
 	if (!pids)
@@ -89,5 +82,5 @@ void	run(t_cmd_lst *cmd, t_env_lst *envp)
 		ite = ite->next;
 	}
 	close_fds_free(cmd);
-	ft_store_result_code(ft_wait_result(pids), envp);
+	ft_store_result_code(ft_wait_result(pids));
 }

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/29 19:43:56 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/31 21:27:07 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int main(int argc, char **argv, char **environ)
 		// printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
 
-		run(cmd_lst, envp);
+		run(cmd_lst, &envp);
 		// printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
 	}
 	printf("exit\n");

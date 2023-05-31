@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/30 17:01:37 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/31 20:40:37 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,23 +84,23 @@ static int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
  * @param envp List with the environment variables.
  * @return int INVALID if error, the pid of the child process otherwise.
  */
-int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp)
+int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 {
 	int		pid;
 	t_cmd	*cmd;
 	char	**envp_arr;
-
+	
 	pid = fork();
 	if (pid)
 		return (pid);
 	cmd = get_cmd(cmd_lst);
-	envp_arr = build_envp(envp);
+	envp_arr = build_envp(*envp);
 	if (!cmd->cmd || !cmd->args || !envp_arr || !ft_open_all_files(cmd))
 		return (ft_error_in_cmd(cmd_lst, full));
 	ft_redirect_io(cmd);
 	ft_close_all_fds(full);
 	ft_builtins(cmd, full, envp);
-	if (!ft_get_path(cmd, envp))
+	if (!ft_get_path(cmd, *envp))
 		return (ft_free_cmd_lst(full), exit(INVALID), INVALID);
 	execve(cmd->cmd, cmd->args, envp_arr);
 	ft_free_array(envp_arr);

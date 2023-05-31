@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/30 17:24:40 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/05/31 20:53:10 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identifier);
 
 // ----------------- exec directory -----------------
 
+void	execute_write_builtin(t_cmd *cmd, t_env_lst **envp); // TODO find place
+
 // builtins/exit.c
 int			ft_exit(t_cmd *cmd);
 
@@ -151,16 +153,19 @@ int			ft_echo(t_cmd *cmd);
 // builtins/pwd.c
 int	ft_pwd(t_cmd *cmd, t_env_lst *envp);
 
+// builtins/export.c
+int	ft_export(t_cmd *cmd, t_env_lst **envp, t_bool print_errors);
+
 // builtins/env.c
 int	ft_env(t_cmd *cmd, t_env_lst *envp);
 
 // builtins/builtins.c
-void		ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst *envp);
+void		ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst **envp);
 
 t_bool	ft_check_output(t_cmd_lst *cmd); // TODO find place
 
 // exe_cmd.c
-int			ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst *envp);
+int			ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp);
 
 // get_path.c
 t_bool		ft_get_path(t_cmd *cmd, t_env_lst *envp);
@@ -180,7 +185,7 @@ t_bool	ft_add_pipes(t_cmd_lst *cmd);
 t_bool		ft_ready_input(t_cmd *cmd);
 
 // run.c
-void		run(t_cmd_lst *cmd, t_env_lst *envp);
+void		run(t_cmd_lst *cmd, t_env_lst **envp);
 
 // wait_result.c
 int			ft_wait_result(int *pids);
