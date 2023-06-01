@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/01 16:40:55 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/01 20:51:04 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int	g_status_code;
 
 // All the functions
 // ----------------- parsing directory -----------------
-
+char	*build_home(t_env_lst *envp);
+char	*ft_gethome(t_env_lst *envp);
 // environment/environment_utils.c
 t_bool		is_valid_env_node(t_env *node);
 void		free_env_node(void *node_raw);

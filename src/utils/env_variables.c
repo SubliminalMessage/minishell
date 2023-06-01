@@ -6,11 +6,50 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/01 19:30:22 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/01 20:40:12 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+char	*build_home(t_env_lst *envp)
+{
+	char	*zero;
+	char	*result;
+	char	**split;
+	int		i;
+
+	zero = ft_getenv(envp, "0");
+	if (!zero)
+		return (ft_strdup(""));
+	split = ft_split(zero, '/');
+	free(zero);
+	if (!split || !split[0] || !split[1] || !str_equals(split[0], "Users"))
+		result = NULL;
+	else
+		result = join_three(ft_chardup('/'), ft_strdup(split[0]), ft_chardup('/'));
+	if (result)
+		result = join_two(result, ft_chardup('/'));
+	i = -1;
+	while (split && split[++i])
+		free(split[i]);
+	if (split)
+		free(split);
+	if (result)
+		return (result);
+	return (ft_strdup(""));
+}
+
+char	*ft_gethome(t_env_lst *envp)
+{
+	char	*home;
+
+	home = ft_getenv(envp, "HOME");
+	if (!str_equals(home, ""))
+		return (home);
+	free(home);
+	return (build_home(envp));
+}
 
 // TODO: Handle exceptions such as '$$'
 // ($_) Info:
@@ -28,7 +67,7 @@
 */
 char	*ft_getenv(t_env_lst *envp, char *key)
 {
-	t_env	*node;
+	t_env		*node;
 
 	if (str_equals(key, "?"))
 		return (ft_itoa(g_status_code));

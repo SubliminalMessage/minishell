@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/01 19:38:22 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/01 20:17:36 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static t_bool	str_equal_cmd(char *a, char *b)
 */
 void	execute_write_builtin(t_cmd *cmd, t_env_lst **envp)
 {
-	printf("Called execute write\n");
 	if (str_equal_cmd(cmd->cmd, "CD"))
 		//ft_cd(cmd, envp);
 		printf("Not implemented (cd)\n");

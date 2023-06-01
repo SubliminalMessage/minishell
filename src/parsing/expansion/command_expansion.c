@@ -6,11 +6,42 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 23:47:21 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/01 21:06:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+t_bool	is_space(char c)
+{
+	if (c == ' ' || c == '\0')
+		return (true);
+	return (false);
+}
+
+char	*expand_home_dir(char *str, t_env_lst *env)
+{
+	int	i;
+	char	*expanded;
+
+	if (!ft_hasany(str, '~'))
+		return (str);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '~')
+		{
+			if ((i == 0 && is_space(str[i + 1])) || (i > 0 && is_space(str[i - 1])))
+			{
+				expanded = expand_home_dir(ft_substr(str, i + 1, ft_strlen(str)), env);
+				str = join_three(ft_substr(str, 0, i), ft_gethome(env), expanded);
+				return (str);
+			}
+		}
+		i++;
+	}
+	return (str);
+}
 
 /**
  * @brief Given a String (normally, one of the arguments of a command), checks
@@ -90,7 +121,7 @@ char	*expand_arg(char **str_ptr, t_env_lst *envp)
 		print_parse_error(ERROR_MALLOC, false);
 		return (NULL);
 	}
-	return (expanded);
+	return (expand_home_dir(expanded, envp)); // TODO: expand ~
 }
 
 /**
