@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/29 19:41:46 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:30:22 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,13 @@ char	**build_envp(t_env_lst *envp)
 	if (!matrix)
 		return (NULL);
 	i = -1;
-	while (envp && ++i < size)
+	while (envp)
 	{
 		node = envp->content;
 		envp = envp->next;
 		if (!node || !node->is_visible)
 			continue ;
-		matrix[i] = join_three(ft_strdup(node->key),
+		matrix[++i] = join_three(ft_strdup(node->key),
 				ft_strdup("="), ft_strdup(node->value));
 		if (!matrix[i])
 		{

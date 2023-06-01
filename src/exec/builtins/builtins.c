@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/31 21:19:19 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:38:22 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ void	execute_write_builtin(t_cmd *cmd, t_env_lst **envp)
 	else if (str_equal_cmd(cmd->cmd, "EXPORT"))
 		ft_export(cmd, envp, false);
 	else if (str_equal_cmd(cmd->cmd, "UNSET"))
-		//ft_unset(cmd, envp);
-		printf("Not implemented (unset)\n");
+		ft_unset(cmd, envp);
 }
 
 /**
@@ -95,11 +94,10 @@ void	ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst **envp)
 	// 	exit_code = ft_cd(cmd);
 	else if (str_equal_cmd(cmd->cmd, "PWD")) // Done
 		exit_code = ft_pwd(cmd, *envp);
-	else if (str_equal_cmd(cmd->cmd, "EXPORT")) // WIP
+	else if (str_equal_cmd(cmd->cmd, "EXPORT")) // Done. TODO: No-ENV Minishell exceptions
 	 	exit_code = ft_export(cmd, envp, true);
 	else if (str_equal_cmd(cmd->cmd, "UNSET"))
-		exit_code = TODO(cmd);
-	// 	exit_code = ft_unset(cmd);
+	 	exit_code = ft_unset(cmd, envp);
 	else if (str_equal_cmd(cmd->cmd, "ENV"))
 		exit_code = ft_env(cmd, *envp);
 	else

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/30 17:43:39 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:34:38 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ t_env_lst	*init_env(char **environ)
 
 	i = 0;
 	envp = NULL;
+	node = new_env_node("OLDPWD", true);
+	if (!node)
+		return (NULL);
+	ft_lstadd_back(&envp, node);
 	while (environ[i])
 	{
 		node = new_env_node(environ[i], true);

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/31 20:53:10 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:40:55 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identifier);
 // ----------------- exec directory -----------------
 
 void	execute_write_builtin(t_cmd *cmd, t_env_lst **envp); // TODO find place
+int	ft_arrsize(char **array);
 
 // builtins/exit.c
 int			ft_exit(t_cmd *cmd);
@@ -153,8 +154,11 @@ int			ft_echo(t_cmd *cmd);
 // builtins/pwd.c
 int	ft_pwd(t_cmd *cmd, t_env_lst *envp);
 
+// builtins/unset.c
+int	ft_unset(t_cmd *cmd, t_env_lst **envp);
+
 // builtins/export.c
-int	ft_export(t_cmd *cmd, t_env_lst **envp, t_bool print_errors);
+int	ft_export(t_cmd *cmd, t_env_lst **envp, t_bool do_print);
 
 // builtins/env.c
 int	ft_env(t_cmd *cmd, t_env_lst *envp);
