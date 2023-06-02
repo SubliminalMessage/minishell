@@ -6,18 +6,11 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/01 20:17:36 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:13:37 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static int	TODO(t_cmd *cmd)
-{
-	ft_printf_fd(2, "minishell: %s: TODO\n", cmd->cmd);
-	ft_printf_fd(2, "  - Not implemented yet\n");
-	return (INVALID);
-}
 
 static t_bool	str_equal_cmd(char *a, char *b)
 {
@@ -61,8 +54,7 @@ static t_bool	str_equal_cmd(char *a, char *b)
 void	execute_write_builtin(t_cmd *cmd, t_env_lst **envp)
 {
 	if (str_equal_cmd(cmd->cmd, "CD"))
-		//ft_cd(cmd, envp);
-		printf("Not implemented (cd)\n");
+		ft_cd(cmd, envp);
 	else if (str_equal_cmd(cmd->cmd, "EXPORT"))
 		ft_export(cmd, envp, false);
 	else if (str_equal_cmd(cmd->cmd, "UNSET"))
@@ -89,8 +81,7 @@ void	ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst **envp)
 	else if (str_equal_cmd(cmd->cmd, "EXIT")) // Done
 		exit_code = ft_exit(cmd);
 	else if (str_equal_cmd(cmd->cmd, "CD"))
-		exit_code = TODO(cmd);
-	// 	exit_code = ft_cd(cmd);
+	 	exit_code = ft_cd(cmd, envp);
 	else if (str_equal_cmd(cmd->cmd, "PWD")) // Done
 		exit_code = ft_pwd(cmd, *envp);
 	else if (str_equal_cmd(cmd->cmd, "EXPORT")) // Done. TODO: No-ENV Minishell exceptions

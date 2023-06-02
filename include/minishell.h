@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/01 20:51:04 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/02 17:47:07 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,9 @@ int			ft_exit(t_cmd *cmd);
 
 // builtins/echo.c
 int			ft_echo(t_cmd *cmd);
+
+// builtins/cd.c
+int			ft_cd(t_cmd *cmd, t_env_lst **envp);
 
 // builtins/pwd.c
 int	ft_pwd(t_cmd *cmd, t_env_lst *envp);
