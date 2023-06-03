@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:07:48 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/25 16:19:58 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 23:25:29 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**ft_split_quote_conscious(const char *s, char split_char)
 	if (!s)
 		return (NULL);
 	total_words = get_total_words(s, split_char);
-	words = malloc(sizeof(char *) * (total_words + 1));
+	words = ft_calloc((total_words + 1), sizeof(char *));
 	if (words == NULL)
 		return (NULL);
 	i = 0;
