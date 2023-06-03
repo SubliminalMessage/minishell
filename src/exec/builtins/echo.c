@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:14:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 15:16:27 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/03 21:23:20 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ t_bool	ft_is_minus_n(char *flag)
 int	ft_echo(t_cmd *cmd)
 {
 	int	i;
-	t_bool	n;
+	t_bool	place_new_line;
 
 	i = 1;
-	n = true;
-	while (ft_is_minus_n(cmd->args[i]))
+	place_new_line = true;
+	if (ft_is_minus_n(cmd->args[i]))
 	{
-		n = false;
+		place_new_line = false;
 		i++;
 	}
 	while (cmd->args[i] && cmd->args[i + 1])
@@ -65,7 +65,7 @@ int	ft_echo(t_cmd *cmd)
 	}
 	if (cmd->args[i])
 		ft_putstr_fd(cmd->args[i], STDOUT);
-	if (n)
+	if (place_new_line)
 		ft_putchar_fd('\n', STDOUT);
 	return (0);
 }

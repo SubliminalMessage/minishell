@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:27:52 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/25 15:49:06 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 21:43:13 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,25 @@ static t_bool	check_if_closed(char quote, char last_char)
 	if ((quote == '\'' || quote == '\"') && last_char != quote)
 		return (false);
 	return (true);
+}
+
+// TODO: document this function. Same as dequote() but takes off all 
+// the quotes of a string without expanding the vars inside of it
+char *dequote_all(char *str)
+{
+	char *final_str;
+	char *next_quote;
+	size_t	idx;
+
+	if (!str)
+		return (str);
+	idx = 0;
+	final_str = str;
+	next_quote = get_next_quote(str + idx, &idx);
+	if (!next_quote || str_equals(next_quote, ""))
+		return (ft_strdup(""));
+	final_str = join_two(dequote(next_quote), dequote_all(str + idx));
+	return (final_str);
 }
 
 /**
@@ -88,7 +107,7 @@ char	*get_next_quote(char *str, size_t *idx)
 	size_t	quote_idx;
 	char	*quoted_str;
 
-	if (!str)
+	if (!str || str_equals(str, ""))
 		return (NULL);
 	quote = '\0';
 	if (str[0] == '\'' || str[0] == '"')

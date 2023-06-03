@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/03 20:40:01 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 23:55:38 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	g_status_code;
 # define INV_TKN_MSG "minishell: syntax error near unexpected token"
 # define BAD_SUBST "minishell: bad substitution\n"
 # define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
-# define NO_FILE_OR_DIR "minishell: %s: No such file or directory"
+# define NO_FILE_OR_DIR "minishell: %s: No such file or directory\n"
 # define HEREDOC_PROMPT "heredoc> "
 # define IS_DIR_MSG "minishell: %s: Is a directory\n"
 # define PERMISSION_DENIED_MSG "minishell: %s: Permission denied\n"
@@ -106,6 +106,7 @@ t_bool		expand_cmd(t_cmd **cmd_ptr, t_env_lst *envp);
 // expansion/handle_quotes.c
 char		*dequote(char *str);
 char		*get_next_quote(char *str, size_t *idx);
+char *dequote_all(char *str);
 
 // expansion/token_expansion.c
 char		*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i);

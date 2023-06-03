@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/03 20:05:37 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 22:55:21 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ t_bool	str_equal_cmd(char *a, char *b)
 	char	*str_b;
 	t_bool	return_value;
 
+	if (!a && !b)
+		return (true);
+	if (!a || !b)
+		return (false);
 	str_a = ft_strdup(a);
 	str_b = ft_strdup(b);
 	if (str_a)

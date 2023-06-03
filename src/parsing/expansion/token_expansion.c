@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:44:22 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/29 19:41:14 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 21:08:14 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i)
 	token = ft_substr(str, 1, tkn_len);
 	variable = ft_getenv(envp, token);
 	if (variable)
-		*i += ft_strlen(variable);
+		*i += ft_strlen(variable) - 1;
 	result = join_two(variable, ft_substr(str, tkn_len + 1, ft_strlen(str)));
 	free(token);
 	return (result);
