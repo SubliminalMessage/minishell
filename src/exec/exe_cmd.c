@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/31 20:40:37 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 22:57:13 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 		return (pid);
 	cmd = get_cmd(cmd_lst);
 	envp_arr = build_envp(*envp);
-	if (!cmd->cmd || !cmd->args || !envp_arr || !ft_open_all_files(cmd))
+	if (!ft_open_all_files(cmd) || !cmd->cmd || !cmd->args || !envp_arr)
 		return (ft_error_in_cmd(cmd_lst, full));
 	ft_redirect_io(cmd);
 	ft_close_all_fds(full);
