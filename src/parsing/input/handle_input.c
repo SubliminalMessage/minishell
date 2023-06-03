@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/03 23:31:37 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 01:04:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,12 @@ char	**get_input(void)
 	char	**splitted;
 
 	print_parse_error(NULL, true);
-	raw_input = readline("minishell > ");
+	//if (isatty(fileno(stdin)))
+		raw_input = readline("minishell > ");
+	/*else
+	{
+		raw_input = get_next_line(fileno(stdin));
+	}*/
 	if (!raw_input) // TODO handle exit with ctrl + D
 		return (NULL);
 	if (!str_equals(raw_input, ""))
