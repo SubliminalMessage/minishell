@@ -6,36 +6,11 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/03 22:55:21 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 00:32:19 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-t_bool	str_equal_cmd(char *a, char *b)
-{
-	char	*str_a;
-	char	*str_b;
-	t_bool	return_value;
-
-	if (!a && !b)
-		return (true);
-	if (!a || !b)
-		return (false);
-	str_a = ft_strdup(a);
-	str_b = ft_strdup(b);
-	if (str_a)
-		ft_strtoupper(str_a);
-	if (str_b)
-		ft_strtoupper(str_b);
-	return_value = str_equals(str_a, str_b);
-	if (str_a)
-		free(str_a);
-	if (str_b)
-		free(str_b);
-	return (return_value);
-}
-
 /**
  * @brief Executes all the builtins that modifies (writes) the envp list before
  *        creating fork processes. This only happens if there is only ONE
@@ -60,11 +35,11 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp)
 	int	exit_code;
 
 	exit_code = 0;
-	if (str_equal_cmd(get_cmd(cmd)->cmd, "CD"))
+	if (str_equals(get_cmd(cmd)->cmd, "cd"))
 		exit_code = ft_cd(get_cmd(cmd), envp);
-	else if (str_equal_cmd(get_cmd(cmd)->cmd, "EXPORT"))
+	else if (str_equals(get_cmd(cmd)->cmd, "export"))
 		exit_code = ft_export(get_cmd(cmd), envp);
-	else if (str_equal_cmd(get_cmd(cmd)->cmd, "UNSET"))
+	else if (str_equals(get_cmd(cmd)->cmd, "unset"))
 		exit_code = ft_unset(get_cmd(cmd), envp);
 	else if (str_equals(get_cmd(cmd)->cmd, "exit"))
 		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
@@ -87,19 +62,19 @@ void	ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst **envp)
 	exit_code = 0;
 	if (cmd->cmd == NULL)
 		ft_copyall(STDIN, STDOUT);
-	else if (str_equal_cmd(cmd->cmd, "ECHO"))
+	else if (str_equals(cmd->cmd, "echo"))
 		exit_code = ft_echo(cmd);
 	else if (str_equals(cmd->cmd, "exit"))
 		exit_code = ft_exit(cmd);
-	else if (str_equal_cmd(cmd->cmd, "CD"))
+	else if (str_equals(cmd->cmd, "cd"))
 	 	exit_code = ft_cd(cmd, envp);
-	else if (str_equal_cmd(cmd->cmd, "PWD"))
+	else if (str_equals(cmd->cmd, "pwd"))
 		exit_code = ft_pwd(cmd, *envp);
-	else if (str_equal_cmd(cmd->cmd, "EXPORT")) // TODO: No-ENV Minishell exceptions
+	else if (str_equals(cmd->cmd, "export")) // TODO: No-ENV Minishell exceptions
 	 	exit_code = ft_export(cmd, envp);
-	else if (str_equal_cmd(cmd->cmd, "UNSET"))
+	else if (str_equals(cmd->cmd, "unset"))
 	 	exit_code = ft_unset(cmd, envp);
-	else if (str_equal_cmd(cmd->cmd, "ENV"))
+	else if (str_equals(cmd->cmd, "env"))
 		exit_code = ft_env(cmd, *envp);
 	else
 		return ;

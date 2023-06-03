@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:14:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/03 21:23:20 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 00:41:04 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,7 @@
  */
 t_bool	ft_is_minus_n(char *flag)
 {
-	int	i;
-
-	if (!flag || ft_strncmp(flag, "-n", 2) != 0)
-		return (false);
-	i = 2;
-	while (flag[i])
-	{
-		if (flag[i++] != 'n')
-			return (false);
-	}
-	return (true);
+	return (str_equals(flag, "-n"));
 }
 
 /**

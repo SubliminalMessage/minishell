@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/03 19:57:39 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 00:32:49 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ t_bool	is_write_builtin(char *cmd)
 {
 	if (str_equals(cmd, "exit"))
 		return (true);
-	if (str_equal_cmd(cmd, "EXPORT"))
+	if (str_equals(cmd, "export"))
 		return (true);
-	if (str_equal_cmd(cmd, "UNSET"))
+	if (str_equals(cmd, "unset"))
 		return (true);
-	if (str_equal_cmd(cmd, "CD"))
+	if (str_equals(cmd, "cd"))
 		return (true);
 	return (false);
 }
