@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/03 19:53:21 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 20:40:01 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ t_bool	str_equal_cmd(char *a, char *b);
 void	close_free_exit(t_cmd_lst *cmd, int exit_code);
 void	close_fds_free(t_cmd_lst *cmd);
 void ft_store_result_code(int result_code);
+t_bool is_valid_variable_name(char *str);
 
 // builtins/exit.c
 int			ft_exit(t_cmd *cmd);

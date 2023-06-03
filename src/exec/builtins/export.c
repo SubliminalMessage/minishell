@@ -6,11 +6,29 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/03 20:03:22 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 20:45:56 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+t_bool is_valid_variable_name(char *str)
+{
+	int	i;
+
+	if (!str || !str[0])
+		return (false);
+	if (!ft_hasany(VALID_TKN_CHARS, str[0]))
+		return (false);
+	i = 1;
+	while (str[i])
+	{
+		if (!ft_hasany(VALID_TKN_CHARS"0123456789", str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 int	ft_arrsize(char **array)
 {
@@ -24,13 +42,6 @@ int	ft_arrsize(char **array)
 	return (i);
 }
 
-t_bool	is_valid_env_key(char *str) // TODO: Actually build this function
-{
-	if (str)
-		return (true);
-	return (false);
-}
-
 static void	ft_export_update_env(t_env_lst **envp, char *key, char *value)
 {
 	char	*old_value;
@@ -40,9 +51,9 @@ static void	ft_export_update_env(t_env_lst **envp, char *key, char *value)
 	old_value = ft_getenv(*envp, key);
 	if (!old_value)
 		return ;
-	if (str_equals(old_value, "")) // new variable
+	if (str_equals(old_value, ""))
 		update_env(envp, key, value, true);
-	else if (!str_equals(value, "")) // Not new value. Check if new value is diff from ""
+	else if (!str_equals(value, ""))
 		update_env(envp, key, value, true);
 	if (old_value)
 		free(old_value);
@@ -56,15 +67,15 @@ static int	ft_export_update(char *string, t_env_lst **envp)
 
 	separator_idx = ft_strchr(string, '=') - string;
 	key = ft_substr(string, 0, separator_idx);
-	if (!is_valid_env_key(key))
+	if (!is_valid_variable_name(key))
 	{
+		printf("minishell: export: `%s': not a valid identifier\n", key);
 		free(key);
-		printf("Invalid identifier. // TODO: Change message pls");
 		return (1);
 	}
 	value = ft_substr(string, separator_idx + 1, ft_strlen(string));
 	if (!key || !value)
-		printf("%s; // TODO: Change message. Print optionally ??\n", ERROR_MALLOC);
+		return (1);
 	else
 		ft_export_update_env(envp, key, value);
 	if (key)
@@ -181,8 +192,10 @@ int	ft_export(t_cmd *cmd, t_env_lst **envp)
 {
 	int		argc;
 	int		idx;
+	int		num_fails;
 
 	argc = ft_arrsize(cmd->args);
+	num_fails = 0;
 	if (argc == 1)
 	{
 		ft_export_sort_and_print(*envp);
@@ -191,7 +204,9 @@ int	ft_export(t_cmd *cmd, t_env_lst **envp)
 	{
 		idx = 0;
 		while (cmd->args[++idx])
-			ft_export_update(cmd->args[idx], envp);
+			num_fails += ft_export_update(cmd->args[idx], envp);
 	}
-	return (0);
+	if (num_fails == 0)
+		return (0);
+	return (1);
 }
