@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/02 17:47:07 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 19:53:21 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,12 @@ t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identifier);
 
 // ----------------- exec directory -----------------
 
-void	execute_write_builtin(t_cmd *cmd, t_env_lst **envp); // TODO find place
+void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp); // TODO find place
 int	ft_arrsize(char **array);
+t_bool	str_equal_cmd(char *a, char *b);
+void	close_free_exit(t_cmd_lst *cmd, int exit_code);
+void	close_fds_free(t_cmd_lst *cmd);
+void ft_store_result_code(int result_code);
 
 // builtins/exit.c
 int			ft_exit(t_cmd *cmd);
@@ -162,7 +166,7 @@ int	ft_pwd(t_cmd *cmd, t_env_lst *envp);
 int	ft_unset(t_cmd *cmd, t_env_lst **envp);
 
 // builtins/export.c
-int	ft_export(t_cmd *cmd, t_env_lst **envp, t_bool do_print);
+int	ft_export(t_cmd *cmd, t_env_lst **envp);
 
 // builtins/env.c
 int	ft_env(t_cmd *cmd, t_env_lst *envp);

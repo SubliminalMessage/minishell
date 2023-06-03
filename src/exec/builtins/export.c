@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/01 19:36:04 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 20:03:22 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,24 @@ t_bool	is_valid_env_key(char *str) // TODO: Actually build this function
 	return (false);
 }
 
-static int	ft_export_update(char *string, t_env_lst **envp, t_bool print)
+static void	ft_export_update_env(t_env_lst **envp, char *key, char *value)
+{
+	char	*old_value;
+
+	if (!key || !value)
+		return ;
+	old_value = ft_getenv(*envp, key);
+	if (!old_value)
+		return ;
+	if (str_equals(old_value, "")) // new variable
+		update_env(envp, key, value, true);
+	else if (!str_equals(value, "")) // Not new value. Check if new value is diff from ""
+		update_env(envp, key, value, true);
+	if (old_value)
+		free(old_value);
+}
+
+static int	ft_export_update(char *string, t_env_lst **envp)
 {
 	int separator_idx;
 	char *key;
@@ -42,15 +59,14 @@ static int	ft_export_update(char *string, t_env_lst **envp, t_bool print)
 	if (!is_valid_env_key(key))
 	{
 		free(key);
-		if (print)
-			printf("Invalid identifier. // TODO: Change message pls");
+		printf("Invalid identifier. // TODO: Change message pls");
 		return (1);
 	}
 	value = ft_substr(string, separator_idx + 1, ft_strlen(string));
 	if (!key || !value)
 		printf("%s; // TODO: Change message. Print optionally ??\n", ERROR_MALLOC);
 	else
-		update_env(envp, key, value, true);
+		ft_export_update_env(envp, key, value);
 	if (key)
 		free(key);
 	if (value)
@@ -161,14 +177,13 @@ void	ft_export_sort_and_print(t_env_lst *envp)
  * @param envp Environment List struct.
  * @return int exit code
  */
-int	ft_export(t_cmd *cmd, t_env_lst **envp, t_bool do_print)
+int	ft_export(t_cmd *cmd, t_env_lst **envp)
 {
 	int		argc;
 	int		idx;
 
 	argc = ft_arrsize(cmd->args);
-	printf("Export argc => %d\n", argc);
-	if (argc == 1 && do_print)
+	if (argc == 1)
 	{
 		ft_export_sort_and_print(*envp);
 	}
@@ -176,7 +191,7 @@ int	ft_export(t_cmd *cmd, t_env_lst **envp, t_bool do_print)
 	{
 		idx = 0;
 		while (cmd->args[++idx])
-			ft_export_update(cmd->args[idx], envp, do_print);
+			ft_export_update(cmd->args[idx], envp);
 	}
 	return (0);
 }

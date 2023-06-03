@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/31 21:27:07 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 19:57:39 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
  * 
  * @param cmd List of commands.
  */
-static void	close_fds_free(t_cmd_lst *cmd)
+void	close_fds_free(t_cmd_lst *cmd)
 {
 	ft_close_all_fds(cmd);
 	ft_free_cmd_lst(cmd);
 }
 
-static void	close_free_exit(t_cmd_lst *cmd, int exit_code)
+void	close_free_exit(t_cmd_lst *cmd, int exit_code)
 {
 	close_fds_free(cmd);
 	exit(exit_code);
@@ -39,9 +39,22 @@ static void	kill_all_children(pid_t *pids)
 	free(pids);
 }
 
-static void ft_store_result_code(int result_code)
+void ft_store_result_code(int result_code)
 {
 	g_status_code = result_code;
+}
+
+t_bool	is_write_builtin(char *cmd)
+{
+	if (str_equals(cmd, "exit"))
+		return (true);
+	if (str_equal_cmd(cmd, "EXPORT"))
+		return (true);
+	if (str_equal_cmd(cmd, "UNSET"))
+		return (true);
+	if (str_equal_cmd(cmd, "CD"))
+		return (true);
+	return (false);
 }
 
 /**
@@ -61,10 +74,8 @@ void	run(t_cmd_lst *cmd, t_env_lst **envp)
 		return ;
 	if (!ft_add_pipes(cmd))
 		close_free_exit(cmd, INVALID);
-	if (ft_lstsize(cmd) == 1 && ft_strcmp(get_cmd(cmd)->cmd, "exit") == 0)
-		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
-	if (ft_lstsize(cmd) == 1)
-		execute_write_builtin(get_cmd(cmd), envp);
+	if (ft_lstsize(cmd) == 1 && is_write_builtin(get_cmd(cmd)->cmd))
+		return (execute_write_builtin(cmd, envp));
 	i = 0;
 	pids = ft_calloc(sizeof(pid_t), ft_lstsize(cmd) + 1); // TODO
 	if (!pids)
