@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/04 00:32:19 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 23:48:17 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp)
 	else if (str_equals(get_cmd(cmd)->cmd, "exit"))
 		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
 	close_fds_free(cmd);
-	ft_store_result_code(exit_code);
+	ft_store_result_code(exit_code, false);
 }
 
 /**

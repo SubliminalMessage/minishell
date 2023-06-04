@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/04 21:49:30 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 23:48:27 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static void	kill_all_children(pid_t *pids)
 	free(pids);
 }
 
-void ft_store_result_code(int result_code)
+void ft_store_result_code(int result_code, t_bool force)
 {
-	//printf("g_status_code :: (%d) -> (%d);\n", g_status_code, result_code);
-	g_status_code = result_code;
+	if (g_status_code == 0 || force)
+		g_status_code = result_code;
 }
 
 t_bool	is_write_builtin(char *cmd)
@@ -95,5 +95,5 @@ void	run(t_cmd_lst *cmd, t_env_lst **envp)
 		ite = ite->next;
 	}
 	close_fds_free(cmd);
-	ft_store_result_code(ft_wait_result(pids));
+	ft_store_result_code(ft_wait_result(pids), false);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:06:49 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/28 16:54:18 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/04 23:22:35 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_bool	ft_handle_here_doc(t_file *file)
 
 	if (pipe(p) == -1)
 		return (false);
-	while (true)
+	ft_heredoc_signals();
+	while (g_status_code != 1)
 	{
 		ft_putstr_fd(HEREDOC_PROMPT, STDOUT);
 		line = get_next_line(STDIN);
@@ -66,5 +67,7 @@ t_bool	ft_handle_here_doc(t_file *file)
 	}
 	ft_close_fd(&p[1]);
 	file->fd = p[0];
+	if (g_status_code == 1)
+		return (false);
 	return (true);
 }

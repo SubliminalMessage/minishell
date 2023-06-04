@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 21:19:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 23:48:30 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ t_cmd_lst   *parse_command_node(t_env_lst *envp, char *input)
     node = ft_lstnew(cmd);
     if (!cmd || !node)
     {
-        print_parse_error(ERROR_MALLOC, false);
+		if (g_status_code != 1)
+    		print_parse_error(ERROR_MALLOC, false);
         if (cmd)
             ft_free_cmd(cmd);
         if (node)
@@ -143,6 +144,7 @@ int main(int argc, char **argv, char **environ)
 		// printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
 
+		ft_store_result_code(0, true); // Should be safe, because the parsing & expansion it's done already
 		run(cmd_lst, &envp);
 		// printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
 	}
