@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 01:04:34 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 14:56:28 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,20 @@ char	**get_input(void)
 	char	**splitted;
 
 	print_parse_error(NULL, true);
+	ft_prompt_signals();
 	//if (isatty(fileno(stdin)))
-		raw_input = readline("minishell > ");
+		raw_input = readline(RL_PROMPT);
 	/*else
 	{
 		raw_input = get_next_line(fileno(stdin));
 	}*/
 	if (!raw_input) // TODO handle exit with ctrl + D
-		return (NULL);
+	{
+		printf("\033[F"); // Move one line up
+		printf("\33[2K\r"); // Remove the whole line
+		printf("%s%s", RL_PROMPT, EXIT_MSG); // Re-print the prompt + exit message
+		exit(g_status_code);
+	}
 	if (!str_equals(raw_input, ""))
 		add_history(raw_input);
 	input = join_three(ft_strdup(" "), raw_input, ft_strdup(" "));

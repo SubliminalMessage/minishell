@@ -4,7 +4,8 @@
 
 CC	= gcc
 CFLAGS	= -Wall -Werror -Wextra #-g3 -fsanitize=address
-READLINE_FLAGS = -lreadline
+#READLINE_FLAGS = -lreadline #-L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$(USER)/.brew/opt/readline/include
+READLINE_FLAGS = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
 
 ### ---   ---   ---         ---   ---   --- ###
 #               PROJECT PATHS                 #
@@ -67,7 +68,8 @@ SRC_FILES	= 	main.c \
 				exec/wait_result.c \
 				exec/openfile.c \
 				exec/heredoc.c \
-				exec/pipes.c
+				exec/pipes.c \
+				exec/signals.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 

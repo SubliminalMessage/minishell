@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 00:32:32 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 14:55:41 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	g_status_code;
 # define EXIT_ARG_NUM_MSG "exit: %s: numeric argument required\n"
 # define EXIT_NUM_ARGS_MSG "exit: too many arguments\n"
 # define CMD_NOT_FOUND_MSG "minishell: %s: command not found\n"
+# define RL_PROMPT "minishell > "
 
 // CWD Max String Size
 //# define CWD_SIZE 1000
@@ -150,6 +151,8 @@ void	close_free_exit(t_cmd_lst *cmd, int exit_code);
 void	close_fds_free(t_cmd_lst *cmd);
 void ft_store_result_code(int result_code);
 t_bool is_valid_variable_name(char *str);
+void	ft_prompt_signals(void);
+void	rl_replace_line(const char *text, int clear_undo);
 
 // builtins/exit.c
 int			ft_exit(t_cmd *cmd);
