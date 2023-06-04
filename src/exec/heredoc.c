@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:06:49 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/04 23:22:35 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/05 00:12:03 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,10 @@ t_bool	ft_handle_here_doc(t_file *file)
 	{
 		ft_putstr_fd(HEREDOC_PROMPT, STDOUT);
 		line = get_next_line(STDIN);
-		if (!line)
-			return (ft_close_fd(&p[1]), ft_close_fd(&p[0]), false);
-		if (ft_isdelimeter(file->name, line))
+		if (!line || ft_isdelimeter(file->name, line))
 		{
-			free(line);
+			if (line)
+				free(line);
 			break ;
 		}
 		ft_putstr_fd(line, p[1]);
