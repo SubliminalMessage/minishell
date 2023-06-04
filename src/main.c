@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 23:48:30 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 23:52:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int main(int argc, char **argv, char **environ)
 	if (!envp)
 		return (1);
 	disable_output();
-	tcgetattr(0, &terminal);
+	tcgetattr(0, &terminal); // Gets initial attrs. Just to ensure `terminal` is not empty.
 	while (true)
 	{
 		tcsetattr(0, TCSANOW, &terminal);
@@ -145,6 +145,7 @@ int main(int argc, char **argv, char **environ)
 		/////////////////////////// DEBUG ///////////////////////////
 
 		ft_store_result_code(0, true); // Should be safe, because the parsing & expansion it's done already
+		tcgetattr(0, &terminal); // Gets attrs before executing. Will be restored once the execution is finished!
 		run(cmd_lst, &envp);
 		// printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
 	}
