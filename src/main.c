@@ -6,11 +6,32 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/31 21:27:07 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 14:37:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+#include <termios.h>
+void	disable_output(void)
+{
+	int				x;
+	struct termios	termios;
+
+	x = tcgetattr(0, &termios);
+	if (x)
+	{
+		perror("");
+		exit(1);
+	}
+	termios.c_lflag &= ~ECHOCTL;
+	x = tcsetattr(0, 0, &termios);
+	if (x)
+	{
+		perror("");
+		exit(1);
+	}
+}
 
 void	print_file(void *file_void)
 {
@@ -82,10 +103,10 @@ int main(int argc, char **argv, char **environ)
 
 	(void) argc;
 	(void) argv;
+	disable_output();
 	envp = init_env(environ);
 	if (!envp)
 		return (1);
-	
 	while (true)
 	{
         cmd_lst = NULL;
