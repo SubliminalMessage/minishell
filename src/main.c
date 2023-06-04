@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 14:37:34 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 21:19:48 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,18 @@ int main(int argc, char **argv, char **environ)
 	t_env_lst   *envp;
     t_cmd_lst   *cmd_lst;
     t_cmd_lst   *node;
+	struct termios terminal;
 
 	(void) argc;
 	(void) argv;
-	disable_output();
 	envp = init_env(environ);
 	if (!envp)
 		return (1);
+	disable_output();
+	tcgetattr(0, &terminal);
 	while (true)
 	{
+		tcsetattr(0, TCSANOW, &terminal);
         cmd_lst = NULL;
 		input = get_input();
 		if (!input) // TODO handle ctrl + D

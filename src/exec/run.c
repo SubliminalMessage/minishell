@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/04 00:32:49 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 21:49:30 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	kill_all_children(pid_t *pids)
 
 void ft_store_result_code(int result_code)
 {
+	//printf("g_status_code :: (%d) -> (%d);\n", g_status_code, result_code);
 	g_status_code = result_code;
 }
 
@@ -84,6 +85,7 @@ void	run(t_cmd_lst *cmd, t_env_lst **envp)
 	while (ite)
 	{
 		pids[i] = ft_exe_cmd(ite, cmd, envp);
+		signal(SIGINT, SIG_IGN);
 		if (pids[i] == INVALID) // Fork error
 		{
 			kill_all_children(pids);

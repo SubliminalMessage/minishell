@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/03 22:57:13 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 21:15:58 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 	t_cmd	*cmd;
 	char	**envp_arr;
 	
+	ft_child_signals();
 	pid = fork();
 	if (pid)
 		return (pid);
