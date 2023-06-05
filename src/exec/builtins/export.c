@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/03 20:45:56 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:17:42 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	ft_export_update(char *string, t_env_lst **envp)
 	key = ft_substr(string, 0, separator_idx);
 	if (!is_valid_variable_name(key))
 	{
-		printf("minishell: export: `%s': not a valid identifier\n", key);
+		ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", key);
 		free(key);
 		return (1);
 	}
@@ -86,7 +86,7 @@ static int	ft_export_update(char *string, t_env_lst **envp)
 }
 
 
-void	ft_export_print_variable(char *variable)
+void	ft_export_print_variable(char *variable, int fd)
 {
 	char	*key;
 	char	*value;
@@ -98,11 +98,11 @@ void	ft_export_print_variable(char *variable)
 	key = ft_substr(variable, 0, separator_idx);
 	value = ft_substr(variable, separator_idx + 1, ft_strlen(variable));
 	if (key && value)
-	{
-		if (str_equals(value, ""))
-			printf("declare -x %s\n", key); // TODO: If no value, just print the key without ="" (At least OLDPWD)
-		else
-			printf("declare -x %s=\"%s\"\n", key, value); // TODO: If no value, just print the key without ="" (At least OLDPWD)
+{
+		ft_printf_fd(fd, "declare -x %s", key);
+		if (!str_equals(value, "") || !str_equals(key, "OLDPWD"))
+			ft_printf_fd(fd, "=\"%s\"", value);
+		ft_printf_fd(fd, "\n");
 	}
 	if (key)
 		free(key);
@@ -110,7 +110,7 @@ void	ft_export_print_variable(char *variable)
 		free(value);
 	free(variable);
 }
-void	ft_export_print(char ***array_raw)
+void	ft_export_print(char ***array_raw, int fd)
 {
 	int	i;
 	char	**array;
@@ -120,7 +120,7 @@ void	ft_export_print(char ***array_raw)
 	arr_size = ft_arrsize(array);
 	i = -1;
 	while (++i < arr_size)
-		ft_export_print_variable(array[i]);
+		ft_export_print_variable(array[i], fd);
 	free(array);
 }
 
@@ -149,7 +149,7 @@ int	ft_export_compare_strs(char *a, char *b)
 	return (result);
 }
 
-void	ft_export_sort_and_print(t_env_lst *envp)
+void	ft_export_sort_and_print(t_env_lst *envp, int fd)
 {
 	static char	*temp = NULL;
 	char	**array;
@@ -175,7 +175,7 @@ void	ft_export_sort_and_print(t_env_lst *envp)
 			}
 		}
 	}
-	ft_export_print(&array);
+	ft_export_print(&array, fd);
 }
 
 /**
@@ -188,7 +188,7 @@ void	ft_export_sort_and_print(t_env_lst *envp)
  * @param envp Environment List struct.
  * @return int exit code
  */
-int	ft_export(t_cmd *cmd, t_env_lst **envp)
+int	ft_export(t_cmd *cmd, t_env_lst **envp, int fd)
 {
 	int		argc;
 	int		idx;
@@ -198,7 +198,7 @@ int	ft_export(t_cmd *cmd, t_env_lst **envp)
 	num_fails = 0;
 	if (argc == 1)
 	{
-		ft_export_sort_and_print(*envp);
+		ft_export_sort_and_print(*envp, fd);
 	}
 	else if (argc > 1)
 	{

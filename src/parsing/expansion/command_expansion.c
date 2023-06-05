@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/01 21:06:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/05 00:21:45 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*expand_arg(char **str_ptr, t_env_lst *envp)
 		print_parse_error(ERROR_MALLOC, false);
 		return (NULL);
 	}
-	return (expand_home_dir(expanded, envp)); // TODO: expand ~
+	return (expand_home_dir(expanded, envp));
 }
 
 /**

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wait_result.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:17:14 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 23:12:50 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/05 00:24:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * @param pids Array of pids to wait for.
  * @return int Exit status of the last pid.
  */
-// TODO: echo "hey there!" | cat | cat | wc -> 0 but 113 found
+// TODO: echo "hey there!" | cat | cat | wc -> 0 but 113 found ; <?? Update: Seems to be working fine
 int	ft_wait_result(int *pids)
 {
 	int		i;

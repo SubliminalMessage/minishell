@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/04 21:15:58 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:17:39 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 		return (ft_error_in_cmd(cmd_lst, full));
 	ft_redirect_io(cmd);
 	ft_close_all_fds(full);
-	ft_builtins(cmd, full, envp);
+	ft_builtins(cmd_lst, full, envp);
 	if (!ft_get_path(cmd, *envp))
 		return (ft_free_cmd_lst(full), exit(INVALID), INVALID);
 	execve(cmd->cmd, cmd->args, envp_arr);

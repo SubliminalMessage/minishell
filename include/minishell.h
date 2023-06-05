@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 23:42:30 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:08:33 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ void	ft_prompt_signals(void);
 void	rl_replace_line(const char *text, int clear_undo);
 void	ft_child_signals(void);
 void	ft_heredoc_signals(void);
+void	ft_redirect_io(t_cmd *cmd);
+int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full);
 
 // builtins/exit.c
 int			ft_exit(t_cmd *cmd);
@@ -172,13 +174,13 @@ int	ft_pwd(t_cmd *cmd, t_env_lst *envp);
 int	ft_unset(t_cmd *cmd, t_env_lst **envp);
 
 // builtins/export.c
-int	ft_export(t_cmd *cmd, t_env_lst **envp);
+int	ft_export(t_cmd *cmd, t_env_lst **envp, int fd);
 
 // builtins/env.c
-int	ft_env(t_cmd *cmd, t_env_lst *envp);
+int	ft_env(t_cmd *cmd, t_env_lst *envp, int fd);
 
 // builtins/builtins.c
-void		ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst **envp);
+void		ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp);
 
 t_bool	ft_check_output(t_cmd_lst *cmd); // TODO find place
 
