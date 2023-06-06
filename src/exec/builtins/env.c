@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/05 19:18:35 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/05 21:45:27 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_env(t_cmd *cmd, t_env_lst *envp, int fd)
 	if (argv && argv[0] && argv[1])
 	{
 		ft_putstr_fd("env: too many arguments\n", STDERR_FILENO);
-		return (127);
+		return (INVALID);
 	}
 	while (envp)
 	{

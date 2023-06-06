@@ -6,11 +6,23 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:17:14 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/05 00:24:34 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:16:32 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	get_exit_value(int process_code)
+{
+	int	status_code;
+
+	status_code = WEXITSTATUS(process_code);
+	if (WIFEXITED(process_code))
+		status_code = WEXITSTATUS(process_code);
+	else if (WIFSIGNALED(process_code))
+		status_code = WTERMSIG(process_code) + 128;
+	return (status_code);
+}
 
 /**
  * @brief Wait for all pids and return the result of the last one.
@@ -40,5 +52,5 @@ int	ft_wait_result(int *pids)
 		i++;
 	}
 	free(pids);
-	return (WEXITSTATUS(result));
+	return (get_exit_value(result));
 }

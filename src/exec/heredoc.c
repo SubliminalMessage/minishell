@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:06:49 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/05 00:12:03 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:32:18 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ t_bool	ft_handle_here_doc(t_file *file)
 	}
 	ft_close_fd(&p[1]);
 	file->fd = p[0];
-	if (g_status_code == 1)
-		return (false);
-	return (true);
+	if (g_status_code != 1)
+		return (true);
+	ft_store_result_code(HEREDOC_KILL_CODE);
+	return (false);
 }

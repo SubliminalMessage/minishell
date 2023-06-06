@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/05 18:08:33 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:32:03 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	g_status_code;
 # define VALID_TKN_CHARS TKN
 // $_ is not considered SingleCharToken, because '$_a' is a valid one
 # define SINGLE_CHAR_TKN "$?-#*@!0123456789" 
+
+# define HEREDOC_KILL_CODE 125000
 
 // TODO: Refactor DEFINES with style from minishell
 # define INV_TKN_MSG "minishell: syntax error near unexpected token"
@@ -149,14 +151,13 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp); // TODO find place
 int	ft_arrsize(char **array);
 void	close_free_exit(t_cmd_lst *cmd, int exit_code);
 void	close_fds_free(t_cmd_lst *cmd);
-void ft_store_result_code(int result_code, t_bool force);
+void ft_store_result_code(int result_code);
 t_bool is_valid_variable_name(char *str);
 void	ft_prompt_signals(void);
 void	rl_replace_line(const char *text, int clear_undo);
 void	ft_child_signals(void);
 void	ft_heredoc_signals(void);
-void	ft_redirect_io(t_cmd *cmd);
-int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full);
+int	get_exit_value(int process_code);
 
 // builtins/exit.c
 int			ft_exit(t_cmd *cmd);

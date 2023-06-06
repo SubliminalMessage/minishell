@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 23:26:32 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:33:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identifier)
 	get_next_redirection(&identifier, &leftover);
 	if (!create_file(&file, identifier, redir_type))
 	{
-		if (g_status_code != 1)
+		if (g_status_code != HEREDOC_KILL_CODE)
 			print_parse_error(ERROR_MALLOC, false);
 		if (leftover)
 			free(leftover);

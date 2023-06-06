@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 23:52:34 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:33:26 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_cmd_lst   *parse_command_node(t_env_lst *envp, char *input)
     node = ft_lstnew(cmd);
     if (!cmd || !node)
     {
-		if (g_status_code != 1)
+		if (g_status_code != HEREDOC_KILL_CODE)
     		print_parse_error(ERROR_MALLOC, false);
         if (cmd)
             ft_free_cmd(cmd);
@@ -127,7 +127,12 @@ int main(int argc, char **argv, char **environ)
 			i++;
 		}
 		free(input);
-
+		if (g_status_code == HEREDOC_KILL_CODE)
+		{
+			ft_store_result_code(1);
+			tcgetattr(0, &terminal);
+			continue ;
+		}
 		/////////////////////////// DEBUG ///////////////////////////
 
 		// ft_lstiter(cmd_lst, (void (*)(void *)) print_cmd);
@@ -144,7 +149,7 @@ int main(int argc, char **argv, char **environ)
 		// printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
 
-		ft_store_result_code(0, true); // Should be safe, because the parsing & expansion it's done already
+		ft_store_result_code(0); // Should be safe, because the parsing & expansion it's done already
 		tcgetattr(0, &terminal); // Gets attrs before executing. Will be restored once the execution is finished!
 		run(cmd_lst, &envp);
 		// printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
