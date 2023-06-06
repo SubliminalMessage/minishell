@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/05 18:17:39 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:44:36 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,21 @@ static void	ft_redirect_io(t_cmd *cmd)
  */
 static int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 {
-	write(get_file(ft_lstlast(get_cmd(cmd_lst)->out))->fd, "", 1);
-	ft_close_all_fds(full);
+	t_cmd *cmd;
+	t_file_lst *lst;
+	t_file *file;
+
+	cmd = get_cmd(cmd_lst);
+	if (!cmd)
+		return (exit(INVALID), INVALID);
+	lst = ft_lstlast(cmd->out);
+	if (!lst)
+		return (exit(INVALID), INVALID);
+	file = get_file(lst);
+	if (!file)
+		return (exit(INVALID), INVALID);
+	write(file->fd, "", 1);
+	ft_close_all_fds(full); // TODO leaks <??
 	ft_free_cmd_lst(full);
 	return (exit(INVALID), INVALID);
 }

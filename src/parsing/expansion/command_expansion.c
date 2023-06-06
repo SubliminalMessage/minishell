@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/05 00:21:45 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/06 19:38:58 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char	*expand(char *str, t_env_lst *env)
 
 	skip = (!str || str[0] == '\'');
 	str = dequote(str);
+	if (!str)
+		return (NULL);
 	i = -1;
 	while (!skip && ++i < ft_strlen(str))
 	{
