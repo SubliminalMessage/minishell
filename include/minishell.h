@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/06 17:32:03 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 00:32:59 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp); // TODO find place
 int	ft_arrsize(char **array);
 void	close_free_exit(t_cmd_lst *cmd, int exit_code);
 void	close_fds_free(t_cmd_lst *cmd);
-void ft_store_result_code(int result_code);
+void ft_store_result_code(int result_code, t_bool force);
 t_bool is_valid_variable_name(char *str);
 void	ft_prompt_signals(void);
 void	rl_replace_line(const char *text, int clear_undo);

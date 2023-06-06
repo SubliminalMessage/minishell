@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/06 20:03:54 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 00:33:01 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int main(int argc, char **argv, char **environ)
 		//tcsetattr(0, TCSANOW, &terminal); // Todo: Un-comment this when fixed lol
         cmd_lst = NULL;
 		input = get_input();
-		if (!input) // TODO handle ctrl + D
+		if (!input)
 			continue;
 		int i = 0;
 		while (input[i])
@@ -125,6 +125,12 @@ int main(int argc, char **argv, char **environ)
 				break ;
 			ft_lstadd_back(&cmd_lst, node);
 			i++;
+		}
+		if (input[i] != NULL)
+		{
+			free(input);
+			ft_free_cmd_lst(cmd_lst);
+			continue ;
 		}
 		free(input);
 		/////////////////////////// DEBUG ///////////////////////////
@@ -143,7 +149,7 @@ int main(int argc, char **argv, char **environ)
 		// printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
 
-		ft_store_result_code(0); // Should be safe, because the parsing & expansion it's done already
+		ft_store_result_code(0, true); // Should be safe, because the parsing & expansion it's done already
 		tcgetattr(0, &terminal); // Gets attrs before executing. Will be restored once the execution is finished!
 		run(cmd_lst, &envp);
 		// printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 14:26:37 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/06 17:14:36 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 00:32:55 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_child_signals(void)
 static void	sig_handler_heredoc_int(int signal)
 {
 	(void) signal;
-	ft_store_result_code(1);
+	ft_store_result_code(1, true);
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 }
 
