@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/06 19:12:58 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 00:49:43 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identifier)
 	{
 		if (g_status_code != 1)
 			print_parse_error(ERROR_MALLOC, false);
+		else if (identifier)
+			free(identifier);
 		if (leftover)
 			free(leftover);
 		return (false);
