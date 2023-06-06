@@ -6,11 +6,32 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/31 21:27:07 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 00:33:01 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+#include <termios.h>
+void	disable_output(void)
+{
+	int				x;
+	struct termios	termios;
+
+	x = tcgetattr(0, &termios);
+	if (x)
+	{
+		perror("");
+		exit(1);
+	}
+	termios.c_lflag &= ~ECHOCTL;
+	x = tcsetattr(0, 0, &termios);
+	if (x)
+	{
+		perror("");
+		exit(1);
+	}
+}
 
 void	print_file(void *file_void)
 {
@@ -63,7 +84,8 @@ t_cmd_lst   *parse_command_node(t_env_lst *envp, char *input)
     node = ft_lstnew(cmd);
     if (!cmd || !node)
     {
-        print_parse_error(ERROR_MALLOC, false);
+		if (g_status_code != 1)//!= HEREDOC_KILL_CODE)
+    		print_parse_error(ERROR_MALLOC, false);
         if (cmd)
             ft_free_cmd(cmd);
         if (node)
@@ -79,18 +101,21 @@ int main(int argc, char **argv, char **environ)
 	t_env_lst   *envp;
     t_cmd_lst   *cmd_lst;
     t_cmd_lst   *node;
+	struct termios terminal;
 
 	(void) argc;
 	(void) argv;
 	envp = init_env(environ);
-	if (!envp)
+	if (!envp) // TODO change this
 		return (1);
-	
+	disable_output();
+	tcgetattr(0, &terminal); // Gets initial attrs. Just to ensure `terminal` is not empty.
 	while (true)
 	{
+		//tcsetattr(0, TCSANOW, &terminal); // Todo: Un-comment this when fixed lol
         cmd_lst = NULL;
 		input = get_input();
-		if (!input) // TODO handle ctrl + D
+		if (!input)
 			continue;
 		int i = 0;
 		while (input[i])
@@ -101,8 +126,13 @@ int main(int argc, char **argv, char **environ)
 			ft_lstadd_back(&cmd_lst, node);
 			i++;
 		}
+		if (input[i] != NULL)
+		{
+			free(input);
+			ft_free_cmd_lst(cmd_lst);
+			continue ;
+		}
 		free(input);
-
 		/////////////////////////// DEBUG ///////////////////////////
 
 		// ft_lstiter(cmd_lst, (void (*)(void *)) print_cmd);
@@ -119,6 +149,8 @@ int main(int argc, char **argv, char **environ)
 		// printf("\n\n");
 		/////////////////////////// DEBUG ///////////////////////////
 
+		ft_store_result_code(0, true); // Should be safe, because the parsing & expansion it's done already
+		tcgetattr(0, &terminal); // Gets attrs before executing. Will be restored once the execution is finished!
 		run(cmd_lst, &envp);
 		// printf("run finished. Result code: %s\n", ft_getenv(envp, "?"));
 	}

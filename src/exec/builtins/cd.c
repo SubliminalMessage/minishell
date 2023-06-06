@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/02 18:51:31 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:19:59 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_cd(t_cmd *cmd, t_env_lst **envp)
 		path = ft_strdup("");
 	result = chdir(path);
 	if (result != 0)
-		printf("minishell: cd: %s: No such file or directory\n", path);
+		ft_printf_fd(STDERR_FILENO, "minishell: cd: %s: No such file or directory\n", path);
 	free(path);
 	update_env(envp, "OLDPWD", current_path, true);
 	getcwd(current_path, 4096);

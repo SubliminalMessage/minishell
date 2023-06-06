@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   wait_result.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:17:14 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/04/29 23:12:50 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:16:32 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	get_exit_value(int process_code)
+{
+	int	status_code;
+
+	status_code = WEXITSTATUS(process_code);
+	if (WIFEXITED(process_code))
+		status_code = WEXITSTATUS(process_code);
+	else if (WIFSIGNALED(process_code))
+		status_code = WTERMSIG(process_code) + 128;
+	return (status_code);
+}
 
 /**
  * @brief Wait for all pids and return the result of the last one.
@@ -22,7 +34,7 @@
  * @param pids Array of pids to wait for.
  * @return int Exit status of the last pid.
  */
-// TODO: echo "hey there!" | cat | cat | wc -> 0 but 113 found
+// TODO: echo "hey there!" | cat | cat | wc -> 0 but 113 found ; <?? Update: Seems to be working fine
 int	ft_wait_result(int *pids)
 {
 	int		i;
@@ -40,5 +52,5 @@ int	ft_wait_result(int *pids)
 		i++;
 	}
 	free(pids);
-	return (WEXITSTATUS(result));
+	return (get_exit_value(result));
 }

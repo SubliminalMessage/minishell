@@ -6,17 +6,26 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/04 00:32:19 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 00:32:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int get_out_file(t_cmd_lst *cmd)
+{
+	t_file *file;
+
+	file = get_file(ft_lstlast(get_cmd(cmd)->out));
+	if (!file)
+		return (STDOUT_FILENO);
+	return (file->fd);
+}
+
 /**
  * @brief Executes all the builtins that modifies (writes) the envp list before
  *        creating fork processes. This only happens if there is only ONE
- *        command to execute. This execution also DO NOT PRINT anything on
- *        screen. This is done once the builtin is executed on the
- *        child process.
+ *        command to execute.
  * 
  * @param cmd The cmd to execute
  * @param envp, The envp list to modify
@@ -33,18 +42,26 @@
 void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp)
 {
 	int	exit_code;
+	int	out_fd;
 
 	exit_code = 0;
+	if (!ft_open_all_files(get_cmd(cmd)))
+	{ // TODO: not sure if this is correct
+		write(get_file(ft_lstlast(get_cmd(cmd)->out))->fd, "", 1);
+		close_fds_free(cmd);
+		return ;
+	}
+	out_fd = get_out_file(cmd);
 	if (str_equals(get_cmd(cmd)->cmd, "cd"))
 		exit_code = ft_cd(get_cmd(cmd), envp);
 	else if (str_equals(get_cmd(cmd)->cmd, "export"))
-		exit_code = ft_export(get_cmd(cmd), envp);
+		exit_code = ft_export(get_cmd(cmd), envp, out_fd);
 	else if (str_equals(get_cmd(cmd)->cmd, "unset"))
 		exit_code = ft_unset(get_cmd(cmd), envp);
 	else if (str_equals(get_cmd(cmd)->cmd, "exit"))
 		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
 	close_fds_free(cmd);
-	ft_store_result_code(exit_code);
+	ft_store_result_code(exit_code, false);
 }
 
 /**
@@ -55,10 +72,14 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp)
  * @param cmd command to check.
  * @param full list of all commands.
  */
-void	ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst **envp)
+void	ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 {
 	int	exit_code;
+	int	fd_out;
+	t_cmd *cmd;
 
+	cmd = get_cmd(cmd_lst);
+	fd_out = get_out_file(cmd_lst);
 	exit_code = 0;
 	if (cmd->cmd == NULL)
 		ft_copyall(STDIN, STDOUT);
@@ -71,13 +92,13 @@ void	ft_builtins(t_cmd *cmd, t_cmd_lst *full, t_env_lst **envp)
 	else if (str_equals(cmd->cmd, "pwd"))
 		exit_code = ft_pwd(cmd, *envp);
 	else if (str_equals(cmd->cmd, "export")) // TODO: No-ENV Minishell exceptions
-	 	exit_code = ft_export(cmd, envp);
+	 	exit_code = ft_export(cmd, envp, fd_out);
 	else if (str_equals(cmd->cmd, "unset"))
 	 	exit_code = ft_unset(cmd, envp);
 	else if (str_equals(cmd->cmd, "env"))
-		exit_code = ft_env(cmd, *envp);
+		exit_code = ft_env(cmd, *envp, fd_out);
 	else
 		return ;
-		ft_free_cmd_lst(full);
-		exit(exit_code);
+	ft_free_cmd_lst(full);
+	exit(exit_code);
 }

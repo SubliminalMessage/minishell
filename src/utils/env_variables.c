@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/01 20:40:12 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/05 00:22:10 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ char	*ft_gethome(t_env_lst *envp)
 	return (build_home(envp));
 }
 
-// TODO: Handle exceptions such as '$$'
-// ($_) Info:
-// https://unix.stackexchange.com/questions/280453/understand-the-meaning-of
 /**
  * @brief Acts exactly like getenv(), but it takes the variables from a
  *        t_env_lst structure.

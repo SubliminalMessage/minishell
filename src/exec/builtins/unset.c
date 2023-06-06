@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/03 20:44:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:18:55 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_bool	ft_unset_variable(t_env_lst **envp, char *key)
 
 	if (!is_valid_variable_name(key))
 	{
-		printf("minishell: unset: `%s': not a valid identifier\n", key);
+		ft_printf_fd(STDERR, "minishell: unset: `%s': not a valid identifier\n", key);
 		return (false);
 	}
 	lst = *envp;
@@ -62,7 +62,7 @@ int	ft_unset(t_cmd *cmd, t_env_lst **envp)
 	did_anyone_fail = false;
 	argc = ft_arrsize(argv);
 	i = 1;
-	while (i < argc) // TODO: Handle invalid parameter name error (e.g.: unset PATH=123)
+	while (i < argc)
 	{
 		if (!ft_unset_variable(envp, argv[i]))
 			did_anyone_fail = true;
