@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 00:33:01 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:58:22 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ int main(int argc, char **argv, char **environ)
 	(void) argc;
 	(void) argv;
 	envp = init_env(environ);
-	if (!envp) // TODO change this
-		return (1);
 	disable_output();
 	tcgetattr(0, &terminal); // Gets initial attrs. Just to ensure `terminal` is not empty.
 	while (true)

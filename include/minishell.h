@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 16:18:30 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:14:53 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 void	ft_child_signals(void);
 void	ft_heredoc_signals(void);
 int	get_exit_value(int process_code);
+t_bool value_is_null(char *key, t_env_lst *envp);
 
 // builtins/exit.c
 int			ft_exit(t_cmd *cmd, t_bool is_only_cmd);

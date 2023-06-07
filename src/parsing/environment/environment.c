@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 16:28:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:13:34 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,29 @@ void	init_zero_variable(t_env_lst **envp)
 	}
 }
 
+void init_default_variables(t_env_lst **envp)
+{
+	t_bool	is_null;
+	char	current_pwd[4096];
+	
+	is_null = value_is_null("OLDPWD", *envp);
+	if (is_null)
+		update_env(envp, "OLDPWD", NULL, true);
+	is_null = value_is_null("SHLVL", *envp);
+	if (is_null)
+		update_env(envp, "SHLVL", "1", true);
+	is_null = value_is_null("_", *envp);
+	if (is_null)
+		update_env(envp, "_", "./minishell", true);
+	is_null = value_is_null("PWD", *envp);
+	if (is_null)
+	{
+		getcwd(current_pwd, 4096);
+		update_env(envp, "PWD", current_pwd, true);
+	}
+	init_zero_variable(envp);
+}
+
 /**
  * @brief Initializes the t_env_lst that will be used all through the Shell
  *        to expand Variables and such.
@@ -68,7 +91,7 @@ t_env_lst	*init_env(char **environ)
 		ft_lstadd_back(&envp, node);
 		i++;
 	}
-	init_zero_variable(&envp);
+	init_default_variables(&envp);
 	return (envp);
 }
 

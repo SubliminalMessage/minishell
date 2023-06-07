@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 16:38:37 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:12:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 	t_env_lst	*new_node;
 	t_env		*node;
 
-	if (!env || !*env || !key)
+	if (!env || !key)
 		return (false);
 	lst = *env;
 	while (lst)

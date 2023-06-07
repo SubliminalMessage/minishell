@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 16:44:16 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:02:20 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	ft_export_update(char *string, t_env_lst **envp)
 	return (0);
 }
 
-static t_bool value_is_null(char *key, t_env_lst *envp)
+t_bool value_is_null(char *key, t_env_lst *envp)
 {
 	t_env *node;
 
