@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 12:53:29 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:18:30 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	g_status_code;
 */
 
 // TKN => Valid Token Characters. Norminette issues :(
-# define TKN "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXY0123456789"
+# define TKN "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 # define VALID_TKN_CHARS TKN
 // $_ is not considered SingleCharToken, because '$_a' is a valid one
 # define SINGLE_CHAR_TKN "$?-#*@!0123456789" 
@@ -230,7 +230,7 @@ int			ft_copyall(int rfd, int wfd);
 // env_variables.c
 char		*ft_getenv(t_env_lst *envp, char *key);
 t_bool		update_env(t_env_lst **env, char *key, char *value, t_bool vsbl);
-char		**build_envp(t_env_lst *envp);
+char		**build_envp(t_env_lst *envp, t_bool persist_nulls);
 
 // file.c
 t_file		*ft_newpipefd(int fd);

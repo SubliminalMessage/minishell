@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/05 00:22:10 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:26:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ char	*ft_getenv(t_env_lst *envp, char *key)
 	{
 		node = envp->content;
 		if (node && str_equals(node->key, key))
-			return (ft_strdup(node->value));
+		{
+			if (node->value)
+				return (ft_strdup(node->value));
+			else
+				return (ft_strdup(""));
+		}
 		envp = envp->next;
 	}
 	return (ft_strdup(""));
@@ -99,7 +104,7 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 	t_env_lst	*new_node;
 	t_env		*node;
 
-	if (!env || !*env || !key || !value)
+	if (!env || !*env || !key)
 		return (false);
 	lst = *env;
 	while (lst)
@@ -108,14 +113,14 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 		lst = lst->next;
 		if (!node || !str_equals(node->key, key))
 			continue ;
-		value = ft_strdup(value);
-		if (!value)
-			return (false);
-		free(node->value);
+		if (value)
+			value = ft_strdup(value); // Assumes it wont fail.
+		if (node->value) // If it was malloc()-ed, free()-s it
+			free(node->value);
 		node->value = value;
 		return (true);
 	}
-	new_node = new_env_node_splitted(ft_strdup(key), ft_strdup(value), vsbl);
+	new_node = new_env_node_splitted(ft_strdup(key), value, vsbl);
 	if (!new_node)
 		return (false);
 	ft_lstadd_back(env, new_node);
@@ -128,7 +133,7 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
  * 
  * @return char**, the String Array containing the Variables
 */
-char	**build_envp(t_env_lst *envp)
+char	**build_envp(t_env_lst *envp, t_bool persist_nulls)
 {
 	int		size;
 	int		i;
@@ -144,10 +149,13 @@ char	**build_envp(t_env_lst *envp)
 	{
 		node = envp->content;
 		envp = envp->next;
-		if (!node || !node->is_visible)
+		if (!node || !node->is_visible || (!node->value && !persist_nulls)) // if node->value IS NULL and we DO NOT want to persist the NULLS, continue
 			continue ;
-		matrix[++i] = join_three(ft_strdup(node->key),
-				ft_strdup("="), ft_strdup(node->value));
+		if (node->value)
+			matrix[++i] = join_three(ft_strdup(node->key),
+					ft_strdup("="), ft_strdup(node->value));
+		else
+			matrix[++i] = join_two(ft_strdup(node->key), ft_strdup("="));
 		if (!matrix[i])
 		{
 			free_str_array(matrix);

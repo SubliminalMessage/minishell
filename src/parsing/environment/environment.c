@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/01 19:34:38 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:28:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ t_env_lst	*init_env(char **environ)
 
 	i = 0;
 	envp = NULL;
-	node = new_env_node("OLDPWD", true);
-	if (!node)
-		return (NULL);
+	node = NULL;//new_env_node("OLDPWD", true); // TODO: add SHLVL and PWD to the env by default
 	ft_lstadd_back(&envp, node);
 	while (environ[i])
 	{
@@ -100,7 +98,10 @@ t_env_lst	*new_env_node(char *string, t_bool is_visible)
 		return (NULL);
 	separator_idx = ft_strchr(string, '=') - string;
 	node->key = ft_substr(string, 0, separator_idx);
-	node->value = ft_substr(string, separator_idx + 1, ft_strlen(string));
+	if (separator_idx <= 0)
+		node->value = NULL;
+	else
+		node->value = ft_substr(string, separator_idx + 1, ft_strlen(string));
 	node->is_visible = is_visible;
 	if (str_equals(node->key, "SHLVL"))
 		node->value = env_shell_level_exception(node->value);

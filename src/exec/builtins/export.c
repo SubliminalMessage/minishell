@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/05 19:17:42 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:32:52 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ static void	ft_export_update_env(t_env_lst **envp, char *key, char *value)
 {
 	char	*old_value;
 
-	if (!key || !value)
+	if (!key)
 		return ;
 	old_value = ft_getenv(*envp, key);
 	if (!old_value)
 		return ;
 	if (str_equals(old_value, ""))
 		update_env(envp, key, value, true);
-	else if (!str_equals(value, ""))
+	else if (value && !str_equals(value, ""))
 		update_env(envp, key, value, true);
 	if (old_value)
 		free(old_value);
@@ -73,8 +73,11 @@ static int	ft_export_update(char *string, t_env_lst **envp)
 		free(key);
 		return (1);
 	}
-	value = ft_substr(string, separator_idx + 1, ft_strlen(string));
-	if (!key || !value)
+	if (separator_idx <= 0)
+		value = NULL;
+	else
+		value = ft_substr(string, separator_idx + 1, ft_strlen(string));
+	if (!key || (!value && separator_idx > 0))
 		return (1);
 	else
 		ft_export_update_env(envp, key, value);
@@ -85,8 +88,28 @@ static int	ft_export_update(char *string, t_env_lst **envp)
 	return (0);
 }
 
+static t_bool value_is_null(char *key, t_env_lst *envp)
+{
+	t_env *node;
 
-void	ft_export_print_variable(char *variable, int fd)
+	if (!key)
+		return (true);
+	while (envp)
+	{
+		node = envp->content;
+		if (!str_equals(key, node->key))
+		{
+			envp = envp->next;
+			continue ;
+		}
+		if (node->value)
+			return (false);
+		return (true);
+	}
+	return (true);
+}
+
+void	ft_export_print_variable(char *variable, int fd, t_env_lst *envp)
 {
 	char	*key;
 	char	*value;
@@ -96,11 +119,14 @@ void	ft_export_print_variable(char *variable, int fd)
 		return ;
 	separator_idx = ft_strchr(variable, '=') - variable;
 	key = ft_substr(variable, 0, separator_idx);
-	value = ft_substr(variable, separator_idx + 1, ft_strlen(variable));
-	if (key && value)
-{
+	if (separator_idx <= 0)
+		value = NULL;
+	else
+		value = ft_substr(variable, separator_idx + 1, ft_strlen(variable));
+	if (key && (separator_idx <= 0 || (separator_idx > 0 && value)))
+	{
 		ft_printf_fd(fd, "declare -x %s", key);
-		if (!str_equals(value, "") || !str_equals(key, "OLDPWD"))
+		if (value && (!str_equals(value, "") || !value_is_null(key, envp)))
 			ft_printf_fd(fd, "=\"%s\"", value);
 		ft_printf_fd(fd, "\n");
 	}
@@ -110,7 +136,7 @@ void	ft_export_print_variable(char *variable, int fd)
 		free(value);
 	free(variable);
 }
-void	ft_export_print(char ***array_raw, int fd)
+void	ft_export_print(char ***array_raw, int fd, t_env_lst *envp)
 {
 	int	i;
 	char	**array;
@@ -120,7 +146,7 @@ void	ft_export_print(char ***array_raw, int fd)
 	arr_size = ft_arrsize(array);
 	i = -1;
 	while (++i < arr_size)
-		ft_export_print_variable(array[i], fd);
+		ft_export_print_variable(array[i], fd, envp);
 	free(array);
 }
 
@@ -151,13 +177,13 @@ int	ft_export_compare_strs(char *a, char *b)
 
 void	ft_export_sort_and_print(t_env_lst *envp, int fd)
 {
-	static char	*temp = NULL;
+	char	*temp;
 	char	**array;
 	int		arr_size;
 	int		i;
 	int		j;
 
-	array = build_envp(envp);
+	array = build_envp(envp, true);
 	if (!array)
 		return ; // TODO: handle this, i guess?
 	arr_size = ft_arrsize(array);
@@ -175,7 +201,7 @@ void	ft_export_sort_and_print(t_env_lst *envp, int fd)
 			}
 		}
 	}
-	ft_export_print(&array, fd);
+	ft_export_print(&array, fd, envp);
 }
 
 /**

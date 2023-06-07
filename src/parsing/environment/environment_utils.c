@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:29:41 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/01 16:46:09 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:26:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 */
 t_bool	is_valid_env_node(t_env *node)
 {
-	if (!node || !node->key || !node->value)
+	if (!node || !node->key)
 	{
 		free_env_node(node);
 		return (false);
@@ -66,8 +66,12 @@ char	*env_shell_level_exception(char *shell_level)
 {
 	int	shlvl;
 
-	shlvl = ft_atoi(shell_level) + 1;
-	free(shell_level);
+	if (shell_level == NULL)
+		shlvl = 1;
+	else
+		shlvl = ft_atoi(shell_level) + 1;
+	if (shell_level)
+		free(shell_level);
 	return (ft_itoa(shlvl));
 }
 
@@ -86,7 +90,10 @@ t_env_lst	*new_env_node_splitted(char *key, char *value, t_bool visible)
 	char		*join;
 	t_env_lst	*result;
 
-	join = join_three(key, ft_strdup("="), value);
+	if (!value)
+		join = key;
+	else
+		join = join_three(key, ft_strdup("="), ft_strdup(value));
 	result = new_env_node(join, visible);
 	free(join);
 	return (result);
