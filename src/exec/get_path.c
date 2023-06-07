@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:58 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/29 19:45:27 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:20:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ static t_bool	ft_handle_cmd(t_cmd *cmd, char **path)
 		i++;
 	}
 	ft_printf_fd(2, CMD_NOT_FOUND_MSG, cmd->cmd);
+	ft_store_result_code(127, true);
 	return (false);
 }
 

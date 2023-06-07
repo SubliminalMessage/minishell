@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:45:39 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/06 20:40:59 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:37:55 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	print_parse_error_str(char *msg, char *str)
 {
 	char	*to_print;
 
+	ft_store_result_code(258, true);
 	to_print = join_three(ft_strdup(msg), str, ft_strdup("'\n"));
 	print_parse_error(to_print, false);
 	free(to_print);

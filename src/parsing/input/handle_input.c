@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 14:56:28 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:40:02 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ t_bool	is_valid_input(char *line_read)
 	free(split);
 	if (!is_valid && i != 1)
 		print_parse_error(INV_TKN_MSG" `|'", false);
+	if (!is_valid && i != 1)
+		ft_store_result_code(258, true);
 	return (is_valid);
 }
 
