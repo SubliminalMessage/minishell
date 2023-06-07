@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 16:26:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:38:37 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 		if (!node || !str_equals(node->key, key))
 			continue ;
 		if (value)
-			value = ft_strdup(value); // Assumes it wont fail.
-		if (node->value) // If it was malloc()-ed, free()-s it
+			value = ft_strdup(value);
+		if (node->value)
 			free(node->value);
 		node->value = value;
 		return (true);
@@ -149,7 +149,7 @@ char	**build_envp(t_env_lst *envp, t_bool persist_nulls)
 	{
 		node = envp->content;
 		envp = envp->next;
-		if (!node || !node->is_visible || (!node->value && !persist_nulls)) // if node->value IS NULL and we DO NOT want to persist the NULLS, continue
+		if (!node || !node->is_visible || (!node->value && !persist_nulls))
 			continue ;
 		if (node->value)
 			matrix[++i] = join_three(ft_strdup(node->key),
