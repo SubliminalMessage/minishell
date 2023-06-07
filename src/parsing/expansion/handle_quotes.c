@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:27:52 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/03 21:43:13 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:38:15 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	*dequote(char *str)
 	is_unclosed = !check_if_closed(quote, str[s_len - 1]);
 	if ((s_len == 1 && (quote == '\'' || quote == '"')) || is_unclosed)
 	{
+		ft_store_result_code(258, true);
 		if (quote == '\'')
 			print_parse_error(INV_TKN_MSG" `\''", false);
 		else

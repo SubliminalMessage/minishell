@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/07 00:32:54 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:53:24 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp)
 	else if (str_equals(get_cmd(cmd)->cmd, "unset"))
 		exit_code = ft_unset(get_cmd(cmd), envp);
 	else if (str_equals(get_cmd(cmd)->cmd, "exit"))
-		close_free_exit(cmd, ft_exit(get_cmd(cmd)));
+		close_free_exit(cmd, ft_exit(get_cmd(cmd), true));
 	close_fds_free(cmd);
 	ft_store_result_code(exit_code, false);
 }
@@ -86,7 +86,7 @@ void	ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 	else if (str_equals(cmd->cmd, "echo"))
 		exit_code = ft_echo(cmd);
 	else if (str_equals(cmd->cmd, "exit"))
-		exit_code = ft_exit(cmd);
+		exit_code = ft_exit(cmd, false);
 	else if (str_equals(cmd->cmd, "cd"))
 	 	exit_code = ft_cd(cmd, envp);
 	else if (str_equals(cmd->cmd, "pwd"))

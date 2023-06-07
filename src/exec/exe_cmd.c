@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/06 18:44:36 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:22:25 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,12 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 	ft_close_all_fds(full);
 	ft_builtins(cmd_lst, full, envp);
 	if (!ft_get_path(cmd, *envp))
-		return (ft_free_cmd_lst(full), exit(INVALID), INVALID);
+	{
+		ft_free_cmd_lst(full);
+		if (g_status_code == 127)
+			return (exit(127), 127);
+		return (exit(INVALID), INVALID);
+	}
 	execve(cmd->cmd, cmd->args, envp_arr);
 	ft_free_array(envp_arr);
 	return (exit(INVALID), INVALID); // TODO error code?
