@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 16:32:52 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:44:16 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	ft_export_print_variable(char *variable, int fd, t_env_lst *envp)
 		value = NULL;
 	else
 		value = ft_substr(variable, separator_idx + 1, ft_strlen(variable));
-	if (key && (separator_idx <= 0 || (separator_idx > 0 && value)))
+	if (key && (separator_idx <= 0 || (separator_idx > 0 && value)) && !str_equals(key, "_"))
 	{
 		ft_printf_fd(fd, "declare -x %s", key);
 		if (value && (!str_equals(value, "") || !value_is_null(key, envp)))
