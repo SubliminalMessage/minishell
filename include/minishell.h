@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 00:32:59 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:53:29 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	ft_heredoc_signals(void);
 int	get_exit_value(int process_code);
 
 // builtins/exit.c
-int			ft_exit(t_cmd *cmd);
+int			ft_exit(t_cmd *cmd, t_bool is_only_cmd);
 
 // builtins/echo.c
 int			ft_echo(t_cmd *cmd);
