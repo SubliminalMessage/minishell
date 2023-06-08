@@ -6,12 +6,20 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/05 18:18:55 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 23:06:25 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief given an env. list and a key, unsets the key from the env. list
+ * 
+ * @param envp, the Env. List
+ * @param key, the Variable Name to unset
+ * 
+ * @return t_bool, whether the action where done correctly or not
+*/
 t_bool	ft_unset_variable(t_env_lst **envp, char *key)
 {
 	t_env *node;
@@ -45,7 +53,6 @@ t_bool	ft_unset_variable(t_env_lst **envp, char *key)
  * @brief unset builtin.
  * 
  * @note usage: unset
- * 
  * 
  * @param cmd command struct.
  * @param envp Environment List struct.

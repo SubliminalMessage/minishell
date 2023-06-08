@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 14:26:37 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 00:32:55 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 23:41:24 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static void	sig_handler_prompt(int signal)
 {
 	(void) signal;
-	printf("\n"); // Move to new line
-	rl_on_new_line(); // Update Readline
-	rl_replace_line("", 0); // Clear user's input
-	rl_redisplay(); // Print the prompt again
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	ft_prompt_signals(void)
@@ -36,7 +36,7 @@ static void	sig_handler_child_quit(int signal)
 
 void	ft_child_signals(void)
 {
-	signal(SIGINT, SIG_DFL); // TODO: cat + ^C -> $?: 130
+	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, sig_handler_child_quit);
 }
 

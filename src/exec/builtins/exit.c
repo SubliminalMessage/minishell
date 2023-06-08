@@ -6,12 +6,19 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:12:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/07 13:37:07 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:51:04 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief Util function. Same as ft_isalpha(), but applied to strings.
+ * 
+ * @param str, the String to check
+ * 
+ * @return t_bool, whether the string is alpha or not
+*/
 static t_bool	ft_str_is_alpha(char *str)
 {
 	int i;
@@ -27,6 +34,14 @@ static t_bool	ft_str_is_alpha(char *str)
 	return (false);
 }
 
+/**
+ * @brief Simple version of Atoi (without negatives), but applied to ULL
+ *        (unsiged long long)
+ * 
+ * @param str, The string whose content is a number
+ * 
+ * @return unsigned long long, the number
+*/
 static unsigned long long ft_atoull(char *str)
 {
 	unsigned long long value;
@@ -42,6 +57,15 @@ static unsigned long long ft_atoull(char *str)
 	return (value);
 }
 
+/**
+ * @brief Given a string containing the exit value, converts it
+ *        into the 'correct' one, returns it. If any error happens
+ *        in the process, the error message is also printed.
+ * 
+ * @param str, the string containing the exit value
+ * 
+ * @param int, the exit value (from 0 to 255)
+*/
 static int	ft_exit_get_value(char *str)
 {
 	unsigned long long value;
@@ -73,9 +97,13 @@ static int	ft_exit_get_value(char *str)
  * @note usage: exit [exit_code]
  * 
  * @param cmd command struct
+ * @param is_only_cmd whether the command is executed as a single
+ *        command, or inside pipes. The latter do not print any 'exit'
+ *        message.
+ * 
  * @return int exit code
  */
-int	ft_exit(t_cmd *cmd, t_bool is_only_cmd) // 9223372036854775807 < num
+int	ft_exit(t_cmd *cmd, t_bool is_only_cmd)
 {
 	int exit_code;
 

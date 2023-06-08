@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 17:13:34 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 23:43:26 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@ void	init_zero_variable(t_env_lst **envp)
 	}
 }
 
+/**
+ * @brief Given an env list, initializes its default values.
+ *        This function is mainly used when the minishell is executed
+ *        without environment variables.
+ * 
+ * @note It initializes (if not done previously) the variables: 'OLDPWD',
+ *       'SHLVL', '_' and 'PWD'.
+ * 
+ * @param envp, the Env. List to modify 
+*/
 void init_default_variables(t_env_lst **envp)
 {
 	t_bool	is_null;

@@ -6,14 +6,14 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:14:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/04 00:41:04 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:45:14 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 /**
- * @brief Checks if the given flag is -n.
+ * @brief Checks if the given flag is -n. // TODO: this is kinda not done lol
  * 
  * @note In the original bash implementation, the flag can be repeated
  * as many times as the user wants.

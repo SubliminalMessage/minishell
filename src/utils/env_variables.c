@@ -6,12 +6,21 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 17:12:54 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:09:31 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief Given an Env. List, tries to build the $HOME value out of $0.
+ *        This function is used when the $HOME variable is not set. It acts
+ *        like a fallback value.
+ * 
+ * @param envp, the Env. List
+ * 
+ * @return char*, the fallback value for $HOME (if found)
+*/
 char	*build_home(t_env_lst *envp)
 {
 	char	*zero;
@@ -40,6 +49,14 @@ char	*build_home(t_env_lst *envp)
 	return (ft_strdup(""));
 }
 
+/**
+ * @brief Returns the path stored in $HOME. If the value is not set, tries
+ *        to recover it from $0.
+ * 
+ * @param envp, the Env. List to read from
+ * 
+ * @return char*, the content of $HOME, or its fallback value
+*/
 char	*ft_gethome(t_env_lst *envp)
 {
 	char	*home;
@@ -126,6 +143,7 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 	ft_lstadd_back(env, new_node);
 	return (true);
 }
+
 /**
  * @brief Given a Env. Var. List, builds a char** to use in execve()
  * 

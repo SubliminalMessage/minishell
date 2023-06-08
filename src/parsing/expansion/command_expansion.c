@@ -6,12 +6,19 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/06 19:38:58 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:48:55 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief Given a character, returns whether that char is a space or not
+ * 
+ * @param c, the character
+ * 
+ * @return whether it is a space or not
+*/
 t_bool	is_space(char c)
 {
 	if (c == ' ' || c == '\0')
@@ -19,6 +26,15 @@ t_bool	is_space(char c)
 	return (false);
 }
 
+/**
+ * @brief Given a string containing (or not) '~' character(s),
+ *        expands it to its value.
+ * 
+ * @param str, the string
+ * @param env, the Env. List to read from
+ * 
+ * @return char*, the new string with the values expanded
+*/
 char	*expand_home_dir(char *str, t_env_lst *env)
 {
 	int	i;

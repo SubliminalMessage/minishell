@@ -6,12 +6,22 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/07 12:53:24 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:44:10 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief Given a command struct, returns the fd where the final output will
+ *        be redirected. In other words, it returns the last output file
+ *        from the redirections of the command.
+ * 
+ * @param cmd The Command List Structure whose content is the command to get
+ *        the file from.
+ * 
+ * @return int, the fd
+*/
 int get_out_file(t_cmd_lst *cmd)
 {
 	t_file *file;
@@ -69,17 +79,16 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp)
  * @note If the command is not a builtin, it does nothing.
  * @note If the command is a builtin, it frees the cmd_lst and exits.
  * 
- * @param cmd command to check.
+ * @param cmd command list whose content is the bare command to check.
  * @param full list of all commands.
+ * @param envp the list of environment variables
  */
 void	ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 {
 	int	exit_code;
-	int	fd_out;
 	t_cmd *cmd;
 
 	cmd = get_cmd(cmd_lst);
-	fd_out = get_out_file(cmd_lst);
 	exit_code = 0;
 	if (cmd->cmd == NULL)
 		ft_copyall(STDIN, STDOUT);
@@ -91,12 +100,12 @@ void	ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 	 	exit_code = ft_cd(cmd, envp);
 	else if (str_equals(cmd->cmd, "pwd"))
 		exit_code = ft_pwd(cmd, *envp);
-	else if (str_equals(cmd->cmd, "export")) // TODO: No-ENV Minishell exceptions
-	 	exit_code = ft_export(cmd, envp, fd_out);
+	else if (str_equals(cmd->cmd, "export"))
+	 	exit_code = ft_export(cmd, envp, get_out_file(cmd_lst));
 	else if (str_equals(cmd->cmd, "unset"))
 	 	exit_code = ft_unset(cmd, envp);
 	else if (str_equals(cmd->cmd, "env"))
-		exit_code = ft_env(cmd, *envp, fd_out);
+		exit_code = ft_env(cmd, *envp, get_out_file(cmd_lst));
 	else
 		return ;
 	ft_free_cmd_lst(full);

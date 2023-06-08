@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/05 19:19:59 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:44:18 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
  * @brief cd builtin.
  * 
  * @note usage: cd
- * 
  * 
  * @param cmd command struct.
  * @param envp Environment List struct.

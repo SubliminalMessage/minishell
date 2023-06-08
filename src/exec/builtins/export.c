@@ -6,12 +6,21 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 17:02:20 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 23:03:19 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/**
+ * @brief given a String, representing a variable name, returns whether that
+ *        name is valid or not. This function is used in both ft_export() and
+ *        ft_env().
+ * 
+ * @param str, the String containing the variable name
+ * 
+ * @return t_bool, whether it is a valid name or not
+*/
 t_bool is_valid_variable_name(char *str)
 {
 	int	i;
@@ -30,6 +39,13 @@ t_bool is_valid_variable_name(char *str)
 	return (true);
 }
 
+/**
+ * @brief Returns the size of an array of strings.
+ * 
+ * @param array, the array
+ * 
+ * @param int, the size of the array.
+ */
 int	ft_arrsize(char **array)
 {
 	int	i;
@@ -42,6 +58,15 @@ int	ft_arrsize(char **array)
 	return (i);
 }
 
+/**
+ * @brief Given a key and a value, updates the Env. List with that data. This
+ *       is an util function for ft_export()
+ * 
+ * @param envp, the Env. List to edit with a new key-value
+ * @param key, the Variable name (e.g.: USER)
+ * @param value, the Value (e.g.: dangonza)
+ * 
+*/
 static void	ft_export_update_env(t_env_lst **envp, char *key, char *value)
 {
 	char	*old_value;
@@ -59,6 +84,16 @@ static void	ft_export_update_env(t_env_lst **envp, char *key, char *value)
 		free(old_value);
 }
 
+/**
+ * @brief Given a string representing a key-value env. variable,
+ *        parses it and handles the errors (if any). If everything
+ *        went OK, updates that Key with the Value.
+ * 
+ * @param string, the Key-Value (e.g.: USER=dangonza)
+ * @param envp, the Env. List to edit
+ * 
+ * @return int, 1 if something failed. 0 otherwise
+*/
 static int	ft_export_update(char *string, t_env_lst **envp)
 {
 	int separator_idx;
@@ -88,6 +123,16 @@ static int	ft_export_update(char *string, t_env_lst **envp)
 	return (0);
 }
 
+/**
+ * @brief Given a Key and an Env. List, returns whether the value
+ *        is NULL, or not. Empty strings ("") are not considered NULL.
+ * 
+ * @param key, the key to search
+ * @param envp, the Env. List to search into
+ * 
+ * @return t_bool, whether the value of that key is null or not. If not found,
+ *         return true.
+*/
 t_bool value_is_null(char *key, t_env_lst *envp)
 {
 	t_env *node;
@@ -109,6 +154,16 @@ t_bool value_is_null(char *key, t_env_lst *envp)
 	return (true);
 }
 
+/**
+ * @brief Given a Key-Value representation of a variable, prints it the way
+ *        export command does in bash.
+ * 
+ * @param variable, the Key-Value representation of the 
+ *        variable (e.g.: USER=dangonza)
+ * @param fd, the fd to print to
+ * @param envp, the Env. List to read from
+ *
+*/
 void	ft_export_print_variable(char *variable, int fd, t_env_lst *envp)
 {
 	char	*key;
@@ -136,6 +191,15 @@ void	ft_export_print_variable(char *variable, int fd, t_env_lst *envp)
 		free(value);
 	free(variable);
 }
+
+/**
+ * @brief Given an array of the variables (sorted, please), loops through them
+ *        and prints them in order.
+ * 
+ * @param array_raw, the array to print.
+ * @param fd, the fd to print to
+ * @param envp, the Env. List to read from
+*/
 void	ft_export_print(char ***array_raw, int fd, t_env_lst *envp)
 {
 	int	i;
@@ -150,6 +214,15 @@ void	ft_export_print(char ***array_raw, int fd, t_env_lst *envp)
 	free(array);
 }
 
+/**
+ * @brief Given two strings, compared them. Function used in sorting the
+ *        ft_export() array of variables
+ * 
+ * @param a, the first string
+ * @param b, the second string
+ * 
+ * @return int representing which one is 'smaller'
+*/
 int	ft_export_compare_strs(char *a, char *b)
 {
 	int	separator_idx;
@@ -159,7 +232,6 @@ int	ft_export_compare_strs(char *a, char *b)
 
 	if (!a || !b)
 		return (ft_strcmp(a, b));
-
 	separator_idx = ft_strchr(a, '=') - a;
 	key_a = ft_substr(a, 0, separator_idx);
 	separator_idx = ft_strchr(b, '=') - b;
@@ -175,6 +247,14 @@ int	ft_export_compare_strs(char *a, char *b)
 	return (result);
 }
 
+/**
+ * @brief Given an Env. List and a fd, sorts the Env. Variables and
+ *        prints them in order into the fd
+ * 
+ * @param envp, the Env. List
+ * @param fd, the fd to print to
+ * 
+*/
 void	ft_export_sort_and_print(t_env_lst *envp, int fd)
 {
 	char	*temp;
@@ -185,7 +265,7 @@ void	ft_export_sort_and_print(t_env_lst *envp, int fd)
 
 	array = build_envp(envp, true);
 	if (!array)
-		return ; // TODO: handle this, i guess?
+		return ;
 	arr_size = ft_arrsize(array);
 	i = -1;
 	while (++i < arr_size)

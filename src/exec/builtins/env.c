@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 15:59:22 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:46:02 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
  * 
  * @note usage: env
  * 
- * 
  * @param cmd command struct.
  * @param envp Environment List struct.
+ * @param fd the fd where all the text must be written to
+ * 
  * @return int exit code.
  */
 int	ft_env(t_cmd *cmd, t_env_lst *envp, int fd)

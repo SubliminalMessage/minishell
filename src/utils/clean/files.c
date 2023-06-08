@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 19:06:40 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/10 23:21:23 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:58:36 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_close_fd(int *fd)
 	*fd = INVALID;
 }
 
+// TODO: document this function
 void	ft_free_file(t_file *file)
 {
 	if (!file)
@@ -38,6 +39,7 @@ void	ft_free_file(t_file *file)
 	free(file);
 }
 
+// TODO: document this function
 void	ft_close_fds(t_cmd *cmd)
 {
 	if (!cmd)
