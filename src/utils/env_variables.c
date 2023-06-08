@@ -6,11 +6,20 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/08 16:09:31 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:53:23 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+/**
+ * @brief Util function. Does the same thing as ft_chardup(), but occupies less
+ *        than the original. Norminette issues :(
+*/
+static char	*chdup(char c)
+{
+	return (ft_chardup(c));
+}
 
 /**
  * @brief Given an Env. List, tries to build the $HOME value out of $0.
@@ -36,9 +45,9 @@ char	*build_home(t_env_lst *envp)
 	if (!split || !split[0] || !split[1] || !str_equals(split[0], "Users"))
 		result = NULL;
 	else
-		result = join_three(ft_chardup('/'), ft_strdup(split[0]), ft_chardup('/'));
+		result = join_three(chdup('/'), ft_strdup(split[0]), chdup('/'));
 	if (result)
-		result = join_two(result, ft_chardup('/'));
+		result = join_three(result, ft_strdup(split[1]), chdup('/'));
 	i = -1;
 	while (split && split[++i])
 		free(split[i]);
@@ -145,6 +154,24 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 }
 
 /**
+ * @brief Norminette issues. Util function for build_envp().
+ *        Constructs the Key-Value of a node.
+ * 
+ * @param n, the node
+ * 
+ * @return char *, a string of the Key-Value representation
+*/
+static char	*ft_getmatrix_value(t_env *n)
+{
+	char	*equal;
+
+	equal = ft_strdup("=");
+	if (!n->value)
+		return (join_two(ft_strdup(n->key), equal));
+	return (join_three(ft_strdup(n->key), equal, ft_strdup(n->value)));
+}
+
+/**
  * @brief Given a Env. Var. List, builds a char** to use in execve()
  * 
  * @param envp, the Env. Var. List
@@ -169,11 +196,7 @@ char	**build_envp(t_env_lst *envp, t_bool persist_nulls)
 		envp = envp->next;
 		if (!node || !node->is_visible || (!node->value && !persist_nulls))
 			continue ;
-		if (node->value)
-			matrix[++i] = join_three(ft_strdup(node->key),
-					ft_strdup("="), ft_strdup(node->value));
-		else
-			matrix[++i] = join_two(ft_strdup(node->key), ft_strdup("="));
+		matrix[++i] = ft_getmatrix_value(node);
 		if (!matrix[i])
 		{
 			free_str_array(matrix);

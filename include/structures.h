@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/10 22:55:20 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:38:01 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,22 @@
 
 # include <minishell.h>
 
-
-
-// ------------------------------------
-
 typedef enum e_bool
 {
 	false,
 	true
 }	t_bool;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char	*key;
 	char	*value;
 	t_bool	is_visible;
-} t_env;
+}	t_env;
 
-
-typedef struct s_list t_env_lst;
-typedef struct s_list t_file_lst;
-typedef struct s_list t_cmd_lst;
+typedef struct s_list	t_env_lst;
+typedef struct s_list	t_file_lst;
+typedef struct s_list	t_cmd_lst;
 
 /**
  * @brief The type of file in a t_file structure.
@@ -75,24 +70,23 @@ typedef struct s_file
  * a command.
  * 
  * @note implemented in a linked list.
+ *
+ * t_file_ls *in -> Input files (linked list). The whole collection 
+ * of fds to consider for the fd_in.
+ * 
+ * @note If no pipe as input, All are concatenated into fd_in.
+ * @note If pipe as input, the last element is used.
+ * 
+ * t_file_lst *out -> Output files (Linked list).
+ * @note The pipe's fd with the output will be on the last position 
+ *       (if existing).
+ * @note The content is sent to the last element of this list.
  */
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**args;
-	/**
-	 * Input files (linked list). The whole collection of fds to consider
-	 * for the fd_in.
-	 * 
-	 * @note If no pipe as input, All are concatenated into fd_in.
-	 * @note If pipe as input, the last element is used.
-	 */
+	char		*cmd;
+	char		**args;
 	t_file_lst	*in;
-	/**
-	 * Output files (Linked list).
-	 * @note The pipe's fd with the output will be on the last position (if existing).
-	 * @note The content is sent to the last element of this list.
-	 */
 	t_file_lst	*out;
 }	t_cmd;
 

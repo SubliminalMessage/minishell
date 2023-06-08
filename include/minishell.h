@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 17:14:53 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:43:44 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,13 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <libft.h>
-// # include <libc.h> // TODO In mac, this may be needed
-
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-# include <fcntl.h> // Open, close
-# include <sys/wait.h> // fork, WEXITSTATUS
-# include <sys/stat.h> // stat
- #include <signal.h> // kill
-
-// Custom headers
+# include <fcntl.h> 
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <signal.h>
 
 # include <libft.h>
 # include <structures.h>
@@ -63,10 +57,7 @@ int	g_status_code;
 // TKN => Valid Token Characters. Norminette issues :(
 # define TKN "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 # define VALID_TKN_CHARS TKN
-// $_ is not considered SingleCharToken, because '$_a' is a valid one
 # define SINGLE_CHAR_TKN "$?-#*@!0123456789" 
-
-# define HEREDOC_KILL_CODE 125000
 
 // TODO: Refactor DEFINES with style from minishell
 # define INV_TKN_MSG "minishell: syntax error near unexpected token"
@@ -82,35 +73,27 @@ int	g_status_code;
 # define CMD_NOT_FOUND_MSG "minishell: %s: command not found\n"
 # define RL_PROMPT "minishell > "
 
-// CWD Max String Size
-//# define CWD_SIZE 1000
-
-// All the functions
 // ----------------- parsing directory -----------------
-char	*build_home(t_env_lst *envp);
-char	*ft_gethome(t_env_lst *envp);
+char		*build_home(t_env_lst *envp);
+char		*ft_gethome(t_env_lst *envp);
 // environment/environment_utils.c
 t_bool		is_valid_env_node(t_env *node);
 void		free_env_node(void *node_raw);
 char		*env_shell_level_exception(char *shell_level);
 t_env_lst	*new_env_node_splitted(char *key, char *value, t_bool visible);
-
 // environment/environment.c
 void		init_zero_variable(t_env_lst **envp);
 t_env_lst	*init_env(char **environ);
 t_env_lst	*new_env_node(char *string, t_bool is_visible);
-
 // expansion/command_expansion.c
 char		*expand(char *str, t_env_lst *env);
 char		*expand_arg(char **str_ptr, t_env_lst *envp);
 t_bool		expand_file_list(t_file_lst **lst_ptr, t_env_lst *envp);
 t_bool		expand_cmd(t_cmd **cmd_ptr, t_env_lst *envp);
-
 // expansion/handle_quotes.c
 char		*dequote(char *str);
 char		*get_next_quote(char *str, size_t *idx);
-char *dequote_all(char *str);
-
+char		*dequote_all(char *str);
 // expansion/token_expansion.c
 char		*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i);
 char		*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i);
@@ -143,126 +126,96 @@ int			index_of_outside_quotes(char *str, char *c);
 t_bool		fill_redirections(t_cmd **cmd);
 t_bool		save_redirection(t_cmd **cmd, char **first_arg, char **second_arg);
 t_bool		save_redirection_single_arg(t_cmd **cmd, char *redir);
-t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identifier);
+t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identf);
 
 // ----------------- exec directory -----------------
-
-void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp); // TODO find place
-int	ft_arrsize(char **array);
-void	close_free_exit(t_cmd_lst *cmd, int exit_code);
-void	close_fds_free(t_cmd_lst *cmd);
-void ft_store_result_code(int result_code, t_bool force);
-t_bool is_valid_variable_name(char *str);
-void	ft_prompt_signals(void);
-void	rl_replace_line(const char *text, int clear_undo);
-void	ft_child_signals(void);
-void	ft_heredoc_signals(void);
-int	get_exit_value(int process_code);
-t_bool value_is_null(char *key, t_env_lst *envp);
-
+// TODO find place
+void		execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp);
+int			ft_arrsize(char **array);
+void		close_free_exit(t_cmd_lst *cmd, int exit_code);
+void		close_fds_free(t_cmd_lst *cmd);
+void		ft_store_result_code(int result_code, t_bool force);
+t_bool		is_valid_variable_name(char *str);
+void		ft_prompt_signals(void);
+void		rl_replace_line(const char *text, int clear_undo);
+void		ft_child_signals(void);
+void		ft_heredoc_signals(void);
+int			get_exit_value(int process_code);
+t_bool		value_is_null(char *key, t_env_lst *envp);
+t_bool		ft_check_output(t_cmd_lst *cmd); // TODO find place
 // builtins/exit.c
 int			ft_exit(t_cmd *cmd, t_bool is_only_cmd);
-
 // builtins/echo.c
 int			ft_echo(t_cmd *cmd);
-
 // builtins/cd.c
 int			ft_cd(t_cmd *cmd, t_env_lst **envp);
-
 // builtins/pwd.c
-int	ft_pwd(t_cmd *cmd, t_env_lst *envp);
-
+int			ft_pwd(t_cmd *cmd, t_env_lst *envp);
 // builtins/unset.c
-int	ft_unset(t_cmd *cmd, t_env_lst **envp);
-
+int			ft_unset(t_cmd *cmd, t_env_lst **envp);
 // builtins/export.c
-int	ft_export(t_cmd *cmd, t_env_lst **envp, int fd);
-
+int			ft_export(t_cmd *cmd, t_env_lst **envp, int fd);
 // builtins/env.c
-int	ft_env(t_cmd *cmd, t_env_lst *envp, int fd);
-
+int			ft_env(t_cmd *cmd, t_env_lst *envp, int fd);
 // builtins/builtins.c
 void		ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp);
-
-t_bool	ft_check_output(t_cmd_lst *cmd); // TODO find place
-
 // exe_cmd.c
 int			ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp);
-
 // get_path.c
 t_bool		ft_get_path(t_cmd *cmd, t_env_lst *envp);
-
 // heredoc.c
 t_bool		ft_handle_here_doc(t_file *file);
-
 // openfile.c
 t_bool		ft_openfile(t_file *file);
 t_file		*ft_openfiles(t_file_lst *lst);
 t_bool		ft_open_all_files(t_cmd *cmd);
-
 // pipes.c
-t_bool	ft_add_pipes(t_cmd_lst *cmd);
-
+t_bool		ft_add_pipes(t_cmd_lst *cmd);
 // ready_input.c
 t_bool		ft_ready_input(t_cmd *cmd);
-
 // run.c
 void		run(t_cmd_lst *cmd, t_env_lst **envp);
-
 // wait_result.c
 int			ft_wait_result(int *pids);
-
 // ----------------- utils directory -----------------
-
 // clean/cmds.c
 void		ft_free_array_content(char **arr);
 void		ft_free_cmd(t_cmd *cmd);
 void		ft_close_all_fds(t_cmd_lst *cmd);
 void		ft_free_cmd_lst(t_cmd_lst *cmd);
-
 // clean/files.c
 void		ft_close_fd(int *fd);
 void		ft_free_file(t_file *file);
 void		ft_close_fds(t_cmd *cmd);
-
 // copy_all.c
 int			ft_copyall(int rfd, int wfd);
-
 // env_variables.c
 char		*ft_getenv(t_env_lst *envp, char *key);
 t_bool		update_env(t_env_lst **env, char *key, char *value, t_bool vsbl);
 char		**build_envp(t_env_lst *envp, t_bool persist_nulls);
-
 // file.c
 t_file		*ft_newpipefd(int fd);
 t_file		*ft_newfile(char *file, t_ftype type);
 t_file		*ft_new_here_doc(char *delimiter);
-
 // get.c
 t_file		*get_file(t_file_lst	*lst);
 t_cmd		*get_cmd(t_cmd_lst *lst);
-
 // handle_str.c
 t_bool		str_equals(char *a, char *b);
 char		*ft_strtrim_free(char *str, char *set);
 char		**clean_nulls(char **str);
 void		free_str_array(char **array);
-
 // spit_quote_conscious.c
 char		**ft_split_quote_conscious(const char *s, char split_char);
-
 // str_utils.c
 char		*join_two(char *a, char *b);
 char		*join_three(char *a, char *b, char *c);
 char		*ft_chardup(const char c);
 char		last_char(char *str);
-
 // todo
-
-void	split_redirection(char **arg, char **redir);
-t_bool	handle_redirection_argument(char **arg, char **redir);
-void	get_next_redirection(char **identifier, char **leftover);
-void	add_redirection_back(t_cmd **cmd, int redir_type, t_file *file);
-
+void		split_redirection(char **arg, char **redir);
+t_bool		handle_redirection_argument(char **arg, char **redir);
+void		get_next_redirection(char **identifier, char **leftover);
+void		add_redirection_back(t_cmd **cmd, int redir_type, t_file *file);
 
 #endif
