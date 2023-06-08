@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/08 15:48:55 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 23:13:09 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*expand_home_dir(char *str, t_env_lst *env)
 {
 	int	i;
 	char	*expanded;
+	char	*aux;
 
 	if (!ft_hasany(str, '~'))
 		return (str);
@@ -50,7 +51,9 @@ char	*expand_home_dir(char *str, t_env_lst *env)
 			if ((i == 0 && is_space(str[i + 1])) || (i > 0 && is_space(str[i - 1])))
 			{
 				expanded = expand_home_dir(ft_substr(str, i + 1, ft_strlen(str)), env);
+				aux = str;
 				str = join_three(ft_substr(str, 0, i), ft_gethome(env), expanded);
+				free(aux);
 				return (str);
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 23:06:25 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 23:09:31 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_bool	ft_unset_variable(t_env_lst **envp, char *key)
 		{
 			previous_node->next = lst->next;
 			free_env_node(node);
+			free(lst);
 			break ;
 		}
 		previous_node = lst;
@@ -60,18 +61,16 @@ t_bool	ft_unset_variable(t_env_lst **envp, char *key)
  */
 int	ft_unset(t_cmd *cmd, t_env_lst **envp)
 {
-	char	**argv;
 	int		argc;
 	int		i;
 	t_bool	did_anyone_fail;
 
-	argv = cmd->args;
 	did_anyone_fail = false;
-	argc = ft_arrsize(argv);
+	argc = ft_arrsize(cmd->args);
 	i = 1;
 	while (i < argc)
 	{
-		if (!ft_unset_variable(envp, argv[i]))
+		if (!ft_unset_variable(envp, cmd->args[i]))
 			did_anyone_fail = true;
 		i++;
 	}
