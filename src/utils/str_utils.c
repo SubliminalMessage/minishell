@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:45:54 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:20:18 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:58:21 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,14 @@ char	*ft_chardup(const char c)
 {
 	char	*str;
 
-	str = malloc(sizeof(char) * 2);
+	str = ft_calloc(2, sizeof(char));
 	if (str == NULL)
 		return (0);
 	str[0] = c;
 	str[1] = '\0';
 	return (str);
 }
+
 /**
  * @brief Given a string, returns the last character
  * 

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 19:10:54 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:43:23 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ t_bool	save_and_clear_single_arg(t_cmd **cmd, char *redir, size_t redir_end)
 	redirects_to = ft_substr(redir, redir_end, redir_length);
 	did_work = save_redirection_double(cmd, redirection, redirects_to);
 	free(redirection);
-	if (!did_work)
-		free(redirects_to);
 	free(redir);
 	return (did_work);
 }
@@ -117,25 +115,31 @@ t_bool	save_redirection_single_arg(t_cmd **cmd, char *redir)
  * 
  * @return t_bool, whether if it went OK or not.
 */
-t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identifier)
+t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identf)
 {
 	int		redir_type;
 	char	*leftover;
 	t_file	*file;
 
-	if (!identifier || identifier[0] == '>' || identifier[0] == '<')
+	if (!identf || identf[0] == '>' || identf[0] == '<')
 	{
-		if (!identifier)
+		if (!identf)
 			print_parse_error_str(INV_TKN_MSG" `", ft_strdup("\\n"));
 		else
-			print_parse_error_str(INV_TKN_MSG" `", ft_chardup(identifier[0]));
+		{
+			print_parse_error_str(INV_TKN_MSG" `", ft_chardup(identf[0]));
+			free(identf);
+		}
 		return (false);
 	}
 	redir_type = get_redirection_type(redir);
-	get_next_redirection(&identifier, &leftover);
-	if (!create_file(&file, identifier, redir_type))
+	get_next_redirection(&identf, &leftover);
+	if (!create_file(&file, identf, redir_type))
 	{
-		print_parse_error(ERROR_MALLOC, false);
+		if (g_status_code != 1)
+			print_parse_error(ERROR_MALLOC, false);
+		else if (identf)
+			free(identf);
 		if (leftover)
 			free(leftover);
 		return (false);

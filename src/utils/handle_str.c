@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/25 16:23:28 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/03 23:23:51 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_bool	str_equals(char *a, char *b)
 {
 	size_t	a_len;
 
+	if (!a || !b)
+		return (false);
 	a_len = ft_strlen(a);
 	if (a_len != ft_strlen(b))
 		return (false);

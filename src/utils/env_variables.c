@@ -6,15 +6,77 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 23:32:59 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:53:23 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// TODO: Handle exceptions such as '$$' or '$?'
-// ($_) Info:
-// https://unix.stackexchange.com/questions/280453/understand-the-meaning-of
+/**
+ * @brief Util function. Does the same thing as ft_chardup(), but occupies less
+ *        than the original. Norminette issues :(
+*/
+static char	*chdup(char c)
+{
+	return (ft_chardup(c));
+}
+
+/**
+ * @brief Given an Env. List, tries to build the $HOME value out of $0.
+ *        This function is used when the $HOME variable is not set. It acts
+ *        like a fallback value.
+ * 
+ * @param envp, the Env. List
+ * 
+ * @return char*, the fallback value for $HOME (if found)
+*/
+char	*build_home(t_env_lst *envp)
+{
+	char	*zero;
+	char	*result;
+	char	**split;
+	int		i;
+
+	zero = ft_getenv(envp, "0");
+	if (!zero)
+		return (ft_strdup(""));
+	split = ft_split(zero, '/');
+	free(zero);
+	if (!split || !split[0] || !split[1] || !str_equals(split[0], "Users"))
+		result = NULL;
+	else
+		result = join_three(chdup('/'), ft_strdup(split[0]), chdup('/'));
+	if (result)
+		result = join_three(result, ft_strdup(split[1]), chdup('/'));
+	i = -1;
+	while (split && split[++i])
+		free(split[i]);
+	if (split)
+		free(split);
+	if (result)
+		return (result);
+	return (ft_strdup(""));
+}
+
+/**
+ * @brief Returns the path stored in $HOME. If the value is not set, tries
+ *        to recover it from $0.
+ * 
+ * @param envp, the Env. List to read from
+ * 
+ * @return char*, the content of $HOME, or its fallback value
+*/
+char	*ft_gethome(t_env_lst *envp)
+{
+	char	*home;
+
+	home = ft_getenv(envp, "HOME");
+	if (!str_equals(home, ""))
+		return (home);
+	free(home);
+	return (build_home(envp));
+}
+
 /**
  * @brief Acts exactly like getenv(), but it takes the variables from a
  *        t_env_lst structure.
@@ -23,21 +85,28 @@
  * @param key, the Name of the Variable (e.g.: 'USER')
  * 
  * @return char*, the value of the variable. Empty string if not found.
- * @note The return string MUST BE ft_strdup() right after calling the function.
- *       Free()-ing this return value will cause a double-free error.
+ * @note The return string DOES NOT HAVE TO BE ft_strdup() right after calling
+ *       the function. The caller MUST free() this return value.
 */
 char	*ft_getenv(t_env_lst *envp, char *key)
 {
-	t_env	*node;
+	t_env		*node;
 
+	if (str_equals(key, "?"))
+		return (ft_itoa(g_status_code));
 	while (envp)
 	{
 		node = envp->content;
 		if (node && str_equals(node->key, key))
-			return (node->value);
+		{
+			if (node->value)
+				return (ft_strdup(node->value));
+			else
+				return (ft_strdup(""));
+		}
 		envp = envp->next;
 	}
-	return ("");
+	return (ft_strdup(""));
 }
 
 /**
@@ -61,7 +130,7 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 	t_env_lst	*new_node;
 	t_env		*node;
 
-	if (!env || !*env || !key || !value)
+	if (!env || !key)
 		return (false);
 	lst = *env;
 	while (lst)
@@ -70,19 +139,38 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
 		lst = lst->next;
 		if (!node || !str_equals(node->key, key))
 			continue ;
-		value = ft_strdup(value);
-		if (!value)
-			return (false);
-		free(node->value);
+		if (value)
+			value = ft_strdup(value);
+		if (node->value)
+			free(node->value);
 		node->value = value;
 		return (true);
 	}
-	new_node = new_env_node_splitted(ft_strdup(key), ft_strdup(value), vsbl);
+	new_node = new_env_node_splitted(ft_strdup(key), value, vsbl);
 	if (!new_node)
 		return (false);
 	ft_lstadd_back(env, new_node);
 	return (true);
 }
+
+/**
+ * @brief Norminette issues. Util function for build_envp().
+ *        Constructs the Key-Value of a node.
+ * 
+ * @param n, the node
+ * 
+ * @return char *, a string of the Key-Value representation
+*/
+static char	*ft_getmatrix_value(t_env *n)
+{
+	char	*equal;
+
+	equal = ft_strdup("=");
+	if (!n->value)
+		return (join_two(ft_strdup(n->key), equal));
+	return (join_three(ft_strdup(n->key), equal, ft_strdup(n->value)));
+}
+
 /**
  * @brief Given a Env. Var. List, builds a char** to use in execve()
  * 
@@ -90,7 +178,7 @@ t_bool	update_env(t_env_lst **env, char *key, char *value, t_bool vsbl)
  * 
  * @return char**, the String Array containing the Variables
 */
-char	**build_envp(t_env_lst *envp)
+char	**build_envp(t_env_lst *envp, t_bool persist_nulls)
 {
 	int		size;
 	int		i;
@@ -102,14 +190,13 @@ char	**build_envp(t_env_lst *envp)
 	if (!matrix)
 		return (NULL);
 	i = -1;
-	while (envp && ++i < size)
+	while (envp)
 	{
 		node = envp->content;
 		envp = envp->next;
-		if (!node || !node->is_visible)
+		if (!node || !node->is_visible || (!node->value && !persist_nulls))
 			continue ;
-		matrix[i] = join_three(ft_strdup(node->key),
-				ft_strdup("="), ft_strdup(node->value));
+		matrix[++i] = ft_getmatrix_value(node);
 		if (!matrix[i])
 		{
 			free_str_array(matrix);

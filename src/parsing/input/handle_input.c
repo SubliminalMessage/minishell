@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/10 23:17:57 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:40:02 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,22 @@ char	**get_input(void)
 	char	**splitted;
 
 	print_parse_error(NULL, true);
-	raw_input = readline("minishell > ");
+	ft_prompt_signals();
+	//if (isatty(fileno(stdin)))
+		raw_input = readline(RL_PROMPT);
+	/*else
+	{
+		raw_input = get_next_line(fileno(stdin));
+	}*/
 	if (!raw_input) // TODO handle exit with ctrl + D
-		return (NULL);
-	add_history(raw_input);
+	{
+		printf("\033[F"); // Move one line up
+		printf("\33[2K\r"); // Remove the whole line
+		printf("%s%s", RL_PROMPT, EXIT_MSG); // Re-print the prompt + exit message
+		exit(g_status_code);
+	}
+	if (!str_equals(raw_input, ""))
+		add_history(raw_input);
 	input = join_three(ft_strdup(" "), raw_input, ft_strdup(" "));
 	if (!is_valid_input(input))
 	{
@@ -77,6 +89,8 @@ t_bool	is_valid_input(char *line_read)
 	free(split);
 	if (!is_valid && i != 1)
 		print_parse_error(INV_TKN_MSG" `|'", false);
+	if (!is_valid && i != 1)
+		ft_store_result_code(258, true);
 	return (is_valid);
 }
 

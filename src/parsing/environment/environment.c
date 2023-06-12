@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 16:58:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/07 23:43:26 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void	init_zero_variable(t_env_lst **envp)
 	t_bool	did_work;
 	char	*underscore;
 
+	if (!envp || !*envp)
+		return ;
 	underscore = ft_getenv(*envp, "_");
 	did_work = update_env(envp, "0", underscore, false);
+	free(underscore);
 	if (!did_work)
 	{
 		ft_lstclear(envp, free_env_node);
@@ -38,20 +41,54 @@ void	init_zero_variable(t_env_lst **envp)
 }
 
 /**
+ * @brief Given an env list, initializes its default values.
+ *        This function is mainly used when the minishell is executed
+ *        without environment variables.
+ * 
+ * @note It initializes (if not done previously) the variables: 'OLDPWD',
+ *       'SHLVL', '_' and 'PWD'.
+ * 
+ * @param envp, the Env. List to modify 
+*/
+void init_default_variables(t_env_lst **envp)
+{
+	t_bool	is_null;
+	char	current_pwd[4096];
+	
+	is_null = value_is_null("OLDPWD", *envp);
+	if (is_null)
+		update_env(envp, "OLDPWD", NULL, true);
+	is_null = value_is_null("SHLVL", *envp);
+	if (is_null)
+		update_env(envp, "SHLVL", "1", true);
+	is_null = value_is_null("_", *envp);
+	if (is_null)
+		update_env(envp, "_", "./minishell", true);
+	is_null = value_is_null("PWD", *envp);
+	if (is_null)
+	{
+		getcwd(current_pwd, 4096);
+		update_env(envp, "PWD", current_pwd, true);
+	}
+	init_zero_variable(envp);
+}
+
+/**
  * @brief Initializes the t_env_lst that will be used all through the Shell
  *        to expand Variables and such.
  * 
  * @return t_env_lst, the List created. NULL if something failed.
 */
-t_env_lst	*init_env(void)
+t_env_lst	*init_env(char **environ)
 {
-	extern char	**environ;
 	t_env_lst	*envp;
 	t_env_lst	*node;
 	int			i;
 
 	i = 0;
 	envp = NULL;
+	node = NULL;//new_env_node("OLDPWD", true); // TODO: add SHLVL and PWD to the env by default
+	ft_lstadd_back(&envp, node);
 	while (environ[i])
 	{
 		node = new_env_node(environ[i], true);
@@ -64,7 +101,7 @@ t_env_lst	*init_env(void)
 		ft_lstadd_back(&envp, node);
 		i++;
 	}
-	init_zero_variable(&envp);
+	init_default_variables(&envp);
 	return (envp);
 }
 
@@ -94,7 +131,10 @@ t_env_lst	*new_env_node(char *string, t_bool is_visible)
 		return (NULL);
 	separator_idx = ft_strchr(string, '=') - string;
 	node->key = ft_substr(string, 0, separator_idx);
-	node->value = ft_substr(string, separator_idx + 1, ft_strlen(string));
+	if (separator_idx <= 0)
+		node->value = NULL;
+	else
+		node->value = ft_substr(string, separator_idx + 1, ft_strlen(string));
 	node->is_visible = is_visible;
 	if (str_equals(node->key, "SHLVL"))
 		node->value = env_shell_level_exception(node->value);

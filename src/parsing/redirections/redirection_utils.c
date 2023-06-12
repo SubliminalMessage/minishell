@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:15:42 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 17:09:53 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/04 15:58:46 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_bool	create_file(t_file **file, char *identifier, int redirection_type)
 {
 	*file = NULL;
 	if (redirection_type == HEREDOC_FTYPE)
-		*file = ft_new_here_doc(dequote(identifier));
+		*file = ft_new_here_doc(dequote_all(identifier));
 	else
 		*file = ft_newfile(identifier, redirection_type);
 	if (*file)

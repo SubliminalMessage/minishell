@@ -6,3 +6,5 @@ minishell
 libft.a
 /debug
 *.swp
+tmp_*
+echo

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:58 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 14:17:32 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:20:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ static t_bool	ft_handle_cmd(t_cmd *cmd, char **path)
 		i++;
 	}
 	ft_printf_fd(2, CMD_NOT_FOUND_MSG, cmd->cmd);
+	ft_store_result_code(127, true);
 	return (false);
 }
 
@@ -122,12 +123,16 @@ t_bool	ft_get_path(t_cmd *cmd, t_env_lst *envp)
 {
 	t_bool	r;
 	char	**path;
+	char	*variable;
 
 	if (!cmd || !cmd->cmd)
 		return (false);
 	if (ft_strnstr(cmd->cmd, "/", ft_strlen(cmd->cmd)) != NULL)
 		return (ft_handle_absolute_path(cmd->cmd));
-	path = ft_split(ft_getenv(envp, "PATH"), ':');
+	variable = ft_getenv(envp, "PATH");
+	path = ft_split(variable, ':');
+	if (variable)
+		free(variable);
 	if (!path)
 		return (false);
 	r = ft_handle_cmd(cmd, path);

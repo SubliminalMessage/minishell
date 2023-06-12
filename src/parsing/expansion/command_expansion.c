@@ -6,11 +6,61 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/04/26 23:47:21 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/08 23:13:09 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+/**
+ * @brief Given a character, returns whether that char is a space or not
+ * 
+ * @param c, the character
+ * 
+ * @return whether it is a space or not
+*/
+t_bool	is_space(char c)
+{
+	if (c == ' ' || c == '\0')
+		return (true);
+	return (false);
+}
+
+/**
+ * @brief Given a string containing (or not) '~' character(s),
+ *        expands it to its value.
+ * 
+ * @param str, the string
+ * @param env, the Env. List to read from
+ * 
+ * @return char*, the new string with the values expanded
+*/
+char	*expand_home_dir(char *str, t_env_lst *env)
+{
+	int	i;
+	char	*expanded;
+	char	*aux;
+
+	if (!ft_hasany(str, '~'))
+		return (str);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '~')
+		{
+			if ((i == 0 && is_space(str[i + 1])) || (i > 0 && is_space(str[i - 1])))
+			{
+				expanded = expand_home_dir(ft_substr(str, i + 1, ft_strlen(str)), env);
+				aux = str;
+				str = join_three(ft_substr(str, 0, i), ft_gethome(env), expanded);
+				free(aux);
+				return (str);
+			}
+		}
+		i++;
+	}
+	return (str);
+}
 
 /**
  * @brief Given a String (normally, one of the arguments of a command), checks
@@ -32,6 +82,8 @@ char	*expand(char *str, t_env_lst *env)
 
 	skip = (!str || str[0] == '\'');
 	str = dequote(str);
+	if (!str)
+		return (NULL);
 	i = -1;
 	while (!skip && ++i < ft_strlen(str))
 	{
@@ -90,7 +142,7 @@ char	*expand_arg(char **str_ptr, t_env_lst *envp)
 		print_parse_error(ERROR_MALLOC, false);
 		return (NULL);
 	}
-	return (expanded);
+	return (expand_home_dir(expanded, envp));
 }
 
 /**

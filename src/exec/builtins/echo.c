@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:14:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/01 15:16:27 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:45:14 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 /**
- * @brief Checks if the given flag is -n.
+ * @brief Checks if the given flag is -n. // TODO: this is kinda not done lol
  * 
  * @note In the original bash implementation, the flag can be repeated
  * as many times as the user wants.
@@ -24,17 +24,7 @@
  */
 t_bool	ft_is_minus_n(char *flag)
 {
-	int	i;
-
-	if (!flag || ft_strncmp(flag, "-n", 2) != 0)
-		return (false);
-	i = 2;
-	while (flag[i])
-	{
-		if (flag[i++] != 'n')
-			return (false);
-	}
-	return (true);
+	return (str_equals(flag, "-n"));
 }
 
 /**
@@ -49,13 +39,13 @@ t_bool	ft_is_minus_n(char *flag)
 int	ft_echo(t_cmd *cmd)
 {
 	int	i;
-	t_bool	n;
+	t_bool	place_new_line;
 
 	i = 1;
-	n = true;
-	while (ft_is_minus_n(cmd->args[i]))
+	place_new_line = true;
+	if (ft_is_minus_n(cmd->args[i]))
 	{
-		n = false;
+		place_new_line = false;
 		i++;
 	}
 	while (cmd->args[i] && cmd->args[i + 1])
@@ -65,7 +55,7 @@ int	ft_echo(t_cmd *cmd)
 	}
 	if (cmd->args[i])
 		ft_putstr_fd(cmd->args[i], STDOUT);
-	if (n)
+	if (place_new_line)
 		ft_putchar_fd('\n', STDOUT);
 	return (0);
 }
