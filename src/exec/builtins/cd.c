@@ -3,14 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 22:44:18 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:15:25 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+#define CD_ERROR "cd: %s: No such file or directory\n"
+
+/**
+ * @brief Obtains the path to go to.
+ * 
+ * @note How it works:
+ * - No args? Go home.
+ * - At least one arg? Get the first one ([1])
+ *  - Is it "-"? Go to OLDPWD.
+ *  - Else, go to the path.
+ * 
+ * @param args 
+ * @param envp 
+ * @return char* 
+ */
+static char	*ft_get_wanted_path(char **args, t_env_lst **envp)
+{
+	if (ft_arrsize(args) == 1)
+		return (ft_gethome(*envp));
+	else if (ft_arrsize(args) > 1)
+	{
+		if (str_equals(args[1], "-"))
+			return (ft_getenv(*envp, "OLDPWD"));
+		else
+			return (ft_strdup(args[1]));
+	}
+	else
+		return (ft_strdup(""));
+}
+
 /**
  * @brief cd builtin.
  * 
@@ -27,18 +58,10 @@ int	ft_cd(t_cmd *cmd, t_env_lst **envp)
 	int		result;
 
 	getcwd(current_path, 4096);
-	if (ft_arrsize(cmd->args) == 1) // No args, go to home
-		path = ft_gethome(*envp);
-	else if (ft_arrsize(cmd->args) > 1) // At least one path. Get the first one ([1])
-		if (str_equals(cmd->args[1], "-"))
-			path = ft_getenv(*envp, "OLDPWD");
-		else
-			path = ft_strdup(cmd->args[1]);
-	else
-		path = ft_strdup("");
+	path = ft_get_wanted_path(cmd->args, envp);
 	result = chdir(path);
 	if (result != 0)
-		ft_printf_fd(STDERR_FILENO, "minishell: cd: %s: No such file or directory\n", path);
+		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR CD_ERROR, path);
 	free(path);
 	update_env(envp, "OLDPWD", current_path, true);
 	getcwd(current_path, 4096);

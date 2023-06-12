@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/12 19:22:01 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:14:56 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	g_status_code;
 # define SINGLE_CHAR_TKN "$?-#*@!0123456789" 
 
 // TODO: Refactor DEFINES with style from minishell
+# define MINISHELL_ERROR "minishell: " // TODO use in all error messages
+# define UNSET_INVALID "unset: '%s': not a valid identifier\n"
 # define INV_TKN_MSG "minishell: syntax error near unexpected token"
 # define BAD_SUBST "minishell: bad substitution\n"
 # define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
