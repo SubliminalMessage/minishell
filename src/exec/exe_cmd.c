@@ -12,6 +12,8 @@
 
 #include <minishell.h>
 
+extern int	g_status_code; // TODO linux
+
 #define STDIN 0
 #define STDOUT 1
 

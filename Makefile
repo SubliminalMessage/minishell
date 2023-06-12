@@ -17,7 +17,9 @@ OS = $(shell uname -s)
 ifeq ($(OS),Linux)
 # install libreadline-dev
 # gcc does not work with readline in linux
-	CC	= clang
+# CC	= clang
+# sudo apt install clang-12 --install-suggests
+	CC	= clang-12
 	INCLUDE += -I/usr/include
 endif
 

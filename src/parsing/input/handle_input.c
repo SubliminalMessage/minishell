@@ -12,6 +12,8 @@
 
 #include <minishell.h>
 
+extern int	g_status_code; // TODO linux
+
 /**
  * @brief Prints a Prompt on the screen and let the user type freely.
  * 		  Stores the line in the history. Clears the print_parse_error() funct.

@@ -26,8 +26,10 @@
 # include <libft.h>
 # include <structures.h>
 
+#include <sys/ioctl.h> // TODO linux
+
 // Global Variable
-int	g_status_code;
+// extern int	g_status_code; // TODO linux
 
 // Custom defines
 

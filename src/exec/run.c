@@ -12,6 +12,8 @@
 
 #include <minishell.h>
 
+extern int	g_status_code; // TODO linux
+
 /**
  * @brief Closes all the file descriptors and frees the cmd_lst.
  * 
