@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 13:40:02 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:30:46 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**get_input(void)
 	{
 		raw_input = get_next_line(fileno(stdin));
 	}*/
-	if (!raw_input) // TODO handle exit with ctrl + D
+	if (!raw_input)
 	{
 		printf("\033[F"); // Move one line up
 		printf("\33[2K\r"); // Remove the whole line

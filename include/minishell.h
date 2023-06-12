@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/08 16:43:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:22:01 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ void		ft_prompt_signals(void);
 void		rl_replace_line(const char *text, int clear_undo);
 void		ft_child_signals(void);
 void		ft_heredoc_signals(void);
-int			get_exit_value(int process_code);
 t_bool		value_is_null(char *key, t_env_lst *envp);
 t_bool		ft_check_output(t_cmd_lst *cmd); // TODO find place
 // builtins/exit.c

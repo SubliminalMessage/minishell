@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/07 23:38:10 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:50:22 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,28 @@ void	close_fds_free(t_cmd_lst *cmd)
 	ft_free_cmd_lst(cmd);
 }
 
-// TODO: Document this function
+/**
+ * @brief Merge function of close_fds_free() and exit().
+ * 
+ * @param cmd List of commands.
+ * @param exit_code Exit code to return.
+ */
 void	close_free_exit(t_cmd_lst *cmd, int exit_code)
 {
 	close_fds_free(cmd);
 	exit(exit_code);
 }
 
-// TODO: Document this function
-static void	kill_all_children(pid_t *pids)
-{
-	int	i;
-
 /**
  * @brief Kills all the processes in the given array.
  * 
  * @param pids Array of pids to kill.
  */
+static void	kill_all_children(pid_t *pids)
+{
+	int	i;
+
+	i = 0;
 	while (pids[i])
 		kill(pids[i++], SIGKILL);
 	free(pids);
