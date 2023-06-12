@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/07 22:44:10 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:50:50 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
  * 
  * @return int, the fd
 */
-int get_out_file(t_cmd_lst *cmd)
+int	get_out_file(t_cmd_lst *cmd)
 {
-	t_file *file;
+	t_file	*file;
 
 	file = get_file(ft_lstlast(get_cmd(cmd)->out));
 	if (!file)
@@ -56,7 +56,8 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp)
 
 	exit_code = 0;
 	if (!ft_open_all_files(get_cmd(cmd)))
-	{ // TODO: not sure if this is correct
+	{
+		// TODO: not sure if this is correct
 		write(get_file(ft_lstlast(get_cmd(cmd)->out))->fd, "", 1);
 		close_fds_free(cmd);
 		return ;
@@ -85,8 +86,8 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp)
  */
 void	ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 {
-	int	exit_code;
-	t_cmd *cmd;
+	int		exit_code;
+	t_cmd	*cmd;
 
 	cmd = get_cmd(cmd_lst);
 	exit_code = 0;
@@ -97,13 +98,13 @@ void	ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 	else if (str_equals(cmd->cmd, "exit"))
 		exit_code = ft_exit(cmd, false);
 	else if (str_equals(cmd->cmd, "cd"))
-	 	exit_code = ft_cd(cmd, envp);
+		exit_code = ft_cd(cmd, envp);
 	else if (str_equals(cmd->cmd, "pwd"))
 		exit_code = ft_pwd(cmd, *envp);
 	else if (str_equals(cmd->cmd, "export"))
-	 	exit_code = ft_export(cmd, envp, get_out_file(cmd_lst));
+		exit_code = ft_export(cmd, envp, get_out_file(cmd_lst));
 	else if (str_equals(cmd->cmd, "unset"))
-	 	exit_code = ft_unset(cmd, envp);
+		exit_code = ft_unset(cmd, envp);
 	else if (str_equals(cmd->cmd, "env"))
 		exit_code = ft_env(cmd, *envp, get_out_file(cmd_lst));
 	else
