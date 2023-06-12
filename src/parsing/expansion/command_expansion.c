@@ -3,26 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   command_expansion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/08 23:13:09 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:07:57 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 /**
- * @brief Given a character, returns whether that char is a space or not
+ * @brief Given a character, returns whether that char is a '\0' or any of
+ *        the characters in the set.
  * 
  * @param c, the character
  * 
  * @return whether it is a space or not
 */
-t_bool	is_space(char c)
+static t_bool	is(char *set, char c)
 {
-	if (c == ' ' || c == '\0')
+	if (!c)
 		return (true);
+	while (*set)
+		if (*set++ == c)
+			return (true);
 	return (false);
 }
 
@@ -48,7 +52,7 @@ char	*expand_home_dir(char *str, t_env_lst *env)
 	{
 		if (str[i] == '~')
 		{
-			if ((i == 0 && is_space(str[i + 1])) || (i > 0 && is_space(str[i - 1])))
+			if ((i == 0 && (is(" /", str[i + 1]))) || (i > 0 && is(" ", str[i - 1])))
 			{
 				expanded = expand_home_dir(ft_substr(str, i + 1, ft_strlen(str)), env);
 				aux = str;
