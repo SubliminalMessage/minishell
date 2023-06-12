@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 14:26:37 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 23:41:24 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:04:55 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_prompt_signals(void)
 static void	sig_handler_child_quit(int signal)
 {
 	(void) signal;
-	printf("Quit: 3\n");
+	printf("Quit: 3\n"); // TODO debug
 	rl_redisplay();
 }
 
