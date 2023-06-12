@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:14:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/12 18:59:08 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:13:15 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_bool	ft_is_minus_n(char *flag)
  */
 int	ft_echo(t_cmd *cmd)
 {
-	int	i;
+	int		i;
 	t_bool	place_new_line;
 
 	i = 1;

@@ -62,7 +62,8 @@ SRC_FILES	= 	main.c \
 				exec/builtins/echo.c \
 				exec/builtins/pwd.c \
 				exec/builtins/env.c \
-				exec/builtins/export.c \
+				exec/builtins/export/export.c \
+				exec/builtins/export/export_update.c \
 				exec/builtins/unset.c \
 				exec/builtins/cd.c \
 				exec/exe_cmd.c \

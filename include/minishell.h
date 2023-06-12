@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/12 20:14:56 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:42:19 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,10 @@ int			ft_cd(t_cmd *cmd, t_env_lst **envp);
 int			ft_pwd(t_cmd *cmd, t_env_lst *envp);
 // builtins/unset.c
 int			ft_unset(t_cmd *cmd, t_env_lst **envp);
-// builtins/export.c
+// builtins/export
 int			ft_export(t_cmd *cmd, t_env_lst **envp, int fd);
+int			ft_export_update(char *string, t_env_lst **envp);
+
 // builtins/env.c
 int			ft_env(t_cmd *cmd, t_env_lst *envp, int fd);
 // builtins/builtins.c
