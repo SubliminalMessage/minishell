@@ -54,6 +54,9 @@ SRC_FILES	= 	main.c \
 				utils/get.c \
 				utils/env_variables.c \
 				utils/str_utils.c \
+				utils/is_valid_variable_name.c \
+				utils/arrsize.c \
+				utils/value_is_null.c \
 				exec/builtins/builtins.c \
 				exec/builtins/exit.c \
 				exec/builtins/echo.c \
@@ -69,7 +72,9 @@ SRC_FILES	= 	main.c \
 				exec/openfile.c \
 				exec/heredoc.c \
 				exec/pipes.c \
-				exec/signals.c
+				exec/signals/child.c \
+				exec/signals/heredoc.c \
+				exec/signals/prompt.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 

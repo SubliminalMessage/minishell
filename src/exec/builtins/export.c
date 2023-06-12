@@ -3,60 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 23:03:19 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:09:32 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-/**
- * @brief given a String, representing a variable name, returns whether that
- *        name is valid or not. This function is used in both ft_export() and
- *        ft_env().
- * 
- * @param str, the String containing the variable name
- * 
- * @return t_bool, whether it is a valid name or not
-*/
-t_bool is_valid_variable_name(char *str)
-{
-	int	i;
-
-	if (!str || !str[0])
-		return (false);
-	if (!ft_hasany(VALID_TKN_CHARS, str[0]))
-		return (false);
-	i = 1;
-	while (str[i])
-	{
-		if (!ft_hasany(VALID_TKN_CHARS"0123456789", str[i]))
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-/**
- * @brief Returns the size of an array of strings.
- * 
- * @param array, the array
- * 
- * @param int, the size of the array.
- */
-int	ft_arrsize(char **array)
-{
-	int	i;
-
-	if (!array || !(*array))
-		return (0);
-	i = 0;
-	while (array[i])
-		i++;
-	return (i);
-}
 
 /**
  * @brief Given a key and a value, updates the Env. List with that data. This
@@ -96,9 +50,9 @@ static void	ft_export_update_env(t_env_lst **envp, char *key, char *value)
 */
 static int	ft_export_update(char *string, t_env_lst **envp)
 {
-	int separator_idx;
-	char *key;
-	char *value;
+	int		separator_idx;
+	char	*key;
+	char	*value;
 
 	separator_idx = ft_strchr(string, '=') - string;
 	key = ft_substr(string, 0, separator_idx);
@@ -124,37 +78,6 @@ static int	ft_export_update(char *string, t_env_lst **envp)
 }
 
 /**
- * @brief Given a Key and an Env. List, returns whether the value
- *        is NULL, or not. Empty strings ("") are not considered NULL.
- * 
- * @param key, the key to search
- * @param envp, the Env. List to search into
- * 
- * @return t_bool, whether the value of that key is null or not. If not found,
- *         return true.
-*/
-t_bool value_is_null(char *key, t_env_lst *envp)
-{
-	t_env *node;
-
-	if (!key)
-		return (true);
-	while (envp)
-	{
-		node = envp->content;
-		if (!str_equals(key, node->key))
-		{
-			envp = envp->next;
-			continue ;
-		}
-		if (node->value)
-			return (false);
-		return (true);
-	}
-	return (true);
-}
-
-/**
  * @brief Given a Key-Value representation of a variable, prints it the way
  *        export command does in bash.
  * 
@@ -164,7 +87,7 @@ t_bool value_is_null(char *key, t_env_lst *envp)
  * @param envp, the Env. List to read from
  *
 */
-void	ft_export_print_variable(char *variable, int fd, t_env_lst *envp)
+static void	ft_export_print_variable(char *variable, int fd, t_env_lst *envp)
 {
 	char	*key;
 	char	*value;
@@ -200,12 +123,12 @@ void	ft_export_print_variable(char *variable, int fd, t_env_lst *envp)
  * @param fd, the fd to print to
  * @param envp, the Env. List to read from
 */
-void	ft_export_print(char ***array_raw, int fd, t_env_lst *envp)
+static void	ft_export_print(char ***array_raw, int fd, t_env_lst *envp)
 {
-	int	i;
+	int		i;
 	char	**array;
 	int		arr_size;
-	
+
 	array = *array_raw;
 	arr_size = ft_arrsize(array);
 	i = -1;
@@ -223,12 +146,12 @@ void	ft_export_print(char ***array_raw, int fd, t_env_lst *envp)
  * 
  * @return int representing which one is 'smaller'
 */
-int	ft_export_compare_strs(char *a, char *b)
+static int	ft_export_compare_strs(char *a, char *b)
 {
-	int	separator_idx;
-	int	result;
-	char *key_a;
-	char *key_b;
+	int		separator_idx;
+	int		result;
+	char	*key_a;
+	char	*key_b;
 
 	if (!a || !b)
 		return (ft_strcmp(a, b));
@@ -255,7 +178,7 @@ int	ft_export_compare_strs(char *a, char *b)
  * @param fd, the fd to print to
  * 
 */
-void	ft_export_sort_and_print(t_env_lst *envp, int fd)
+static void	ft_export_sort_and_print(t_env_lst *envp, int fd)
 {
 	char	*temp;
 	char	**array;
@@ -273,7 +196,7 @@ void	ft_export_sort_and_print(t_env_lst *envp, int fd)
 		j = -1;
 		while (++j < (arr_size - 1 - i))
 		{
-			if (ft_export_compare_strs(array[j], array[j+1]) > 0)
+			if (ft_export_compare_strs(array[j], array[j + 1]) > 0)
 			{
 				temp = array[j];
 				array[j] = array[j+1];
@@ -294,7 +217,7 @@ void	ft_export_sort_and_print(t_env_lst *envp, int fd)
  * @param envp Environment List struct.
  * @return int exit code
  */
-int	ft_export(t_cmd *cmd, t_env_lst **envp, int fd)
+int	ft_export(t_cmd *cmd, t_env_lst **envp, int fd) // TODO already in file
 {
 	int		argc;
 	int		idx;
