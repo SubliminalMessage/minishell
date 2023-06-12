@@ -35,7 +35,11 @@ static void	kill_all_children(pid_t *pids)
 {
 	int	i;
 
-	i = 0;
+/**
+ * @brief Kills all the processes in the given array.
+ * 
+ * @param pids Array of pids to kill.
+ */
 	while (pids[i])
 		kill(pids[i++], SIGKILL);
 	free(pids);

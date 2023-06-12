@@ -34,8 +34,15 @@ static t_bool	check_if_closed(char quote, char last_char)
 	return (true);
 }
 
-// TODO: document this function. Same as dequote() but takes off all 
-// the quotes of a string without expanding the vars inside of it
+/**
+ * @brief Given a string wrapped in quotes (or not), dequotes them if needed
+ *        and returns the result.
+ * @note  This function is similar to dequote(), but it doesn't expand the
+ *        variables inside of the string.
+ * 
+ * @param str 
+ * @return char* 
+ */
 char *dequote_all(char *str)
 {
 	char *final_str;
