@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:21:01 by dangonza          #+#    #+#             */
-/*   Updated: 2023/05/01 19:38:58 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:44:56 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	get_next_redirection(char **identifier, char **leftover)
 	int		idx;
 	char	*aux;
 
-	*leftover = NULL; 
+	*leftover = NULL;
 	if (!*identifier)
 		return ;
 	idx = index_of_outside_quotes(*identifier, "<>");

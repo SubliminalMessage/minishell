@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/12 19:13:19 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:58:51 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ extern int	g_status_code; // TODO linux
  * @param fd_new The new file descriptor to use.
  * @param fd_old The old file descriptor to close (example: STDIN)
  */
-static void ft_redirect(int *fd_new, int fd_old)
+static void	ft_redirect(int *fd_new, int fd_old)
 {
 	if (*fd_new != fd_old)
 	{
@@ -71,9 +71,9 @@ static void	ft_redirect_io(t_cmd *cmd)
  */
 static int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 {
-	t_cmd *cmd;
-	t_file_lst *lst;
-	t_file *file;
+	t_cmd		*cmd;
+	t_file_lst	*lst;
+	t_file		*file;
 
 	cmd = get_cmd(cmd_lst);
 	if (!cmd)
@@ -104,7 +104,7 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 	int		pid;
 	t_cmd	*cmd;
 	char	**envp_arr;
-	
+
 	ft_child_signals();
 	pid = fork();
 	if (pid)

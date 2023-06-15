@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/12 22:42:19 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:34:29 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <libft.h>
 # include <structures.h>
 
-#include <sys/ioctl.h> // TODO linux
+# include <sys/ioctl.h> // TODO linux
 
 // Global Variable
 // extern int	g_status_code; // TODO linux

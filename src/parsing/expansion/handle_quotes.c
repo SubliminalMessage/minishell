@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:27:52 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 13:38:15 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:48:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ static t_bool	check_if_closed(char quote, char last_char)
  * @param str 
  * @return char* 
  */
-char *dequote_all(char *str)
+char	*dequote_all(char *str)
 {
-	char *final_str;
-	char *next_quote;
+	char	*final_str;
+	char	*next_quote;
 	size_t	idx;
 
 	if (!str)

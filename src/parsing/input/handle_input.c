@@ -3,16 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/12 19:30:46 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:48:12 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 extern int	g_status_code; // TODO linux
+
+/**
+ * @brief Norminette issues :(. If the input read from readline()
+ *       is NULL, print the correct thing.
+ * 
+ * @note '\033[F' -> Moves one line up
+ * @note '\33[2k\r' -> Removes the whole line
+ * @note 'printf(···) -> Re-prints the prompt + exit message
+*/
+static void	print_readline_error(void)
+{
+	printf("\033[F");
+	printf("\33[2K\r");
+	printf("%s%s", RL_PROMPT, EXIT_MSG);
+	exit(g_status_code);
+}
 
 /**
  * @brief Prints a Prompt on the screen and let the user type freely.
@@ -29,19 +45,9 @@ char	**get_input(void)
 
 	print_parse_error(NULL, true);
 	ft_prompt_signals();
-	//if (isatty(fileno(stdin)))
-		raw_input = readline(RL_PROMPT);
-	/*else
-	{
-		raw_input = get_next_line(fileno(stdin));
-	}*/
+	raw_input = readline(RL_PROMPT);
 	if (!raw_input)
-	{
-		printf("\033[F"); // Move one line up
-		printf("\33[2K\r"); // Remove the whole line
-		printf("%s%s", RL_PROMPT, EXIT_MSG); // Re-print the prompt + exit message
-		exit(g_status_code);
-	}
+		print_readline_error();
 	if (!str_equals(raw_input, ""))
 		add_history(raw_input);
 	input = join_three(ft_strdup(" "), raw_input, ft_strdup(" "));

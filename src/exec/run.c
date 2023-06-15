@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/12 18:50:22 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:57:30 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	kill_all_children(pid_t *pids)
  * @param result_code, the code to store
  * @param force, whether the 'protection logic' must be ignored or not
 */
-void ft_store_result_code(int result_code, t_bool force)
+void	ft_store_result_code(int result_code, t_bool force)
 {
 	if (g_status_code == 0 || force)
 		g_status_code = result_code;
@@ -114,7 +114,7 @@ void	run(t_cmd_lst *cmd, t_env_lst **envp)
 	if (ft_lstsize(cmd) == 1 && is_write_builtin(get_cmd(cmd)->cmd))
 		return (execute_write_builtin(cmd, envp));
 	i = 0;
-	pids = ft_calloc(sizeof(pid_t), ft_lstsize(cmd) + 1); // TODO
+	pids = ft_calloc(sizeof(pid_t), ft_lstsize(cmd) + 1);
 	if (!pids)
 		close_free_exit(cmd, INVALID);
 	ite = cmd;
@@ -122,7 +122,7 @@ void	run(t_cmd_lst *cmd, t_env_lst **envp)
 	{
 		pids[i] = ft_exe_cmd(ite, cmd, envp);
 		signal(SIGINT, SIG_IGN);
-		if (pids[i] == INVALID) // Fork error
+		if (pids[i] == INVALID)
 		{
 			kill_all_children(pids);
 			close_free_exit(cmd, INVALID);
