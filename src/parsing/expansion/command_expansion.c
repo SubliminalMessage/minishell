@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_expansion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 16:54:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:52:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-/**
- * @brief Given a character, returns whether that char is a '\0' or any of
- *        the characters in the set.
- * 
- * @param c, the character
- * 
- * @return whether it is a space or not
-*/
-static t_bool	is(char *set, char c)
-{
-	if (!c)
-		return (true);
-	while (*set)
-		if (*set++ == c)
-			return (true);
-	return (false);
-}
 
 /**
  * @brief Originally: 'expand_home_dir'.
@@ -69,15 +51,6 @@ char	*exp_home(char *str, t_env_lst *env)
 }
 
 /**
- * @brief Norminette issues :(
-*/
-static char	*print_error_and_return(void)
-{
-	print_parse_error(ERROR_MALLOC, false);
-	return (NULL);
-}
-
-/**
  * @brief Given a String (normally, one of the arguments of a command), checks
  *        for Environment Variables and expands them.
  * 
@@ -109,7 +82,7 @@ char	*expand(char *str, t_env_lst *env)
 			aux = join_two(aux, expanded);
 			free(str);
 			if (!aux)
-				return (print_error_and_return());
+				return (print_parse_error(ERROR_MALLOC, false), NULL);
 			str = aux;
 		}
 	}

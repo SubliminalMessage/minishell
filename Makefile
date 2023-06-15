@@ -59,6 +59,7 @@ SRC_FILES	= 	main.c \
 				utils/is_valid_variable_name.c \
 				utils/arrsize.c \
 				utils/value_is_null.c \
+				utils/is.c \
 				exec/builtins/builtins.c \
 				exec/builtins/exit.c \
 				exec/builtins/echo.c \
