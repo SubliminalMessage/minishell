@@ -61,6 +61,7 @@ SRC_FILES	= 	main.c \
 				utils/arrsize.c \
 				utils/value_is_null.c \
 				utils/is.c \
+				utils/kill_all_children.c \
 				exec/builtins/builtins.c \
 				exec/builtins/exit.c \
 				exec/builtins/echo.c \
@@ -79,7 +80,8 @@ SRC_FILES	= 	main.c \
 				exec/pipes.c \
 				exec/signals/child.c \
 				exec/signals/heredoc.c \
-				exec/signals/prompt.c
+				exec/signals/prompt.c \
+				exec/store_result_code.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 

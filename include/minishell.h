@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 18:52:35 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:10:14 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identf);
 
 // ----------------- exec directory -----------------
 // TODO find place
-t_bool	is(char *set, char c);
+void		kill_all_children(pid_t *pids);
+t_bool		is(char *set, char c);
 void		execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp);
 int			ft_arrsize(char **array);
 void		close_free_exit(t_cmd_lst *cmd, int exit_code);
