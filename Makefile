@@ -17,9 +17,9 @@ OS = $(shell uname -s)
 ifeq ($(OS),Linux)
 # install libreadline-dev
 # gcc does not work with readline in linux
-# CC	= clang
+	CC	= clang
 # sudo apt install clang-12 --install-suggests
-	CC	= clang-12
+# CC	= clang-12
 	INCLUDE += -I/usr/include
 endif
 
@@ -151,48 +151,13 @@ run: all
 	@clear
 	@./minishell
 
-run_valgrind: all #--show-leak-kinds=all
-	@clear
-	valgrind --leak-check=full --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
-
 ### ---   ---   ---         ---   ---   --- ###
 #                    DEBUG                    #
 ### ---   ---   ---         ---   ---   --- ###
 
-DEBUG		=	debug
-
-DEBUG_FILES	=	utils/clean_cmd.c \
-				utils/copy_all.c \
-				exec/exe_cmd.c \
-				utils/file.c \
-				utils/get.c \
-				exec/join_input.c \
-				debug/main.c \
-				exec/run.c \
-				exec/wait_result.c \
-				exec/openfile.c \
-				exec/heredoc.c \
-				exec/pipes.c
-
-DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
-
-$(DEBUG): $(DEBUG_OBJS) $(LIBFT)
-	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
-	@$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
-
-test_signal:
-	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
-	$(CC) $(CFLAGS) src/debug/test/signal.c -o $(DEBUG)
-	./$(DEBUG)
-
-test_strerror:
-	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
-	$(CC) $(CFLAGS) src/debug/test/strerror.c -o $(DEBUG)
-	./$(DEBUG)
-
 docker:
 	docker run -it --rm -v $(PWD):/docker jkutkut/docker4c
 
-exec_dev: $(DEBUG)
-	@echo "vfull ./$(DEBUG)"
-	@valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)
+run_valgrind: all #--show-leak-kinds=all
+	@clear
+	valgrind --leak-check=full --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell

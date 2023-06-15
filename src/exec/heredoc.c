@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:06:49 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/12 18:45:34 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:32:14 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_bool	ft_handle_here_doc(t_file *file)
 	loop_count = 0;
 	while (g_status_code != 1 || loop_count == 0)
 	{
-		if (loop_count == 0 && g_status_code == 1)
+		if (loop_count++ == 0 && g_status_code == 1)
 			ft_store_result_code(0, true);
 		ft_putstr_fd(HEREDOC_PROMPT, STDOUT);
 		line = get_next_line(STDIN);
@@ -69,11 +69,7 @@ t_bool	ft_handle_here_doc(t_file *file)
 		}
 		ft_putstr_fd(line, p[1]);
 		free(line);
-		loop_count++;
 	}
-	ft_close_fd(&p[1]);
 	file->fd = p[0];
-	if (g_status_code != 1)
-		return (true);
-	return (false);
+	return (ft_close_fd(&p[1]), g_status_code != 1);
 }
