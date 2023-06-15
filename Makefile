@@ -54,7 +54,8 @@ SRC_FILES	= 	main.c \
 				utils/copy_all.c \
 				utils/file.c \
 				utils/get.c \
-				utils/env_variables.c \
+				utils/env_variables/env_variables.c \
+				utils/env_variables/build_home.c \
 				utils/str_utils.c \
 				utils/is_valid_variable_name.c \
 				utils/arrsize.c \
