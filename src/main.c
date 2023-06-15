@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 16:43:32 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:02:53 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,41 +56,44 @@ t_cmd_lst	*parse_command_node(t_env_lst *envp, char *input)
 	return (node);
 }
 
+static void	minishell(t_env_lst *envp)
+{
+	int			i;
+	char		**input;
+	t_cmd_lst	*cmd_lst;
+	t_cmd_lst	*node;
+
+	cmd_lst = NULL;
+	input = get_input();
+	if (!input)
+		return ;
+	i = 0;
+	while (input[i])
+	{
+		node = parse_command_node(envp, input[i++]);
+		if (!node)
+			break ;
+		ft_lstadd_back(&cmd_lst, node);
+	}
+	free(input);
+	if (input[i] != NULL)
+	{
+		ft_free_cmd_lst(cmd_lst);
+		return ;
+	}
+	ft_store_result_code(0, true);
+	run(cmd_lst, &envp);
+}
+
 int	main(int argc, char **argv, char **environ)
 {
-	char			**input;
 	t_env_lst		*envp;
-	t_cmd_lst		*cmd_lst;
-	t_cmd_lst		*node;
 
 	(void) argc;
 	(void) argv;
 	envp = init_env(environ);
 	disable_output();
 	while (true)
-	{
-		cmd_lst = NULL;
-		input = get_input();
-		if (!input)
-			continue ;
-		int i = 0;
-		while (input[i])
-		{
-			node = parse_command_node(envp, input[i]);
-			if (!node)
-				break ;
-			ft_lstadd_back(&cmd_lst, node);
-			i++;
-		}
-		if (input[i] != NULL)
-		{
-			free(input);
-			ft_free_cmd_lst(cmd_lst);
-			continue ;
-		}
-		free(input);
-		ft_store_result_code(0, true);
-		run(cmd_lst, &envp);
-	}
+		minishell(envp);
 	return (0);
 }

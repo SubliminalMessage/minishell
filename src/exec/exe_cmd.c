@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/15 16:58:51 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:47:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 	if (!file)
 		return (exit(INVALID), INVALID);
 	write(file->fd, "", 1);
-	ft_close_all_fds(full); // TODO leaks <??
+	ft_close_all_fds(full);
 	ft_free_cmd_lst(full);
 	return (exit(INVALID), INVALID);
 }

@@ -11,13 +11,14 @@ READLINE_FLAGS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$
 #               PROJECT PATHS                 #
 ### ---   ---   ---         ---   ---   --- ###
 
-INCLUDE				= -I include -I libft/include -I src/debug/ # TODO remove debug
+INCLUDE				= -I include -I libft/include
 
 OS = $(shell uname -s)
 ifeq ($(OS),Linux)
 # install libreadline-dev
 # gcc does not work with readline in linux
 	CC	= clang
+# Latest:
 # sudo apt install clang-12 --install-suggests
 # CC	= clang-12
 	INCLUDE += -I/usr/include

@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:05:32 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/12 22:50:50 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:34:56 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp)
 	exit_code = 0;
 	if (!ft_open_all_files(get_cmd(cmd)))
 	{
-		// TODO: not sure if this is correct
 		write(get_file(ft_lstlast(get_cmd(cmd)->out))->fd, "", 1);
 		close_fds_free(cmd);
 		return ;
