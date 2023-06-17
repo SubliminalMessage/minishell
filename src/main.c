@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/18 00:20:30 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 01:01:17 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ static void	minishell(t_env_lst *envp)
 			break ;
 		ft_lstadd_back(&cmd_lst, node);
 	}
-	free(input);
 	if (input[i] != NULL)
 	{
 		ft_free_cmd_lst(cmd_lst);
-		return ;
+		return (free(input));
 	}
+	free(input);
 	ft_store_result_code(0, true);
 	run(cmd_lst, &envp);
 }

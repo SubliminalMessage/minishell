@@ -37,6 +37,7 @@ NAME		= minishell
 
 SRC_FILES	= 	main.c \
 				parsing/input/handle_input.c \
+				parsing/input/handle_main_command.c \
 				parsing/input/input_utils.c \
 				parsing/environment/environment.c \
 				parsing/environment/environment_utils.c \

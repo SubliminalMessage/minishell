@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:04 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/08 16:38:01 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:18:54 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_cmd
 	char		**args;
 	t_file_lst	*in;
 	t_file_lst	*out;
+	t_bool		is_first_cmd_quoted;
 }	t_cmd;
 
 #endif

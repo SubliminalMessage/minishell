@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/18 00:28:03 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 01:01:47 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,8 @@ t_bool	expand_cmd(t_cmd **cmd_ptr, t_env_lst *envp)
 	i = 0;
 	while (cmd->args[i])
 	{
+		if (i == 0 && (cmd->args[0][0] == '\'' || cmd->args[0][0] == '"'))
+			cmd->is_first_cmd_quoted = true;
 		cmd->args[i] = expand_arg(&cmd->args[i], envp);
 		if (!cmd->args[i])
 		{
