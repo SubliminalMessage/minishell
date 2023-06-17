@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 19:10:14 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:41:22 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,31 +77,123 @@
 # define CMD_NOT_FOUND_MSG "minishell: %s: command not found\n"
 # define RL_PROMPT "minishell > "
 
+// main.c
+int			main(int argc, char **argv, char **environ);
+
+// ----------------- exec directory -----------------
+// wait_result.c
+int			ft_wait_result(int *pids);
+
+// openfile.c
+t_bool		ft_openfile(t_file *file);
+t_file		*ft_openfiles(t_file_lst *lst);
+t_bool		ft_open_all_files(t_cmd *cmd);
+
+// run.c
+void		close_fds_free(t_cmd_lst *cmd);
+void		close_free_exit(t_cmd_lst *cmd, int exit_code);
+t_bool		is_write_builtin(char *cmd);
+void		run(t_cmd_lst *cmd, t_env_lst **envp);
+
+// heredoc.c
+t_bool		ft_handle_here_doc(t_file *file);
+
+// get_path.c
+t_bool		ft_get_path(t_cmd *cmd, t_env_lst *envp);
+
+// builtins/exit.c
+int			ft_exit(t_cmd *cmd, t_bool is_only_cmd);
+
+// builtins/cd.c
+int			ft_cd(t_cmd *cmd, t_env_lst **envp);
+
+// builtins/unset.c
+t_bool		ft_unset_variable(t_env_lst **envp, char *key);
+int			ft_unset(t_cmd *cmd, t_env_lst **envp);
+
+// builtins/export/export.c
+int			ft_export(t_cmd *cmd, t_env_lst **envp, int fd);
+
+// builtins/export/export_update.c
+int			ft_export_update(char *string, t_env_lst **envp);
+
+// builtins/echo.c
+t_bool		ft_is_minus_n(char *flag);
+int			ft_echo(t_cmd *cmd);
+
+// builtins/env.c
+int			ft_env(t_cmd *cmd, t_env_lst *envp, int fd);
+
+// builtins/pwd.c
+int			ft_pwd(t_cmd *cmd, t_env_lst *envp);
+
+// builtins/builtins.c
+int			get_out_file(t_cmd_lst *cmd);
+void		execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp);
+void		ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp);
+
+// exe_cmd.c
+int			ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp);
+
+// signals/prompt.c
+void		ft_prompt_signals(void);
+
+// signals/heredoc.c
+void		ft_heredoc_signals(void);
+
+// signals/child.c
+void		ft_child_signals(void);
+
+// pipes.c
+t_bool		ft_add_pipes(t_cmd_lst *cmd);
+
+// store_result_code.c
+void		ft_store_result_code(int result_code, t_bool force);
+
 // ----------------- parsing directory -----------------
-char		*build_home(t_env_lst *envp);
-char		*ft_gethome(t_env_lst *envp);
+// redirections/redirection_quote_utils.c
+t_bool		contains_outside_quotes(char *str, char *c);
+int			index_of_outside_quotes(char *str, char *c);
+
+// redirections/redirection_save_utils.c
+void		split_redirection(char **arg, char **redir);
+t_bool		handle_redirection_argument(char **arg, char **redir);
+void		get_next_redirection(char **identifier, char **leftover);
+void		add_redirection_back(t_cmd **cmd, int redir_type, t_file *file);
+
+// redirections/redirection_utils.c
+t_bool		is_redirection(char *string);
+int			get_redirection_type(char *redirection);
+t_bool		is_valid_argument(char *string);
+t_bool		create_file(t_file **file, char *identifier, int redirection_type);
+
+// redirections/redirections.c
+t_bool		fill_redirections(t_cmd **cmd);
+t_bool		save_and_clear_single_arg(t_cmd **cmd,
+				char *redir, size_t redir_end);
+t_bool		save_redirection_single_arg(t_cmd **cmd, char *redir);
+t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identf);
+
 // environment/environment_utils.c
 t_bool		is_valid_env_node(t_env *node);
 void		free_env_node(void *node_raw);
 char		*env_shell_level_exception(char *shell_level);
 t_env_lst	*new_env_node_splitted(char *key, char *value, t_bool visible);
+
 // environment/environment.c
 void		init_zero_variable(t_env_lst **envp);
+void		init_default_variables(t_env_lst **envp);
 t_env_lst	*init_env(char **environ);
 t_env_lst	*new_env_node(char *string, t_bool is_visible);
-// expansion/command_expansion.c
-char		*expand(char *str, t_env_lst *env);
-char		*expand_arg(char **str_ptr, t_env_lst *envp);
-t_bool		expand_file_list(t_file_lst **lst_ptr, t_env_lst *envp);
-t_bool		expand_cmd(t_cmd **cmd_ptr, t_env_lst *envp);
-// expansion/handle_quotes.c
-char		*dequote(char *str);
-char		*get_next_quote(char *str, size_t *idx);
-char		*dequote_all(char *str);
-// expansion/token_expansion.c
-char		*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i);
-char		*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i);
-char		*expand_custom_tkn(char *str, t_env_lst *envp, size_t *i);
+
+// input/input_utils.c
+void		print_parse_error(char *str, t_bool clear);
+void		print_parse_error_str(char *msg, char *str);
+
+// input/handle_input.c
+char		**get_input(void);
+t_bool		is_valid_input(char *line_read);
+t_cmd		*parse_command(t_env_lst *envp, char *cmd_line);
 
 // expansion/token_utils.c
 t_bool		is_one_char_token(char *str);
@@ -109,120 +201,84 @@ t_bool		is_wrapped_token(char *str);
 char		*handle_numeric_tkn(char *str, size_t *idx);
 char		*expand_tkn(char *str, t_env_lst *envp, size_t *idx);
 
-// input/handle_input.c
-char		**get_input(void);
-t_bool		is_valid_input(char *line_read);
-t_cmd		*parse_command(t_env_lst *envp, char *cmd_line);
+// expansion/command_expansion.c
+char		*exp_home(char *str, t_env_lst *env);
+char		*expand(char *str, t_env_lst *env);
+char		*expand_arg(char **str_ptr, t_env_lst *envp);
+t_bool		expand_file_list(t_file_lst **lst_ptr, t_env_lst *envp);
+t_bool		expand_cmd(t_cmd **cmd_ptr, t_env_lst *envp);
 
-// input/input_utils.c
-void		print_parse_error(char *str, t_bool clear);
-void		print_parse_error_str(char *msg, char *str);
+// expansion/token_expansion.c
+char		*expand_normal_tkn(char *str, t_env_lst *envp, size_t *i);
+char		*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i);
+char		*expand_custom_tkn(char *str, t_env_lst *envp, size_t *i);
 
-// redirections/redirection_utils.c
-t_bool		is_redirection(char *string);
-int			get_redirection_type(char *redirection);
-t_bool		is_valid_argument(char *string);
-t_bool		create_file(t_file **file, char *identifier, int redirection_type);
-t_bool		contains_outside_quotes(char *str, char *c);
-int			index_of_outside_quotes(char *str, char *c);
+// expansion/handle_quotes.c
+char		*dequote_all(char *str);
+char		*dequote(char *str);
+char		*get_next_quote(char *str, size_t *idx);
 
-// redirections/redirections.c
-t_bool		fill_redirections(t_cmd **cmd);
-t_bool		save_redirection(t_cmd **cmd, char **first_arg, char **second_arg);
-t_bool		save_redirection_single_arg(t_cmd **cmd, char *redir);
-t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identf);
-
-// ----------------- exec directory -----------------
-// TODO find place
-void		kill_all_children(pid_t *pids);
-t_bool		is(char *set, char c);
-void		execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp);
-int			ft_arrsize(char **array);
-void		close_free_exit(t_cmd_lst *cmd, int exit_code);
-void		close_fds_free(t_cmd_lst *cmd);
-void		ft_store_result_code(int result_code, t_bool force);
-t_bool		is_valid_variable_name(char *str);
-void		ft_prompt_signals(void);
-void		rl_replace_line(const char *text, int clear_undo);
-void		ft_child_signals(void);
-void		ft_heredoc_signals(void);
-t_bool		value_is_null(char *key, t_env_lst *envp);
-t_bool		ft_check_output(t_cmd_lst *cmd); // TODO find place
-// builtins/exit.c
-int			ft_exit(t_cmd *cmd, t_bool is_only_cmd);
-// builtins/echo.c
-int			ft_echo(t_cmd *cmd);
-// builtins/cd.c
-int			ft_cd(t_cmd *cmd, t_env_lst **envp);
-// builtins/pwd.c
-int			ft_pwd(t_cmd *cmd, t_env_lst *envp);
-// builtins/unset.c
-int			ft_unset(t_cmd *cmd, t_env_lst **envp);
-// builtins/export
-int			ft_export(t_cmd *cmd, t_env_lst **envp, int fd);
-int			ft_export_update(char *string, t_env_lst **envp);
-
-// builtins/env.c
-int			ft_env(t_cmd *cmd, t_env_lst *envp, int fd);
-// builtins/builtins.c
-void		ft_builtins(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp);
-// exe_cmd.c
-int			ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp);
-// get_path.c
-t_bool		ft_get_path(t_cmd *cmd, t_env_lst *envp);
-// heredoc.c
-t_bool		ft_handle_here_doc(t_file *file);
-// openfile.c
-t_bool		ft_openfile(t_file *file);
-t_file		*ft_openfiles(t_file_lst *lst);
-t_bool		ft_open_all_files(t_cmd *cmd);
-// pipes.c
-t_bool		ft_add_pipes(t_cmd_lst *cmd);
-// ready_input.c
-t_bool		ft_ready_input(t_cmd *cmd);
-// run.c
-void		run(t_cmd_lst *cmd, t_env_lst **envp);
-// wait_result.c
-int			ft_wait_result(int *pids);
 // ----------------- utils directory -----------------
-// clean/cmds.c
-void		ft_free_array_content(char **arr);
-void		ft_free_cmd(t_cmd *cmd);
-void		ft_close_all_fds(t_cmd_lst *cmd);
-void		ft_free_cmd_lst(t_cmd_lst *cmd);
-// clean/files.c
-void		ft_close_fd(int *fd);
-void		ft_free_file(t_file *file);
-void		ft_close_fds(t_cmd *cmd);
 // copy_all.c
 int			ft_copyall(int rfd, int wfd);
-// env_variables.c
-char		*ft_getenv(t_env_lst *envp, char *key);
-t_bool		update_env(t_env_lst **env, char *key, char *value, t_bool vsbl);
-char		**build_envp(t_env_lst *envp, t_bool persist_nulls);
-// file.c
-t_file		*ft_newpipefd(int fd);
-t_file		*ft_newfile(char *file, t_ftype type);
-t_file		*ft_new_here_doc(char *delimiter);
-// get.c
-t_file		*get_file(t_file_lst	*lst);
-t_cmd		*get_cmd(t_cmd_lst *lst);
+
 // handle_str.c
 t_bool		str_equals(char *a, char *b);
 char		*ft_strtrim_free(char *str, char *set);
 char		**clean_nulls(char **str);
 void		free_str_array(char **array);
-// spit_quote_conscious.c
-char		**ft_split_quote_conscious(const char *s, char split_char);
+
 // str_utils.c
 char		*join_two(char *a, char *b);
 char		*join_three(char *a, char *b, char *c);
 char		*ft_chardup(const char c);
 char		last_char(char *str);
-// todo
-void		split_redirection(char **arg, char **redir);
-t_bool		handle_redirection_argument(char **arg, char **redir);
-void		get_next_redirection(char **identifier, char **leftover);
-void		add_redirection_back(t_cmd **cmd, int redir_type, t_file *file);
+
+// kill_all_children.c
+void		kill_all_children(pid_t *pids);
+
+// is_valid_variable_name.c
+t_bool		is_valid_variable_name(char *str);
+
+// file.c
+t_file		*ft_newpipefd(int fd);
+t_file		*ft_newfile(char *file, t_ftype type);
+t_file		*ft_new_here_doc(char *delimiter);
+
+// split_quote_conscious.c
+char		**ft_split_quote_conscious(const char *s, char split_char);
+
+// env_variables/build_home.c
+char		*build_home(t_env_lst *envp);
+
+// env_variables/env_variables.c
+char		*ft_gethome(t_env_lst *envp);
+char		*ft_getenv(t_env_lst *envp, char *key);
+t_bool		update_env(t_env_lst **env, char *key, char *value, t_bool vsbl);
+char		**build_envp(t_env_lst *envp, t_bool persist_nulls);
+
+// value_is_null.c
+t_bool		value_is_null(char *key, t_env_lst *envp);
+
+// arrsize.c
+int			ft_arrsize(char **array);
+
+// is.c
+t_bool		is(char *set, char c);
+
+// clean/files.c
+void		ft_close_fd(int *fd);
+void		ft_free_file(t_file *file);
+void		ft_close_fds(t_cmd *cmd);
+
+// clean/cmds.c
+void		ft_free_array_content(char **arr);
+void		ft_free_cmd(t_cmd *cmd);
+void		ft_close_all_fds(t_cmd_lst *cmd);
+void		ft_free_cmd_lst(t_cmd_lst *cmd);
+
+// get.c
+t_file		*get_file(t_file_lst	*lst);
+t_cmd		*get_cmd(t_cmd_lst *lst);
 
 #endif

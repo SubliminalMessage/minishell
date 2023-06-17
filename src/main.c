@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 20:02:53 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:24:10 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	g_status_code; // TODO linux
 
-void	disable_output(void)
+static void	disable_output(void)
 {
 	int				x;
 	struct termios	termios;
@@ -35,7 +35,7 @@ void	disable_output(void)
 	}
 }
 
-t_cmd_lst	*parse_command_node(t_env_lst *envp, char *input)
+static t_cmd_lst	*parse_command_node(t_env_lst *envp, char *input)
 {
 	t_cmd		*cmd;
 	t_cmd_lst	*node;
