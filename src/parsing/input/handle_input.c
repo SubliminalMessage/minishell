@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 16:48:12 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/17 23:55:48 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,34 @@ t_bool	is_valid_input(char *line_read)
 }
 
 /**
+ * @brief Given an argument list, trims them from spaces. Both initial
+ *        and final spaces. This is useful when having environment
+ *        variables that expands to a bunch of spaces. This
+ *        ensures correct behaviours in situations such as:
+ *        'minishell> export test="          echo"'
+ *        'minishell> $test Hello World'
+ * 
+ * @param arg_raw, a pointer to the argument list (triple pointer)
+ * 
+*/
+void	clean_arguments_from_spaces(char ***args_raw)
+{
+	char	**args;
+	int		idx;
+
+	args = *args_raw;
+	if (!args)
+		return ;
+	idx = 0;
+	while (args[idx])
+	{
+		args[idx] = ft_strtrim_free(args[idx], " ");
+		idx++;
+	}
+	*args_raw = clean_nulls(args);
+}
+
+/**
  * @brief given an Env. Variable List and a raw command, parses it and
  *        returns the result.
  * 
@@ -136,7 +164,8 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 		ft_free_cmd(cmd);
 		return (NULL);
 	}
+	clean_arguments_from_spaces(&cmd->args);
 	if (cmd->args && cmd->args[0])
-		cmd->cmd = ft_strdup(cmd->args[0]);
+		cmd->cmd = get_main_command(&cmd->args);
 	return (cmd);
 }

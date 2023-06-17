@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/17 15:41:22 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/17 23:57:11 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@
 
 // main.c
 int			main(int argc, char **argv, char **environ);
+
+// readline
+void		rl_replace_line(const char *text, int clear_undo);
 
 // ----------------- exec directory -----------------
 // wait_result.c
@@ -194,6 +197,10 @@ void		print_parse_error_str(char *msg, char *str);
 char		**get_input(void);
 t_bool		is_valid_input(char *line_read);
 t_cmd		*parse_command(t_env_lst *envp, char *cmd_line);
+
+// input/handle_main_command.c
+char		**add_array_front(char **array, char *element);
+char		*get_main_command(char ***arguments);
 
 // expansion/token_utils.c
 t_bool		is_one_char_token(char *str);
