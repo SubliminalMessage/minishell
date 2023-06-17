@@ -113,10 +113,6 @@ $(NAME): $(LIBFT) $(SRC_OBJS)
 $(LIBFT): $(LIBFT_REPO)
 	@make -C $(LIBFT_PATH)
 
-$(LIBFT_REPO):
-	@# TODO Remove in intra version
-	@git submodule update --init --recursive
-
 bin/%.o: src/%.c
 	@echo $(BLUE)"[Compilation]"$(WHITE)": $< "$(NC)
 	@mkdir -p $(dir $@)
@@ -126,7 +122,6 @@ clean: $(LIBFT_REPO)
 	@echo $(RED)"[Deleting Object Files]"$(NC)
 	@rm -rf bin
 	@make -C $(LIBFT_PATH) fclean
-	@#make fclean -C $(LIBFT_PATH)
 
 fclean: clean
 	@echo $(RED)"[Deleting $(NAME)]"$(NC)
@@ -134,6 +129,24 @@ fclean: clean
 	@rm -f $(DEBUG)
 
 re: fclean all
+
+execute: all
+	@clear && ./minishell --debug
+
+run: all
+	@clear
+	@./minishell
+
+### ---   ---   ---         ---   ---   --- ###
+#                 Development                 #
+### ---   ---   ---         ---   ---   --- ###
+
+docker:
+	docker run -it --rm -v $(PWD):/docker jkutkut/docker4c
+
+run_valgrind: all #--show-leak-kinds=all
+	@clear
+	valgrind --leak-check=full --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
 
 norm:
 	@norminette $(SRC_FILES:%=$(SRCS_PATH)%) $(INCLUDE_FILES:%=$(INCLUDE_PATH)%) | sed "s/src/\\`echo '\n\r'`/g"
@@ -148,21 +161,3 @@ TODO:
 	@echo "*****************************************"
 	@grep "TODO" -nr -i --exclude-dir=".git" .
 	@echo "*****************************************"
-
-execute: all
-	@clear && ./minishell --debug
-
-run: all
-	@clear
-	@./minishell
-
-### ---   ---   ---         ---   ---   --- ###
-#                    DEBUG                    #
-### ---   ---   ---         ---   ---   --- ###
-
-docker:
-	docker run -it --rm -v $(PWD):/docker jkutkut/docker4c
-
-run_valgrind: all #--show-leak-kinds=all
-	@clear
-	valgrind --leak-check=full --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
