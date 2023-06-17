@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 16:44:35 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:28:57 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ t_bool	fill_redirections(t_cmd **cmd)
 	}
 	if (ft_hasany("<>", last_char(redirs)))
 	{
-		print_parse_error_str(INV_TKN_MSG" `", ft_chardup(last_char(redirs)));
-		free(redirs);
-		return (false);
+		print_parse_error_str(MINISHELL_ERROR INV_TKN_MSG" `",
+			ft_chardup(last_char(redirs)));
+		return (free(redirs), false);
 	}
 	(*cmd)->args = clean_nulls((*cmd)->args);
 	return (save_redirection_single_arg(cmd, redirs));
@@ -101,9 +101,9 @@ t_bool	save_redirection_single_arg(t_cmd **cmd, char *redir)
 		redir_end++;
 	if (redir_end == 2 && redir[0] != redir[1])
 	{
-		print_parse_error_str(INV_TKN_MSG" `", ft_chardup(redir[1]));
-		free(redir);
-		return (false);
+		print_parse_error_str(MINISHELL_ERROR INV_TKN_MSG" `",
+			ft_chardup(redir[1]));
+		return (free(redir), false);
 	}
 	return (save_and_clear_single_arg(cmd, redir, redir_end));
 }
@@ -117,10 +117,12 @@ static t_bool	is_valid_redirection_identifier(char *identifier)
 	if (!identifier || identifier[0] == '>' || identifier[0] == '<')
 	{
 		if (!identifier)
-			print_parse_error_str(INV_TKN_MSG" `", ft_strdup("\\n"));
+			print_parse_error_str(MINISHELL_ERROR INV_TKN_MSG" `",
+				ft_strdup("\\n"));
 		else
 		{
-			print_parse_error_str(INV_TKN_MSG" `", ft_chardup(identifier[0]));
+			print_parse_error_str(MINISHELL_ERROR INV_TKN_MSG" `",
+				ft_chardup(identifier[0]));
 			free(identifier);
 		}
 		return (false);
@@ -151,7 +153,7 @@ t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identf)
 	if (!create_file(&file, identf, redir_type))
 	{
 		if (g_status_code != 1)
-			print_parse_error(ERROR_MALLOC, false);
+			print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
 		else if (identf)
 			free(identf);
 		if (leftover)

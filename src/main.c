@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/17 15:24:10 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:20:30 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_cmd_lst	*parse_command_node(t_env_lst *envp, char *input)
 	if (!cmd || !node)
 	{
 		if (g_status_code != 1)
-			print_parse_error(ERROR_MALLOC, false);
+			print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
 		if (cmd)
 			ft_free_cmd(cmd);
 		if (node)

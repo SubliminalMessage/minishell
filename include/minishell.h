@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/17 15:41:22 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:59:09 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,21 @@
 # define VALID_TKN_CHARS TKN
 # define SINGLE_CHAR_TKN "$?-#*@!0123456789" 
 
-// TODO: Refactor DEFINES with style from minishell
-# define MINISHELL_ERROR "minishell: " // TODO use in all error messages
-# define UNSET_INVALID "unset: '%s': not a valid identifier\n"
-# define INV_TKN_MSG "minishell: syntax error near unexpected token"
-# define BAD_SUBST "minishell: bad substitution\n"
-# define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
-# define NO_FILE_OR_DIR "minishell: %s: No such file or directory\n"
+# define RL_PROMPT "minishell > "
 # define HEREDOC_PROMPT "heredoc> "
-# define IS_DIR_MSG "minishell: %s: Is a directory\n"
-# define PERMISSION_DENIED_MSG "minishell: %s: Permission denied\n"
+# define MINISHELL_ERROR "minishell: "
+
+# define UNSET_INVALID "unset: '%s': not a valid identifier\n"
+# define INV_TKN_MSG "syntax error near unexpected token"
+# define BAD_SUBST "bad substitution\n"
+# define ERROR_MALLOC "a call to malloc() did fail :(\n"
+# define NO_FILE_OR_DIR "%s: No such file or directory\n"
+# define IS_DIR_MSG "%s: Is a directory\n"
+# define PERMISSION_DENIED_MSG "%s: Permission denied\n"
 # define EXIT_MSG "exit\n"
 # define EXIT_ARG_NUM_MSG "exit: %s: numeric argument required\n"
 # define EXIT_NUM_ARGS_MSG "exit: too many arguments\n"
-# define CMD_NOT_FOUND_MSG "minishell: %s: command not found\n"
-# define RL_PROMPT "minishell > "
+# define CMD_NOT_FOUND_MSG "%s: command not found\n"
 
 // main.c
 int			main(int argc, char **argv, char **environ);

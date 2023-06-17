@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 20:34:25 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/05/10 23:16:23 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:45:40 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,15 @@ t_bool	ft_open_all_files(t_cmd *cmd)
 
 	file = ft_openfiles(cmd->in);
 	if (file)
-		return (ft_printf_fd(2, NO_FILE_OR_DIR, file->name), false);
+	{
+		ft_printf_fd(2, MINISHELL_ERROR NO_FILE_OR_DIR, file->name);
+		return (false);
+	}
 	file = ft_openfiles(cmd->out);
 	if (file)
-		return (ft_printf_fd(2, NO_FILE_OR_DIR, file->name), false);
+	{
+		ft_printf_fd(2, MINISHELL_ERROR NO_FILE_OR_DIR, file->name);
+		return (false);
+	}
 	return (true);
 }

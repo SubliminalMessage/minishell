@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 16:48:12 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:28:49 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**get_input(void)
 	splitted = ft_split_quote_conscious(input, '|');
 	free(input);
 	if (!splitted)
-		print_parse_error(ERROR_MALLOC, false);
+		print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
 	return (splitted);
 }
 
@@ -82,7 +82,7 @@ t_bool	is_valid_input(char *line_read)
 	split = ft_split_quote_conscious(line_read, '|');
 	if (!split)
 	{
-		print_parse_error(ERROR_MALLOC, false);
+		print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
 		return (false);
 	}
 	i = 0;
@@ -96,7 +96,7 @@ t_bool	is_valid_input(char *line_read)
 	}
 	free(split);
 	if (!is_valid && i != 1)
-		print_parse_error(INV_TKN_MSG" `|'", false);
+		print_parse_error(MINISHELL_ERROR INV_TKN_MSG" `|'", false);
 	if (!is_valid && i != 1)
 		ft_store_result_code(258, true);
 	return (is_valid);
@@ -123,7 +123,7 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!splitted || !cmd)
 	{
-		print_parse_error(ERROR_MALLOC, false);
+		print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
 		if (cmd)
 			free(cmd);
 		if (splitted)

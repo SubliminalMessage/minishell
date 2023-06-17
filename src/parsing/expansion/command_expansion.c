@@ -6,7 +6,7 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 00:23:19 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 18:52:18 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:28:03 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ char	*expand(char *str, t_env_lst *env)
 			aux = join_two(aux, expanded);
 			free(str);
 			if (!aux)
-				return (print_parse_error(ERROR_MALLOC, false), NULL);
+				return (print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false),
+					NULL);
 			str = aux;
 		}
 	}
@@ -124,7 +125,7 @@ char	*expand_arg(char **str_ptr, t_env_lst *envp)
 	free(*str_ptr);
 	if (!expanded)
 	{
-		print_parse_error(ERROR_MALLOC, false);
+		print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
 		return (NULL);
 	}
 	return (exp_home(expanded, envp));
