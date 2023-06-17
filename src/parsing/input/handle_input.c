@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/17 23:55:48 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:22:03 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 		return (NULL);
 	}
 	cmd->args = splitted;
+	cmd->is_first_cmd_quoted = false;
 	if (!fill_redirections(&cmd) || !expand_cmd(&cmd, envp))
 	{
 		ft_free_cmd(cmd);
@@ -166,6 +167,6 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 	}
 	clean_arguments_from_spaces(&cmd->args);
 	if (cmd->args && cmd->args[0])
-		cmd->cmd = get_main_command(&cmd->args);
+		cmd->cmd = get_main_command(&cmd->args, cmd->is_first_cmd_quoted);
 	return (cmd);
 }

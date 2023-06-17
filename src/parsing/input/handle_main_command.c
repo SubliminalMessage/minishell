@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:55:26 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/17 23:56:05 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:21:31 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**add_array_front(char **array, char *element)
  * @return char *, the Main Command (ft_strdup()-ed). NULL if something went
  *         wrong (plus, an error is shown).
 */
-char	*get_main_command(char ***arguments)
+char	*get_main_command(char ***arguments, t_bool is_quoted)
 {
 	char	*first_arg;
 	int		space_idx;
@@ -65,7 +65,7 @@ char	*get_main_command(char ***arguments)
 
 	first_arg = (*arguments)[0];
 	space_idx = ft_strchr(first_arg, ' ') - first_arg;
-	if (space_idx < 0)
+	if (space_idx < 0 || is_quoted)
 		return (ft_strdup(first_arg));
 	command = ft_substr(first_arg, 0, space_idx);
 	(*arguments)[0] = ft_substr(first_arg, space_idx + 1, ft_strlen(first_arg));

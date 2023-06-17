@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/17 23:57:11 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:21:57 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ t_cmd		*parse_command(t_env_lst *envp, char *cmd_line);
 
 // input/handle_main_command.c
 char		**add_array_front(char **array, char *element);
-char		*get_main_command(char ***arguments);
+char		*get_main_command(char ***arguments, t_bool is_quoted);
 
 // expansion/token_utils.c
 t_bool		is_one_char_token(char *str);
