@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:49:50 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/08 23:09:31 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:15:04 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 */
 t_bool	ft_unset_variable(t_env_lst **envp, char *key)
 {
-	t_env *node;
-	t_env_lst *previous_node;
-	t_env_lst *lst;
+	t_env		*node;
+	t_env_lst	*previous_node;
+	t_env_lst	*lst;
 
 	if (!is_valid_variable_name(key))
 	{
-		ft_printf_fd(STDERR, "minishell: unset: `%s': not a valid identifier\n", key);
+		ft_printf_fd(STDERR, MINISHELL_ERROR UNSET_INVALID, key);
 		return (false);
 	}
 	lst = *envp;
@@ -40,9 +40,7 @@ t_bool	ft_unset_variable(t_env_lst **envp, char *key)
 		if (node && str_equals(node->key, key))
 		{
 			previous_node->next = lst->next;
-			free_env_node(node);
-			free(lst);
-			break ;
+			return (free_env_node(node), free(lst), true);
 		}
 		previous_node = lst;
 		lst = lst->next;

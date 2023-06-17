@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 19:06:40 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/08 15:58:36 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:18:52 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ void	ft_close_fd(int *fd)
 	*fd = INVALID;
 }
 
-// TODO: document this function
+/**
+ * @brief Frees the given file structure.
+ * 
+ * @param file File structure.
+ */
 void	ft_free_file(t_file *file)
 {
 	if (!file)
@@ -39,7 +43,13 @@ void	ft_free_file(t_file *file)
 	free(file);
 }
 
-// TODO: document this function
+/**
+ * @brief Closes all the files in the given command.
+ * @note It also free the allocated memory used to store the files
+ * in the structure
+ * 
+ * @param cmd Command structure.
+ */
 void	ft_close_fds(t_cmd *cmd)
 {
 	if (!cmd)

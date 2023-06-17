@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 23:43:26 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:55:38 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void	init_zero_variable(t_env_lst **envp)
  * 
  * @param envp, the Env. List to modify 
 */
-void init_default_variables(t_env_lst **envp)
+void	init_default_variables(t_env_lst **envp)
 {
 	t_bool	is_null;
 	char	current_pwd[4096];
-	
+
 	is_null = value_is_null("OLDPWD", *envp);
 	if (is_null)
 		update_env(envp, "OLDPWD", NULL, true);
@@ -87,7 +87,7 @@ t_env_lst	*init_env(char **environ)
 
 	i = 0;
 	envp = NULL;
-	node = NULL;//new_env_node("OLDPWD", true); // TODO: add SHLVL and PWD to the env by default
+	node = NULL;
 	ft_lstadd_back(&envp, node);
 	while (environ[i])
 	{
@@ -141,10 +141,8 @@ t_env_lst	*new_env_node(char *string, t_bool is_visible)
 	if (!is_valid_env_node(node))
 		return (NULL);
 	node_wrap = ft_lstnew(node);
-	if (!node_wrap)
-	{
-		free_env_node(node);
-		return (NULL);
-	}
-	return (node_wrap);
+	if (node_wrap)
+		return (node_wrap);
+	free_env_node(node);
+	return (NULL);
 }

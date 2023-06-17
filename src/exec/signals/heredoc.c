@@ -1,45 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/04 14:26:37 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/07 23:41:24 by dangonza         ###   ########.fr       */
+/*   Created: 2023/06/12 19:40:06 by jre-gonz          #+#    #+#             */
+/*   Updated: 2023/06/12 19:41:03 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	sig_handler_prompt(int signal)
-{
-	(void) signal;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	ft_prompt_signals(void)
-{
-	signal(SIGINT, sig_handler_prompt);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-static void	sig_handler_child_quit(int signal)
-{
-	(void) signal;
-	printf("Quit: 3\n");
-	rl_redisplay();
-}
-
-void	ft_child_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, sig_handler_child_quit);
-}
-
+/**
+ * @brief Handle the SIGINT signal in the heredoc.
+ * 
+ * @param signal Signal to handle.
+ */
 static void	sig_handler_heredoc_int(int signal)
 {
 	(void) signal;
@@ -47,6 +24,9 @@ static void	sig_handler_heredoc_int(int signal)
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 }
 
+/**
+ * @brief Defines the desired signal behavior when the heredoc is working.
+ */
 void	ft_heredoc_signals(void)
 {
 	signal(SIGINT, sig_handler_heredoc_int);

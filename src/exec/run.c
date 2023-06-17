@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/07 23:38:10 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:20:53 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+extern int	g_status_code; // TODO linux
 
 /**
  * @brief Closes all the file descriptors and frees the cmd_lst.
@@ -23,37 +25,16 @@ void	close_fds_free(t_cmd_lst *cmd)
 	ft_free_cmd_lst(cmd);
 }
 
-// TODO: Document this function
+/**
+ * @brief Merge function of close_fds_free() and exit().
+ * 
+ * @param cmd List of commands.
+ * @param exit_code Exit code to return.
+ */
 void	close_free_exit(t_cmd_lst *cmd, int exit_code)
 {
 	close_fds_free(cmd);
 	exit(exit_code);
-}
-
-// TODO: Document this function
-static void	kill_all_children(pid_t *pids)
-{
-	int	i;
-
-	i = 0;
-	while (pids[i])
-		kill(pids[i++], SIGKILL);
-	free(pids);
-}
-
-/**
- * @brief Stores a result code into the global 'g_status_code'.
- * 
- * @note The result_code will only be stored if the previous code
- *       is exactly 0, or if the 'force' argument is true.
- * 
- * @param result_code, the code to store
- * @param force, whether the 'protection logic' must be ignored or not
-*/
-void ft_store_result_code(int result_code, t_bool force)
-{
-	if (g_status_code == 0 || force)
-		g_status_code = result_code;
 }
 
 /**
@@ -83,6 +64,12 @@ t_bool	is_write_builtin(char *cmd)
 	return (false);
 }
 
+static int	*allocate_and_return(int **ptr, size_t size)
+{
+	*ptr = ft_calloc(size, sizeof(void *));
+	return (*ptr);
+}
+
 /**
  * @brief Runs the command given by the list.
  * 
@@ -103,20 +90,15 @@ void	run(t_cmd_lst *cmd, t_env_lst **envp)
 	if (ft_lstsize(cmd) == 1 && is_write_builtin(get_cmd(cmd)->cmd))
 		return (execute_write_builtin(cmd, envp));
 	i = 0;
-	pids = ft_calloc(sizeof(pid_t), ft_lstsize(cmd) + 1); // TODO
-	if (!pids)
+	if (!allocate_and_return(&pids, sizeof(pid_t) * (ft_lstsize(cmd) + 1)))
 		close_free_exit(cmd, INVALID);
 	ite = cmd;
 	while (ite)
 	{
 		pids[i] = ft_exe_cmd(ite, cmd, envp);
 		signal(SIGINT, SIG_IGN);
-		if (pids[i] == INVALID) // Fork error
-		{
-			kill_all_children(pids);
-			close_free_exit(cmd, INVALID);
-		}
-		++i;
+		if (pids[i++] == INVALID)
+			return (kill_all_children(pids), close_free_exit(cmd, INVALID));
 		ite = ite->next;
 	}
 	close_fds_free(cmd);

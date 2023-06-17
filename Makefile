@@ -11,13 +11,16 @@ READLINE_FLAGS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$
 #               PROJECT PATHS                 #
 ### ---   ---   ---         ---   ---   --- ###
 
-INCLUDE				= -I include -I libft/include -I src/debug/ # TODO remove debug
+INCLUDE				= -I include -I libft/include
 
 OS = $(shell uname -s)
 ifeq ($(OS),Linux)
 # install libreadline-dev
 # gcc does not work with readline in linux
 	CC	= clang
+# Latest:
+# sudo apt install clang-12 --install-suggests
+# CC	= clang-12
 	INCLUDE += -I/usr/include
 endif
 
@@ -52,14 +55,21 @@ SRC_FILES	= 	main.c \
 				utils/copy_all.c \
 				utils/file.c \
 				utils/get.c \
-				utils/env_variables.c \
+				utils/env_variables/env_variables.c \
+				utils/env_variables/build_home.c \
 				utils/str_utils.c \
+				utils/is_valid_variable_name.c \
+				utils/arrsize.c \
+				utils/value_is_null.c \
+				utils/is.c \
+				utils/kill_all_children.c \
 				exec/builtins/builtins.c \
 				exec/builtins/exit.c \
 				exec/builtins/echo.c \
 				exec/builtins/pwd.c \
 				exec/builtins/env.c \
-				exec/builtins/export.c \
+				exec/builtins/export/export.c \
+				exec/builtins/export/export_update.c \
 				exec/builtins/unset.c \
 				exec/builtins/cd.c \
 				exec/exe_cmd.c \
@@ -69,7 +79,10 @@ SRC_FILES	= 	main.c \
 				exec/openfile.c \
 				exec/heredoc.c \
 				exec/pipes.c \
-				exec/signals.c
+				exec/signals/child.c \
+				exec/signals/heredoc.c \
+				exec/signals/prompt.c \
+				exec/store_result_code.c
 
 SRC_OBJS 	= $(SRC_FILES:%.c=bin/%.o)
 
@@ -143,48 +156,13 @@ run: all
 	@clear
 	@./minishell
 
-run_valgrind: all #--show-leak-kinds=all
-	@clear
-	valgrind --leak-check=full --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell
-
 ### ---   ---   ---         ---   ---   --- ###
 #                    DEBUG                    #
 ### ---   ---   ---         ---   ---   --- ###
 
-DEBUG		=	debug
-
-DEBUG_FILES	=	utils/clean_cmd.c \
-				utils/copy_all.c \
-				exec/exe_cmd.c \
-				utils/file.c \
-				utils/get.c \
-				exec/join_input.c \
-				debug/main.c \
-				exec/run.c \
-				exec/wait_result.c \
-				exec/openfile.c \
-				exec/heredoc.c \
-				exec/pipes.c
-
-DEBUG_OBJS	=	$(DEBUG_FILES:%.c=bin/%.o)
-
-$(DEBUG): $(DEBUG_OBJS) $(LIBFT)
-	@echo $(BLUE)[Compilation]$(WHITE): $@$(NC)
-	@$(CC) $(CFLAGS) $(INCLUDE) $(DEBUG_OBJS) $(LIBFT) -o $@
-
-test_signal:
-	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
-	$(CC) $(CFLAGS) src/debug/test/signal.c -o $(DEBUG)
-	./$(DEBUG)
-
-test_strerror:
-	@echo $(BLUE)[Compilation]$(WHITE): $(DEBUG)$(NC)
-	$(CC) $(CFLAGS) src/debug/test/strerror.c -o $(DEBUG)
-	./$(DEBUG)
-
 docker:
 	docker run -it --rm -v $(PWD):/docker jkutkut/docker4c
 
-exec_dev: $(DEBUG)
-	@echo "vfull ./$(DEBUG)"
-	@valgrind --leak-check=full --show-leak-kinds=all --undef-value-errors=no --trace-children=yes --track-fds=yes ./$(DEBUG)
+run_valgrind: all #--show-leak-kinds=all
+	@clear
+	valgrind --leak-check=full --undef-value-errors=no --trace-children=yes --track-fds=yes ./minishell

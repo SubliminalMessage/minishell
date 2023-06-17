@@ -6,11 +6,13 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/08 16:43:23 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:44:35 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+extern int	g_status_code; // TODO linux
 
 /**
  * @brief Given a Command, converts all redirections into f_files and
@@ -48,6 +50,7 @@ t_bool	fill_redirections(t_cmd **cmd)
 	(*cmd)->args = clean_nulls((*cmd)->args);
 	return (save_redirection_single_arg(cmd, redirs));
 }
+
 /**
  * @brief Auxiliar function of 'save_redirection_single_arg()', due to
  *        Norminette's rules :(
@@ -106,6 +109,26 @@ t_bool	save_redirection_single_arg(t_cmd **cmd, char *redir)
 }
 
 /**
+ * @brief Norminette issues :(. Checks wether if a redirection identifier is
+ *        correct or not. If it is not, prints the correct error message
+*/
+static t_bool	is_valid_redirection_identifier(char *identifier)
+{
+	if (!identifier || identifier[0] == '>' || identifier[0] == '<')
+	{
+		if (!identifier)
+			print_parse_error_str(INV_TKN_MSG" `", ft_strdup("\\n"));
+		else
+		{
+			print_parse_error_str(INV_TKN_MSG" `", ft_chardup(identifier[0]));
+			free(identifier);
+		}
+		return (false);
+	}
+	return (true);
+}
+
+/**
  * @brief Given a redirection and the identifier, creates and saves the
  *        redirection file into the command.
  * 
@@ -121,17 +144,8 @@ t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identf)
 	char	*leftover;
 	t_file	*file;
 
-	if (!identf || identf[0] == '>' || identf[0] == '<')
-	{
-		if (!identf)
-			print_parse_error_str(INV_TKN_MSG" `", ft_strdup("\\n"));
-		else
-		{
-			print_parse_error_str(INV_TKN_MSG" `", ft_chardup(identf[0]));
-			free(identf);
-		}
+	if (!is_valid_redirection_identifier(identf))
 		return (false);
-	}
 	redir_type = get_redirection_type(redir);
 	get_next_redirection(&identf, &leftover);
 	if (!create_file(&file, identf, redir_type))

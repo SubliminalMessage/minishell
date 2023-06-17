@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/07 16:16:32 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:47:18 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+extern int	g_status_code; // TODO linux
 
 #define STDIN 0
 #define STDOUT 1
@@ -29,7 +31,7 @@
  * @param fd_new The new file descriptor to use.
  * @param fd_old The old file descriptor to close (example: STDIN)
  */
-static void ft_redirect(int *fd_new, int fd_old)
+static void	ft_redirect(int *fd_new, int fd_old)
 {
 	if (*fd_new != fd_old)
 	{
@@ -69,9 +71,9 @@ static void	ft_redirect_io(t_cmd *cmd)
  */
 static int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 {
-	t_cmd *cmd;
-	t_file_lst *lst;
-	t_file *file;
+	t_cmd		*cmd;
+	t_file_lst	*lst;
+	t_file		*file;
 
 	cmd = get_cmd(cmd_lst);
 	if (!cmd)
@@ -83,7 +85,7 @@ static int	ft_error_in_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full)
 	if (!file)
 		return (exit(INVALID), INVALID);
 	write(file->fd, "", 1);
-	ft_close_all_fds(full); // TODO leaks <??
+	ft_close_all_fds(full);
 	ft_free_cmd_lst(full);
 	return (exit(INVALID), INVALID);
 }
@@ -102,7 +104,7 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 	int		pid;
 	t_cmd	*cmd;
 	char	**envp_arr;
-	
+
 	ft_child_signals();
 	pid = fork();
 	if (pid)
@@ -123,5 +125,5 @@ int	ft_exe_cmd(t_cmd_lst *cmd_lst, t_cmd_lst *full, t_env_lst **envp)
 	}
 	execve(cmd->cmd, cmd->args, envp_arr);
 	ft_free_array(envp_arr);
-	return (exit(INVALID), INVALID); // TODO error code?
+	return (exit(INVALID), INVALID);
 }

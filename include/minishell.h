@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/08 16:43:44 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:10:14 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@
 # include <libft.h>
 # include <structures.h>
 
+# include <sys/ioctl.h> // TODO linux
+
 // Global Variable
-int	g_status_code;
+// extern int	g_status_code; // TODO linux
 
 // Custom defines
 
@@ -60,6 +62,8 @@ int	g_status_code;
 # define SINGLE_CHAR_TKN "$?-#*@!0123456789" 
 
 // TODO: Refactor DEFINES with style from minishell
+# define MINISHELL_ERROR "minishell: " // TODO use in all error messages
+# define UNSET_INVALID "unset: '%s': not a valid identifier\n"
 # define INV_TKN_MSG "minishell: syntax error near unexpected token"
 # define BAD_SUBST "minishell: bad substitution\n"
 # define ERROR_MALLOC "minishell: a call to malloc() did fail :(\n"
@@ -130,6 +134,8 @@ t_bool		save_redirection_double(t_cmd **cmd, char *redir, char *identf);
 
 // ----------------- exec directory -----------------
 // TODO find place
+void		kill_all_children(pid_t *pids);
+t_bool		is(char *set, char c);
 void		execute_write_builtin(t_cmd_lst *cmd, t_env_lst **envp);
 int			ft_arrsize(char **array);
 void		close_free_exit(t_cmd_lst *cmd, int exit_code);
@@ -140,7 +146,6 @@ void		ft_prompt_signals(void);
 void		rl_replace_line(const char *text, int clear_undo);
 void		ft_child_signals(void);
 void		ft_heredoc_signals(void);
-int			get_exit_value(int process_code);
 t_bool		value_is_null(char *key, t_env_lst *envp);
 t_bool		ft_check_output(t_cmd_lst *cmd); // TODO find place
 // builtins/exit.c
@@ -153,8 +158,10 @@ int			ft_cd(t_cmd *cmd, t_env_lst **envp);
 int			ft_pwd(t_cmd *cmd, t_env_lst *envp);
 // builtins/unset.c
 int			ft_unset(t_cmd *cmd, t_env_lst **envp);
-// builtins/export.c
+// builtins/export
 int			ft_export(t_cmd *cmd, t_env_lst **envp, int fd);
+int			ft_export_update(char *string, t_env_lst **envp);
+
 // builtins/env.c
 int			ft_env(t_cmd *cmd, t_env_lst *envp, int fd);
 // builtins/builtins.c

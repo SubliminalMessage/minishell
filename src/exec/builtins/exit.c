@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 19:12:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/07 22:51:04 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:54:36 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 */
 static t_bool	ft_str_is_alpha(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str)
 		return (false);
@@ -42,10 +42,10 @@ static t_bool	ft_str_is_alpha(char *str)
  * 
  * @return unsigned long long, the number
 */
-static unsigned long long ft_atoull(char *str)
+static unsigned long long	ft_atoull(char *str)
 {
-	unsigned long long value;
-	int i;
+	unsigned long long	value;
+	int					i;
 
 	value = 0;
 	i = 0;
@@ -61,6 +61,8 @@ static unsigned long long ft_atoull(char *str)
  * @brief Given a string containing the exit value, converts it
  *        into the 'correct' one, returns it. If any error happens
  *        in the process, the error message is also printed.
+ * @note Multiplying by -1 is safe. The max number should be LONGLONG_MAX * 10.
+ *       And it fits.
  * 
  * @param str, the string containing the exit value
  * 
@@ -68,8 +70,8 @@ static unsigned long long ft_atoull(char *str)
 */
 static int	ft_exit_get_value(char *str)
 {
-	unsigned long long value;
-	int is_negative;
+	unsigned long long	value;
+	int					is_negative;
 
 	is_negative = 0;
 	if (str && str[0] == '-')
@@ -81,8 +83,9 @@ static int	ft_exit_get_value(char *str)
 	}
 	value = ft_atoull(str + is_negative);
 	if (is_negative == 1)
-		value *= -1; // Should be safe. The max number should be LONGLONG_MAX * 10. And it fits.
-	if ((value > 9223372036854775807ULL && is_negative == 0) || (value > 9223372036854775808ULL && is_negative == 1))
+		value *= -1;
+	if ((value > 9223372036854775807ULL && is_negative == 0)
+		|| (value > 9223372036854775808ULL && is_negative == 1))
 	{
 		ft_printf_fd(2, EXIT_ARG_NUM_MSG, str);
 		return (255);
@@ -105,7 +108,7 @@ static int	ft_exit_get_value(char *str)
  */
 int	ft_exit(t_cmd *cmd, t_bool is_only_cmd)
 {
-	int exit_code;
+	int	exit_code;
 
 	if (is_only_cmd)
 		ft_putstr_fd(EXIT_MSG, STDOUT);

@@ -3,16 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:07:27 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/08 15:58:29 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:20:49 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// TODO: document this function
+/**
+ * @brief Frees the given array of strings.
+ * 
+ * @param arr Array of strings to deallocate.
+ */
 void	ft_free_array_content(char **arr)
 {
 	size_t	i;
@@ -27,7 +31,11 @@ void	ft_free_array_content(char **arr)
 	}
 }
 
-// TODO: document this function
+/**
+ * @brief Frees the given command structure.
+ * 
+ * @param cmd Command structure to deallocate.
+ */
 void	ft_free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
@@ -39,13 +47,21 @@ void	ft_free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-// TODO: document this function
+/**
+ * @brief Closes all the file descriptors in the given command list.
+ * 
+ * @param cmd Linked list of commands.
+ */
 void	ft_close_all_fds(t_cmd_lst *cmd)
 {
 	ft_lstiter((t_list *) cmd, (void (*)(void *)) ft_close_fds);
 }
 
-// TODO: document this function
+/**
+ * @brief Frees the given command list.
+ * 
+ * @param cmd Linked list of commands.
+ */
 void	ft_free_cmd_lst(t_cmd_lst *cmd)
 {
 	ft_lstclear((t_list **) &cmd, (void (*)(void *)) ft_free_cmd);
