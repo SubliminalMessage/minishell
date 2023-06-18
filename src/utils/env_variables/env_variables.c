@@ -6,13 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 19:02:28 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:51:56 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-extern int	g_status_code; // TODO linux
 
 /**
  * @brief Returns the path stored in $HOME. If the value is not set, tries

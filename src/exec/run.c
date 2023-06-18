@@ -6,13 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:48 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/15 19:20:53 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:52:19 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-extern int	g_status_code; // TODO linux
 
 /**
  * @brief Closes all the file descriptors and frees the cmd_lst.

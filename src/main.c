@@ -6,14 +6,12 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/18 01:01:17 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:52:40 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 #include <termios.h>
-
-int	g_status_code; // TODO linux
 
 static void	disable_output(void)
 {

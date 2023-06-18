@@ -6,13 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/18 01:02:20 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:52:09 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-extern int	g_status_code; // TODO linux
 
 /**
  * @brief Norminette issues :(. If the input read from readline()
