@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:45:54 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/19 20:33:54 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:37:16 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_bool	is_valid(char *line)
 	while (line[i])
 	{
 		if (line[i] > 0 && line[i] < ' ')
-			return (false);
+			return (free(line), false);
 		i++;
 	}
 	return (true);
