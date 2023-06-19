@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/19 14:24:31 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:44:22 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,24 @@ int	g_status_code;
 
 // Colors: https://www.darklaunch.com/print-terminal-colors.html
 /*
-# define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
-# define PURPLE "\033[1;35m"
 # define YELLOW "\033[1;33m"
 # define WHITE "\033[1;37m"
-# define BLUE "\033[1;34m"
 # define CYAN "\033[1;36m"
-# define RESET "\033[0;0m"
 */
+# define RED "\033[1;31m"
+# define BLUE "\033[1;34m"
+# define PURPLE "\033[1;35m"
+# define RESET "\033[0;0m"
 
 // TKN => Valid Token Characters. Norminette issues :(
 # define TKN "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 # define VALID_TKN_CHARS TKN
 # define SINGLE_CHAR_TKN "$?-#*@!0123456789" 
 
-# define RL_PROMPT "minishell > "
-# define HEREDOC_PROMPT "heredoc> "
-# define MINISHELL_ERROR "minishell: "
+# define RL_PROMPT "\033[1;35mminishell > \033[0;0m"
+# define HEREDOC_PROMPT "\033[1;34mheredoc> \033[0;0m"
+# define MINISHELL_ERROR "\033[1;31mminishell: \033[0;0m"
 
 # define UNSET_INVALID "unset: '%s': not a valid identifier\n"
 # define INV_TKN_MSG "syntax error near unexpected token"
