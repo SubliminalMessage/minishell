@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:55:26 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/18 00:21:31 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:32:01 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ char	*get_main_command(char ***arguments, t_bool is_quoted)
 		print_parse_error(ERROR_MALLOC, false);
 		return (NULL);
 	}
-	*arguments = add_array_front(*arguments, command);
+	*arguments = clean_nulls(add_array_front(*arguments, command));
 	return (ft_strdup(command));
 }
