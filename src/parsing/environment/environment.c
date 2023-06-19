@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:36:10 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 16:55:38 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:20:53 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	init_zero_variable(t_env_lst **envp)
 	if (!did_work)
 	{
 		ft_lstclear(envp, free_env_node);
-		print_parse_error(ERROR_MALLOC, false);
+		print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
 		*envp = NULL;
 	}
 }
@@ -95,7 +95,7 @@ t_env_lst	*init_env(char **environ)
 		if (!node)
 		{
 			ft_lstclear(&envp, free_env_node);
-			print_parse_error(ERROR_MALLOC, false);
+			print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
 			return (NULL);
 		}
 		ft_lstadd_back(&envp, node);

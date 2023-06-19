@@ -6,16 +6,14 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 20:02:53 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:52:40 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 #include <termios.h>
 
-int	g_status_code; // TODO linux
-
-void	disable_output(void)
+static void	disable_output(void)
 {
 	int				x;
 	struct termios	termios;
@@ -35,7 +33,7 @@ void	disable_output(void)
 	}
 }
 
-t_cmd_lst	*parse_command_node(t_env_lst *envp, char *input)
+static t_cmd_lst	*parse_command_node(t_env_lst *envp, char *input)
 {
 	t_cmd		*cmd;
 	t_cmd_lst	*node;
@@ -46,7 +44,7 @@ t_cmd_lst	*parse_command_node(t_env_lst *envp, char *input)
 	if (!cmd || !node)
 	{
 		if (g_status_code != 1)
-			print_parse_error(ERROR_MALLOC, false);
+			print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
 		if (cmd)
 			ft_free_cmd(cmd);
 		if (node)
@@ -75,12 +73,12 @@ static void	minishell(t_env_lst *envp)
 			break ;
 		ft_lstadd_back(&cmd_lst, node);
 	}
-	free(input);
 	if (input[i] != NULL)
 	{
 		ft_free_cmd_lst(cmd_lst);
-		return ;
+		return (free(input));
 	}
+	free(input);
 	ft_store_result_code(0, true);
 	run(cmd_lst, &envp);
 }

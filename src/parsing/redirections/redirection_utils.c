@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:15:42 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/04 15:58:46 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:09:31 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ t_bool	is_valid_argument(char *string)
 	idx = index_of_outside_quotes(string, ";\\");
 	if (idx != -1)
 	{
-		print_parse_error_str(INV_TKN_MSG" `", ft_chardup(string[idx]));
+		print_parse_error_str(MINISHELL_ERROR INV_TKN_MSG" `",
+			ft_chardup(string[idx]));
 		return (false);
 	}
 	return (true);

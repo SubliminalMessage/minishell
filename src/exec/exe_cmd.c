@@ -6,13 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:21:42 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/15 19:47:18 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:52:34 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-extern int	g_status_code; // TODO linux
 
 #define STDIN 0
 #define STDOUT 1

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:44:22 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/03 21:08:14 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:18:57 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*expand_wrapped_tkn(char *str, t_env_lst *envp, size_t *i)
 	}
 	if (str[idx] != '}')
 	{
-		print_parse_error(BAD_SUBST, false);
+		print_parse_error(MINISHELL_ERROR BAD_SUBST, false);
 		return (NULL);
 	}
 	aux = ft_substr(str, 2, idx - 2);

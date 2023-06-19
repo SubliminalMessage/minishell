@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:27:52 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/15 16:48:54 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:07:49 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ char	*dequote(char *str)
 	{
 		ft_store_result_code(258, true);
 		if (quote == '\'')
-			print_parse_error(INV_TKN_MSG" `\''", false);
+			print_parse_error(MINISHELL_ERROR INV_TKN_MSG" `\''", false);
 		else
-			print_parse_error(INV_TKN_MSG" `\"'", false);
+			print_parse_error(MINISHELL_ERROR INV_TKN_MSG" `\"'", false);
 		free(str);
 		return (NULL);
 	}

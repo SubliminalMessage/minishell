@@ -6,13 +6,11 @@
 /*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:06:49 by jre-gonz          #+#    #+#             */
-/*   Updated: 2023/06/15 18:32:14 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:52:23 by jre-gonz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-extern int	g_status_code; // TODO linux
 
 /**
  * @brief Checks if the given buffer is the heredoc delimeter.
