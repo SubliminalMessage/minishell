@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/19 20:06:13 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:34:01 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <fcntl.h> 
+# include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <signal.h>
@@ -57,7 +57,7 @@ int	g_status_code;
 // TKN => Valid Token Characters. Norminette issues :(
 # define TKN "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 # define VALID_TKN_CHARS TKN
-# define SINGLE_CHAR_TKN "$?-#*@!0123456789" 
+# define SINGLE_CHAR_TKN "$?-#*@!0123456789"
 
 # define RL_PROMPT "\001\033[1;35m\002minishell > \001\033[0;0m\002"
 # define HEREDOC_PROMPT "\001\033[1;34m\002heredoc> \001\033[0;0m\002"
@@ -74,6 +74,7 @@ int	g_status_code;
 # define EXIT_ARG_NUM_MSG "exit: %s: numeric argument required\n"
 # define EXIT_NUM_ARGS_MSG "exit: too many arguments\n"
 # define CMD_NOT_FOUND_MSG "%s: command not found\n"
+# define INV_CHAR "Invalid character found!\n"
 
 // main.c
 int			main(int argc, char **argv, char **environ);
@@ -238,6 +239,7 @@ char		*join_two(char *a, char *b);
 char		*join_three(char *a, char *b, char *c);
 char		*ft_chardup(const char c);
 char		last_char(char *str);
+t_bool		is_valid(char *line);
 
 // kill_all_children.c
 void		kill_all_children(pid_t *pids);
