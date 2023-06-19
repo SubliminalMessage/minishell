@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/19 15:44:22 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:06:13 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	g_status_code;
 # define VALID_TKN_CHARS TKN
 # define SINGLE_CHAR_TKN "$?-#*@!0123456789" 
 
-# define RL_PROMPT "\033[1;35mminishell > \033[0;0m"
-# define HEREDOC_PROMPT "\033[1;34mheredoc> \033[0;0m"
-# define MINISHELL_ERROR "\033[1;31mminishell: \033[0;0m"
+# define RL_PROMPT "\001\033[1;35m\002minishell > \001\033[0;0m\002"
+# define HEREDOC_PROMPT "\001\033[1;34m\002heredoc> \001\033[0;0m\002"
+# define MINISHELL_ERROR "\001\033[1;31m\002minishell: \001\033[0;0m\002"
 
 # define UNSET_INVALID "unset: '%s': not a valid identifier\n"
 # define INV_TKN_MSG "syntax error near unexpected token"

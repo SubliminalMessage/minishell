@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 17:27:52 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/19 20:03:15 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:06:47 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*dequote_all(char *str)
 	if (!next_quote || str_equals(next_quote, ""))
 		return (ft_strdup(""));
 	final_str = join_two(dequote(next_quote), dequote_all(str + idx));
-    free(str);
+	free(str);
 	return (final_str);
 }
 
