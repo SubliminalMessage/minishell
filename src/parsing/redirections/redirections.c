@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 01:38:45 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/18 22:52:03 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:03:11 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,6 @@ t_bool	save_redirection_double(t_cmd **cmd, char *redir, char *identf)
 	{
 		if (g_status_code != 1)
 			print_parse_error(MINISHELL_ERROR ERROR_MALLOC, false);
-		else if (identf)
-			free(identf);
 		if (leftover)
 			free(leftover);
 		return (false);
