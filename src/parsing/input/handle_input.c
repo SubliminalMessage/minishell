@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:38:03 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/19 20:31:19 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:24:23 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ t_cmd	*parse_command(t_env_lst *envp, char *cmd_line)
 		if (cmd)
 			free(cmd);
 		if (splitted)
-			free_str_array(splitted);
+			free_str_array(splitted, 0);
 		return (NULL);
 	}
 	cmd->args = splitted;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:48:56 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/18 22:51:56 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:24:18 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ char	**build_envp(t_env_lst *envp, t_bool persist_nulls)
 		matrix[++i] = ft_getmatrix_value(node);
 		if (!matrix[i])
 		{
-			free_str_array(matrix);
+			free_str_array(matrix, 0);
 			return (NULL);
 		}
 	}

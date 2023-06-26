@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jre-gonz <jre-gonz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:13 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/18 22:52:40 by jre-gonz         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:26:46 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,14 @@ static void	disable_output(void)
 	}
 }
 
-static t_cmd_lst	*parse_command_node(t_env_lst *envp, char *input)
+static t_cmd_lst	*parse_command_node(t_env_lst *envp, char **input)
 {
 	t_cmd		*cmd;
 	t_cmd_lst	*node;
 
-	cmd = parse_command(envp, input);
-	free(input);
+	cmd = parse_command(envp, *input);
+	free(*input);
+	*input = NULL;
 	node = ft_lstnew(cmd);
 	if (!cmd || !node)
 	{
@@ -68,7 +69,7 @@ static void	minishell(t_env_lst *envp)
 	i = 0;
 	while (input[i])
 	{
-		node = parse_command_node(envp, input[i++]);
+		node = parse_command_node(envp, &input[i++]);
 		if (!node)
 			break ;
 		ft_lstadd_back(&cmd_lst, node);
@@ -76,7 +77,7 @@ static void	minishell(t_env_lst *envp)
 	if (input[i] != NULL)
 	{
 		ft_free_cmd_lst(cmd_lst);
-		return (free(input));
+		return (free_str_array(input, i));
 	}
 	free(input);
 	ft_store_result_code(0, true);

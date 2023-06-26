@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:44:08 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/19 20:34:01 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:24:42 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int			ft_copyall(int rfd, int wfd);
 t_bool		str_equals(char *a, char *b);
 char		*ft_strtrim_free(char *str, char *set);
 char		**clean_nulls(char **str);
-void		free_str_array(char **array);
+void		free_str_array(char **array, int i);
 
 // str_utils.c
 char		*join_two(char *a, char *b);

@@ -6,7 +6,7 @@
 /*   By: dangonza <dangonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:27:22 by dangonza          #+#    #+#             */
-/*   Updated: 2023/06/03 23:23:51 by dangonza         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:26:55 by dangonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief Compares two strings and returns a boolean
- * 
+ *
  * @return boolean, true if the strings are equal, false otherwise
 */
 t_bool	str_equals(char *a, char *b)
@@ -33,10 +33,10 @@ t_bool	str_equals(char *a, char *b)
 
 /**
  * @brief Trims the string, and frees the original one.
- *        
+ *
  * @param str, the string to be trimmed
  * @param set, the set of characters to be trimmed off
- * 
+ *
  * @return char*, the trimmed and normalized string
 */
 char	*ft_strtrim_free(char *str, char *set)
@@ -63,9 +63,9 @@ static void	clean_nulls_init_vars(int *n_count, int *str_idx, int *f_idx)
 
 /**
  * @brief Filters a string array, removing all the '\0' elements
- * 
- * @param str, the array of strings to be filtered 
- * 
+ *
+ * @param str, the array of strings to be filtered
+ *
  * @return char**, the filtered array with no '\0' elements (empty strings)
 */
 char	**clean_nulls(char **str)
@@ -98,15 +98,15 @@ char	**clean_nulls(char **str)
 
 /**
  * @brief Frees a string array
- * 
+ *
  * @param array, the array to be freed
 */
-void	free_str_array(char **array)
+void	free_str_array(char **array, int i)
 {
-	int	i;
-
-	i = -1;
-	while (array[++i])
+	while (array[i])
+	{
 		free(array[i]);
+		i++;
+	}
 	free(array);
 }
